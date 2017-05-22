@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>分类</title>
+		<link rel="stylesheet" href="../assets/css/amazeui.css" />
+		<link rel="stylesheet" href="../assets/css/common.css" />
+		<link rel="stylesheet" href="../assets/css/classify.css" />
+	</head>
+
+	<body>
+		<!--tab开始-->
+		<ul class="tab-list clearfix">
+			<li>
+				<a href="javascript:;" class="active">分类</a>
+			</li>
+			<li>
+				<a href="javascript:;">品牌</a>
+			</li>
+		</ul>
+		<div class="tab-content">
+			<div class="m-c-mask index-1">
+				<div class="m-c-box">
+					<!--<div class="close"><i class = "am-fr"></i></div>-->
+					<ul class="m-c-list">
+						<script type="text/html" id="oneType">
+							{{each listItems as item index}}
+							<li data='{{item.id}}'>
+								<img src="{{item.img}}" alt="" />
+							</li>
+							{{/each}}
+						</script>
+					</ul>
+				</div>
+			</div>
+			<div class="c-brand index-2">
+				<ul class="brand-list">
+					<script type="text/html" id="brand">
+						{{each listItems as item index}}
+						<li class="b-list-item" data="{{item.id}}">
+							<a href="javascript:;"><span><img src="{{item.img}}" alt="" /></span>{{item.name}}</a>
+						</li>
+						{{/each}}
+					</script>
+				</ul>
+			</div>
+		</div>
+		<!--分类弹出框-->
+		<div class="Mask am-fc">
+			<div class="mmask"></div>
+			<div id="wrapper1">
+				<div id="scroller">
+					<ul class="classify twoClassify">
+						<script type="text/html" id="twoType">
+							{{each listItems as item index}}
+							<li data="{{item.id}}">
+								<a href="javascript:;">{{item.name}}</a>
+							</li>
+							{{/each}}
+						</script>
+
+					</ul>
+				</div>
+			</div>
+			<div id="wrapper2">
+				<div id="scroller">
+					<ul class="classify threeClassify">
+						<script type="text/html" id="threeType">
+							{{each listItems as item index}}
+							<li data="{{item.id}}">
+								<a href="javascript:;">{{item.name}}</a>
+							</li>
+							{{/each}}
+						</script>
+					</ul>
+
+				</div>
+			</div>
+			<div id="wrapper3">
+				<div id="scroller">
+					<ul class="classify fourClassify">
+						<script type="text/html" id="fourType">
+							{{each listItems as item index}}
+							<li data="{{item.id}}">
+								<a href="javascript:;">{{item.name}}</a>
+							</li>
+							{{/each}}
+						</script>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+
+		<!--footer-->
+		<div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default " id="">
+			<ul class="am-navbar-nav am-cf am-avg-sm-4">
+				<li class="foot_item">
+					<a href="../index/index.html">
+						<i class="home"></i>
+						<span class="">首页</span>
+					</a>
+				</li>
+				<li class="foot_item">
+					<a href="javascript:;" class="active">
+						<i class="classify"></i>
+						<span class="">分类</span>
+					</a>
+				</li>
+				<li class="foot_item">
+					<a href="../shopcart/shop-cart.html" class="">
+						<i class="shop"></i>
+						<span class="">购物车</span>
+					</a>
+				</li>
+				<li class="foot_item">
+					<a href="../my/my.html" class="">
+						<i class="my"></i>
+						<span class="">我的</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<!--footerEND-->
+
+	</body>
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/amazeui.js"></script>
+	<script src="../assets/js/iscroll.js"></script>
+	<script src="../assets/js/template.js"></script>
+	<script src="../assets/js/dropload.min.js"></script>
+	<script src="../assets/js/md5.js"></script>
+	<script src="../assets/js/common.js"></script>
+
+	<script>
+		var list = $('.tab-list li');
+		list.each(function(i, ele) {
+			$(ele).click(function() {
+				var index = $(ele).index() + 1;
+				$(ele).children('a').addClass('active').parent('li').siblings().children('a').removeClass('active');
+				$('.index-' + index).show().siblings().hide();
+
+			})
+		});
+		$('.m-c-list a').click(function() {
+			$('.classify-mask').show();
+		});
+
+		//获取分类列表
+		$.ajax({
+			url: reqUrl('goods_type'),
+			type: 'post',
+			dataType: 'json',
+			data: {
+				pid: 0,
+				level: 1
+			},
+			async: false,
+			xhrFields: {
+				withCredentials: true
+			},
+			success: function(data) {
+				var oneType = template('oneType', data.infor);
+				$('.m-c-list').html(oneType);
+
+			}
+
+		});
+		//获取品牌列表
+		$.ajax({
+			url: reqUrl('brand_type'),
+			type: 'post',
+			dataType: 'json',
+			async: false,
+			xhrFields: {
+				withCredentials: true
+			},
+			success: function(data) {
+				var brand = template('brand', data.infor);
+				$('.brand-list').html(brand);
+				$('.brand-list li').click(function() {
+					var brandID = $(this).attr('data');
+					var name = escape($(this).change('a').text());
+					window.location.href = preUrl('classify/brand-list.html?brandID=' + brandID + '&name=' + name + '')
+				})
+
+			}
+
+		});
+		//获取二级分类
+		var oneTypeId;
+		var twoTypeId;
+		var threeTypeId;
+		var fourTypeId;
+		var word;
+		$('.m-c-list li').click(function() {
+			oneTypeId = $(this).attr('data');
+			word = escape($(this).children('a').text());
+			console.log(oneTypeId);
+			$('.Mask').show();
+			$.ajax({
+				url: reqUrl('goods_type'),
+				type: 'post',
+				dataType: 'json',
+				data: {
+					pid: oneTypeId,
+					level: 2
+				},
+				async: false,
+				xhrFields: {
+					withCredentials: true
+				},
+				success: function(data) {
+					var len = data.infor.listItems.length;
+					if(len != 0) {
+						var twoType = template('twoType', data.infor);
+						$('.twoClassify').html(twoType);
+						//获取三级分类
+						$('.twoClassify li').click(function() {
+							$(this).addClass('color').siblings().removeClass('color')
+							word = escape($(this).children('a').text());
+							twoTypeId = $(this).attr('data');
+							console.log(twoTypeId);
+
+							$.ajax({
+								url: reqUrl('goods_type'),
+								type: 'post',
+								dataType: 'json',
+								data: {
+									pid: twoTypeId,
+									level: 3
+								},
+								async: false,
+								xhrFields: {
+									withCredentials: true
+								},
+								success: function(data) {
+									var len = data.infor.listItems.length;
+									console.log(len);
+									if(len != 0) {
+										var threeType = template('threeType', data.infor);
+										$('.threeClassify').html(threeType);
+										console.log('if');
+										//								////获取四级分类
+										$('.threeClassify li').click(function() {
+											$(this).addClass('color').siblings().removeClass('color')
+											word = escape($(this).children('a').text());
+											threeTypeId = $(this).attr('data');
+											$.ajax({
+												url: reqUrl('goods_type'),
+												type: 'post',
+												dataType: 'json',
+												data: {
+													pid: threeTypeId,
+													level: 4
+												},
+												async: false,
+												xhrFields: {
+													withCredentials: true
+												},
+												success: function(data) {
+													var len = data.infor.listItems.length;
+													console.log(len);
+													if(len != 0) {
+														var fourType = template('fourType', data.infor);
+														$('.fourClassify').html(fourType);
+														$('.fourClassify li').click(function() {
+															word = escape($(this).children('a').text());
+															fourTypeId = $(this).attr('data');
+															$('.m-c-list').hide();
+															$('.Mask').hide();
+															//													$('.dropload-down').remove();
+															//													goodsList(0, oneTypeId, twoTypeId, threeTypeId, fourTypeId);
+															window.location.href = preUrl('classify/classify-two.html?oneTypeId=' + oneTypeId + '&word=' + word + '&twoTypeId=' + twoTypeId + '&threeTypeId=' + threeTypeId + '&fourTypeId=' + fourTypeId + '')
+
+														})
+
+													} else {
+														console.log('else');
+														$('.dropload-down').remove();
+														//												goodsList(0, oneTypeId, twoTypeId, threeTypeId, "");
+														window.location.href = preUrl('classify/classify-two.html?oneTypeId=' + oneTypeId + '&word=' + word + '&twoTypeId=' + twoTypeId + '&threeTypeId=' + threeTypeId + '')
+														$('.m-c-list').hide();
+														$('.Mask').hide();
+
+													}
+
+												}
+											});
+
+										});
+
+									} else {
+										window.location.href = preUrl('classify/classify-two.html?oneTypeId=' + oneTypeId + '&word=' + word + '&twoTypeId=' + twoTypeId + '')
+											//								goodsList(0, oneTypeId, twoTypeId, "", "");
+
+										$('.m-c-list').hide();
+										$('.Mask').hide();
+
+									}
+
+								}
+							});
+
+						});
+						console.log('if')
+
+					} else {
+
+						window.location.href = preUrl('classify/classify-two.html?oneTypeId=' + oneTypeId + '&word=' + word + '')
+							//				goodsList(0, oneTypeId, "", "", "");
+
+						$('.m-c-list').hide();
+						$('.Mask').hide();
+
+					}
+
+				}
+			});
+
+		});
+	</script>
+
+</html>

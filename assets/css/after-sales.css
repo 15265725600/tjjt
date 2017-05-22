@@ -1,0 +1,105 @@
+.asd-box{
+	background: #FFF;
+	padding:0 14px 14px 14px;
+}
+.asd-top{
+	font-size:14px;
+	padding:14px 0 10px 0;
+	border-bottom: 1px solid #ddd;
+}
+.asd-bottom{
+	font-size:14px;
+	padding-top:5px;
+}
+.as-upload{
+	padding:10px 0;
+	
+}
+.as-upload ul{
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: start;
+	-ms-flex-pack: start;
+	justify-content: flex-start;
+	-ms-flex-wrap:nowrap ;
+	flex-wrap:nowrap ;
+}
+.as-upload li{
+	width:20%;
+	height:55px;
+	margin-right:4px;
+	border:1px solid #ddd;
+	position: relative;
+}
+.as-upload li img{
+	width:100%;
+	height:100%;
+}
+
+/*售后列表页面*/
+.list-item{
+	background:#fff;
+	margin-bottom: 6px;
+}
+.item-top{
+	padding:6px 14px;
+	font-size: 12px;
+	border-bottom: 1px solid #ddd;
+	
+}
+.item-center{
+	padding:12px 14px;
+}
+.item-bottom{
+	padding:6px 14px;
+	font-size: 12px;
+	border-top: 1px solid #ddd;
+}
+.item-bottom i{
+	font-size: 14px;
+}
+.i-p-left{
+	height:70px;
+	position: relative;
+}
+.goods_num{
+	position: absolute;
+	bottom:0px;
+	right:0px;
+	font-size:12px;
+}
+ .i-p-left img{
+	width:70px;
+	height:70px;
+	border-radius: 3px;
+	float:left;
+	margin-right:4px;
+}
+.i-p-right{
+	padding-left:82px;
+	color:#2f2f2f;
+	font-size:12px;
+	padding-bottom:16px;
+	padding-top:8px;
+}
+.i-p-right p{
+	text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+.i-p-right span{
+	color:#000;
+	font-size:16px;
+	margin-top:3px;
+	display: block;
+}
+.quantity{
+	font-size:14px;
+	margin-left: 10px;
+}
+.quantity b{
+	margin-left:10px;
+}

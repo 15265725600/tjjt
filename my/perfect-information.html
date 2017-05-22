@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <meta charset="UTF-8">
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	  <meta name="description" content="">
+	  <meta name="keywords" content="">
+	  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	  <title>完善资料</title>
+	   <link rel="stylesheet" href="../assets/css/reset.css" />
+	  <link rel="stylesheet" href="../assets/css/amazeui.css" />
+	  <link rel="stylesheet" href="../assets/css/common.css" />
+	  <!--<link rel="stylesheet" href="../assets/css/login.css" />-->
+	  <link rel="stylesheet" href="../assets/css/my.css" />
+	  
+	</head>
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white border-b">
+	      <div class="am-header-left am-header-nav">
+	          <a href="javascript:history.back()" class="">
+	                <i class="_back"></i>
+	          </a>
+	      </div>
+	      <h1 class="am-header-title">
+	       完善资料
+	      </h1>
+	      
+	  </header>
+	<div class="c-container box-background">
+		<div class="hui"></div>
+		<ul class = "pi-list">
+			<li class = "pi-item"><a href="javascript:;" class = "clearfix"  data-am-modal="{target: '#my-actions'}">头像<i class = "_right am-fr"></i><span class = "am-fr top-pic"><img src="../assets/i/p-pic.png" alt="" /></span></a></li>
+			<li><a href="javascript:;">姓名<span class= "am-fr">南夏墅</span></a></li>
+			<li><a href="javascript:;">店铺名称<span class= "am-fr">南夏墅</span></a></li>
+			<li><a href="javascript:;" class = "clearfix">店铺分类<i class = "_right am-fr"></i><span class= "am-fr"  id= "picker1">南夏墅</span></a></li>
+			<li><a href="javascript:;" class = "clearfix">店铺地址<i class = "_right am-fr"></i><span class= "am-fr pi-addr"  id = "chose">南夏墅bdfhfnmjtymky,vcsergteh南夏墅bdfhfnmjtymky,vcsergteh</span></a></li>
+		</ul>
+		<button class = "_button">完成</button>
+	</div>
+	<!--弹出框--->
+	 <div class="am-modal-actions" id="my-actions">
+	  <div class="am-modal-actions-group">
+	    <ul class="am-list am-mask _mask">
+	      <li><a href="#" class = "gray">拍照</a></li>
+	      <li>
+	        <a href="#" class = "gray">从相册中选择</a>
+	      </li>
+	    </ul>
+	  </div>
+	  <div class="am-modal-actions-group" style = "border-radius: 3px;">
+	    <button class="am-btn am-btn-block as-btn" data-am-modal-close style= "background:#fff;color:#FF6801">取消</button>
+	  </div>
+	</div>
+	</body>
+	<script src = "../assets/js/jquery.min.js"></script>
+	<script src = "../assets/js/amazeui.js"></script>
+	<script src = "../assets/js/city.js"></script>
+	<script src = "../assets/js/picker.min.js"></script>
+	<script src = "../assets/js/index.js"></script>
+	
+	<script>
+	
+	$(function(){
+		var Height = $(window).height()-$('.am-header').height();
+		$('.c-container').height(Height);
+		//选择店铺
+		var data1 = [
+		    {
+		      text: '麻辣烫',
+		      value: 1
+		    }, {
+		      text: '豆腐脑',
+		      value: 2
+		    },
+		    {
+		      text: '黄焖鸡',
+		      value: 3
+		    },
+		    {
+		      text: '凉皮',
+		      value: 4
+		    },
+		    {
+		      text: '饺子馆',
+		      value: 5
+		    },
+		    {
+		      text: '私家菜',
+		      value: 6
+		    },
+		    {
+		      text: '胡辣汤',
+		      value: 7
+		    }, {
+		      text: '巫妖',
+		      value: 8
+		    },
+		    {
+		      text: '神谕者',
+		      value: 9
+		    },
+		    {
+		      text: '撼地神牛',
+		      value: 10
+		    },
+		    {
+		      text: '蓝胖子',
+		      value: 11
+		    },
+		    {
+		      text: '水晶室女',
+		      value: 12
+		    },
+		    {
+		      text: '莉娜',
+		      value: 13
+		    },
+		    {
+		      text: '斯拉克',
+		      value: 14
+		    },
+		    {
+		      text: '斯拉达',
+		      value: 15
+		    }
+		  ];
+		  var picker1El = document.getElementById('picker1');
+		  var picker1 = new Picker({
+		    data: [data1],
+		    title:'选择店铺分类'
+		  });
+		
+		  picker1.on('picker.select', function (selectedVal, selectedIndex) {
+		    picker1El.innerText = data1[selectedIndex[0]].text;
+		  });
+		
+		  picker1.on('picker.change', function (index, selectedIndex) {
+		    console.log(index);
+		  });
+		
+		  picker1.on('picker.valuechange', function (selectedVal, selectedIndex) {
+		    console.log(selectedVal);
+		  });
+		 picker1El.addEventListener('click', function () {
+		    picker1.show();
+		  });
+		
+	});
+		
+	
+	</script>
+</html>

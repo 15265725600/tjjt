@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>商品详情</title>
+		<link rel="stylesheet" href="../assets/css/amazeui.css" />
+		<link rel="stylesheet" href="../assets/css/swiper.min.css" />
+		<link rel="stylesheet" href="../assets/css/common.css" />
+		<link rel="stylesheet" href="../assets/css/shop-details.css" />
+	</head>
+
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="_back"></i>
+				</a>
+
+			</div>
+			<h1 class="am-header-title">
+		          商品详情
+		      </h1>
+			<div class="am-header-right am-header-nav">
+				<a href="javascript:;" class="">
+					<i class="_collect" id="share"></i>
+				</a>
+				
+			</div>
+		</header>
+		<div class="container" style="padding-bottom: 49px;margin:0">
+			<div id="shop_datail_box"></div>
+			
+				<div class="sd-banner">
+
+					<!--<div class="sd-pic"><img src="{{infor[0].img}}" alt="" /></div>-->
+					<div class="swiper-container">
+						<div class="swiper-wrapper">
+							
+							<div class="swiper-slide">
+								<img src="../assets/i/sd-banner.png" alt="" />
+							</div>
+							
+						</div>
+						
+					</div>
+					<div class="sd-detail">
+						<p>{{infor[0].name}}</p>
+						<span class="s-d-c"># {{infor[0].type_name}}  #</span>
+						<span class="s-d-p">￥<i>{{infor[0].price}}</i></span>
+						<span class="s-d-n">销量<em>{{infor[0].sales}}</em></span>
+					</div>
+				</div>
+
+				<div class="sd-brand">
+					<div class="sd-b-top clearfix">
+						<dis class="b-t-l am-fl"><img src="../assets/i/brand.png" alt="" /></dis>
+						<div class="b-t-r">
+							<span>{{infor[0].brand_name}}</span>
+						</div>
+					</div>
+					<div class="sd-b-con">
+						<p class="b-c-title">厂名：Nestle Spain-Girona Plant厂址：Crtra Antiga d Amer No 3,17007 G</p>
+						
+						<div class="img_div">
+							<img src="../assets/i/cd-0.png" alt="" />
+						</div>
+						
+					</div>
+				</div>
+			
+		</div>
+		<div class="mask-box">
+			<div class="mask-left am-fl"></div>
+			<p>必普送,现在下载app,立享优惠</p>
+			<div class="mask_load">下载App</div>
+		</div>
+		
+		
+		
+	</body>
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/amazeui.js"></script>
+	<script src="../assets/js/template.js"></script>
+	<script src="../assets/js/swiper.min.js"></script>
+	<script src="../assets/js/common.js"></script>
+	<script src="../assets/js/md5.js"></script>
+	<!--<script src='../assets/js/shop-datails.js'></script>-->
+	<script>
+	$('.mask_load').click(function(){
+		window.location.href = 'http://124.128.23.74:8010/hmapi_jintai/download/mobile/index.jsp'
+	})
+	</script>
+
+</html>

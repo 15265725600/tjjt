@@ -1,0 +1,122 @@
+/*搜索页面*/
+/*.jt_search{
+	width:67%;
+	height:100%;
+	margin-left:21%;
+	padding:7px 0;
+}*/
+/*.jt-header-search{
+	width:100%;
+	height:35px;
+	line-height:35px;
+	border-radius: 3px;
+	background:#f3f3f3 url(../i/search.png) no-repeat 15px center;
+	background-size:16px 16px;
+	padding-left:35px;
+	color:#c7c7c7;
+	font-size:14px;
+	margin-bottom:5px;
+}
+._back{
+	width:20px;
+	height:20px;
+	display:inline-block;
+	background:url(../i/Left-Arrow.png) no-repeat center;
+	background-size:20px 20px;
+	font-size:20px;
+}
+/*搜索框*/
+/*.jt-s-search{
+	width:73%;
+	margin-left:12%;
+}
+.search-del{*/
+	/*margin-top: 3px;*/
+    /*display: inline-block;   
+}
+.long-search{*/
+	/*width:88%;
+}*/
+/*热门搜索*/
+.s-box-hot,.s-box-history{
+	padding-top:23px;
+}
+.s-box-hot .s-hot-box,.s-history-box{
+	padding-top:13px;
+	margin: auto;
+}
+.s-hot-box>div{
+	width:18%;
+	margin:0 2px;
+	height:25px;
+	line-height: 25px;
+	background: #ececec;
+	color:#404040;
+	font-size:10px;
+	margin-bottom:8px;
+	text-align: center;
+	float:left;
+}
+.s-hot-box>div>a{
+	display: block;
+	width:100%;
+	height:100%;
+}
+.s-history-item{
+	line-height:40px;
+	border-bottom:1px solid #ddd;
+	position: relative;
+	
+}
+.s-history-item a{
+	display: block;
+	width: 100%;
+	height:100%;
+	color:#1b0d10;
+	font-size:12px;
+}
+.s-history-item i{
+	display: block;
+	width:20px;
+	height:20px;
+	background: url(../i/close.png) no-repeat center;
+	background-size:15px 15px;
+	position: absolute;
+	top:50%;
+	right:0;
+	margin-top:-8px;
+}
+.remove-history{
+	margin-top:45px;
+}
+.r-h-box{
+	width:60%;
+	height:30px;
+	background:url(../i/remove.png) no-repeat 24% center;
+	background-size:18px 13px;
+	border:1px solid #ddd;
+	border-radius: 2px;
+	padding-left:22%;
+	color:#404040;
+	font-size:14px;
+	line-height: 30px;
+	margin:auto;
+}
+/*搜索无结果*/
+.s-n-box{
+	padding-top:30%;
+	
+}
+.s-n-box .no-pic{
+	background:url(../i/no-info.png) no-repeat center;
+	width:50px;
+	height:50px;
+	background-size:contain;
+	margin:auto;
+}
+.s-n-box p{
+	color:#515151;
+	font-size:14px;
+	text-align: center;
+	margin-top:20px;
+}

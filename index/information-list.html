@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">
+		<title>消息</title>
+		<link rel="stylesheet" href="../assets/css/amazeui.css" />
+		<link rel="stylesheet" href="../assets/css/common.css" />
+		<link rel="stylesheet" href="../assets/css/dropload.css" />
+		<link rel="stylesheet" href="../assets/css/information.css" />
+
+	</head>
+
+	<body>
+		<header data-am-widget="header" class="am-header header-white border-b">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="_back"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+	         消息
+	      </h1>
+			<div class="am-header-right am-header-nav">
+				<a href="javascript:;" class="qingkong" data-am-modal="{target:'#my-alert'}">
+					<span class="am-header-nav-title gray" style="font-size:14px;" id="del-infor">
+	                清空
+	              </span>
+				</a>
+			</div>
+		</header>
+		<div class="container">
+			<div class="hui"></div>
+			<ul class="clearfix info-title am-tabs-nav">
+				<li class="">
+					<a href="javascript:location.href = preUrl('index/information-list.html?type=0')">系统消息</a>
+				</li>
+				<li>
+					<a href="javascript:location.href = preUrl('index/information-list.html?type=1')">订单消息</a>
+				</li>
+				<span></span>
+			</ul>
+			<div class="hui"></div>
+			<div class="tab-content">
+				<ul class="list-ul">
+					<script type="text/html" id="infor_list">
+						{{each listItems as item index}}
+						<li class="list-li" data="{{item.id}}">
+							<div class="con">
+								{{if item.is_read == 0}}
+								<span class="status"></span> {{/if}} {{if item.type == 1}}
+								<img src="../assets/i/order-ifor.png" alt="" />
+								<span>订单消息</span><i class="am-fr">{{item.createtime}}</i> {{else if item.type == 0}}
+								<img src="../assets/i/sys.png" alt="" />
+								<span>系统消息</span><i class="am-fr">{{item.createtime}}</i> {{/if}}
+								<a href="javascript:;">{{item.content}}</a>
+							</div>
+							<div class="btn del-btn">删除</div>
+						</li>
+						{{/each}}
+					</script>
+
+				</ul>
+
+			</div>
+		</div>
+		<!--清除弹出框-->
+		<div class="am-modal am-modal-alert" tabindex="-1" id="my-alert">
+			<div class="am-modal-dialog">
+				<div class="am-modal-bd">
+					确定要清空消息列表吗
+					<p class="gray" style="font-size:12px;">一旦清空将不能找回</p>
+				</div>
+				<div class="am-modal-footer">
+					<span class="am-modal-btn gray">取消</span>
+					<span class="am-modal-btn orange " id="del-all">确定</span>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="http://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script src="../assets/js/amazeui.js"></script>
+	<script src="../assets/js/dropload.min.js"></script>
+	<script src="../assets/js/template.js"></script>
+	<script src="../assets/js/md5.js"></script>
+	<script src="../assets/js/common.js"></script>
+	<script>
+		var token = getCookie('token');
+		var type = GetQueryString('type');
+		if(GetQueryString('type') == 0) {
+			$('.info-title li').eq(0).addClass('am-active');
+		} else if(GetQueryString('type') == 1) {
+			$('.info-title li').eq(1).addClass('am-active');
+		}
+		//显示页面内容
+		var para = window.location.search;
+		var token = getCookie("token");
+		var page = 0;
+		var $dropload = $('.tab-content').dropload({
+			scrollArea: window,
+			threshold: 200,
+			domDown: {
+				domNoData: '<div class="dropload-noData">没有更多</div>'
+			},
+			loadDownFn: function(me) {
+				$.ajax({
+					type: 'POST',
+					url: reqUrl('notice_list'),
+					data: {
+						token: token,
+						page: page,
+						type: type,
+
+					},
+					xhrFields: {
+						withCredentials: true
+					},
+					dataType: 'json',
+					success: function(data) {
+						if(data.error_code == 200) {
+							window.location.href = preUrl('log/login.html' + para + '&path=my/information-list.html');
+						} else if(data.success) {
+							page++;
+							var arrLen = data.infor.listItems.length;
+							if(arrLen > 0) {
+								//预编译模板
+								var content = template('infor_list', data.infor);
+
+							} else {
+								// 锁定
+								me.lock();
+								// 无数据
+								me.noData();
+							}
+							$('.list-ul').append(content);
+							$(".list-li").on("swipeleft", function() {
+								$(this).addClass('selected').siblings().removeClass('selected');
+							}).on("swiperight", function() {
+								$(this).removeClass('selected');
+							});
+							//删除消息
+							$('.del-btn').each(function() {
+								var that = $(this);
+								that.on('click', function() {
+									var id = $(this).parents('.list-li').attr('data');
+									console.log(id)
+									$(this).parents('.list-li').remove();
+									if(type == 0) {
+										newsOper(token, id, 3, 0, '删除成功');
+									} else if(type == 1) {
+										newsOper(token, id, 3, 1, '删除成功');
+									}
+
+								});
+							});
+							//查看消息
+							$('.list-ul li').on('click', function() {
+								var id = $(this).attr('data');
+								if(type == 0) {
+									newsOper(token, id, 1, 0, '');
+								} else if(type == 1) {
+									newsOper(token, id, 1, 1, '');
+								}
+							})
+							me.resetload();
+						} else {
+							mask(data.msg);
+						}
+					}
+				});
+			}
+
+		});
+
+		//全部删除
+		$('#del-all').on('click', function() {
+			if(type == 0) {
+				newsOper(token, '', 4, 0, '删除成功');
+			} else if(type == 1) {
+				newsOper(token, '', 4, 1, '删除成功');
+			}
+
+			$('#my-alert').modal('close');
+			return false;
+		});
+		//消息操作ajax
+		function newsOper(token, id, operatetype, type, content) {
+			$.ajax({
+				type: 'POST',
+				url: reqUrl('notice_saveoperate'),
+				data: {
+					token: token,
+					id: id,
+					operatetype: operatetype,
+					type: type
+				},
+				dataType: 'json',
+				xhrFields: {
+					withCredentials: true
+				},
+				success: function(data) {
+					if(data.error_code == 200) {
+						window.location.href = preUrl('login/login.html' + para + '&index/information-list.html');
+					} else if(data.success) {
+						mask(content);
+					} else {
+						mask(data.msg);
+					}
+				}
+			});
+		}
+	</script>
+
+</html>

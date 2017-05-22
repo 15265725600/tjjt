@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <meta charset="UTF-8">
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	  <meta name="description" content="">
+	  <meta name="keywords" content="">
+	  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	  <title>联系地址</title>
+	  <link rel="stylesheet" href="../assets/css/amazeui.css" />
+	  <link rel="stylesheet" href="../assets/css/common.css" />
+	  <link rel="stylesheet" href="../assets/css/choose-address.css" />
+	  <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=5bc4134910ba7320f25e6e934a47c37a"></script> 
+	</head>
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white border-b">
+	      <div class="am-header-left am-header-nav">
+	          <a href="javascript:history.back()" class="">
+	                <i class="_back"></i>
+	          </a>
+	      </div>
+	      <h1 class="am-header-title">
+	       联系地址
+	      </h1>
+	      
+	  </header>
+	  <div class="container">
+	  	<div class="c-add-title">请确定联系地址位置，若有偏差可手动调整，长按定位</div>
+	  	<div id="container" style="width:100%;"></div>
+	  </div>
+	  <!--<div class='txt-box am-fl'><input type='text' /></div>
+	  <span class = 'map-edit'></span>-->
+	<!--footer-->
+	<div class="c-add-foot">
+		<button class = "_button" style = "margin:0 auto;">确定</button>
+	</div>
+	</body>
+	<script src = "../assets/js/jquery.min.js"></script>
+	<script src = "../assets/js/amazeui.js"></script>
+	
+	<script>
+		var Height = $(window).height()-$('.am-header').height();
+		$('#container').height(Height);
+		var map = new AMap.Map('container',{
+		   zoom: 10,
+		   center: [116.39,39.9]
+		});
+		addMarker();
+	    //添加marker标记
+	   
+	    function addMarker() {
+	    	 var content = document.createElement('div');
+			 content.className = 'tagg';
+	        map.clearMap();
+	        var marker = new AMap.Marker({
+	            map: map,
+	            position: [116.481181, 39.989792],
+	            content: content,
+				offset: new AMap.Pixel(-10,0)
+	        });
+	        //鼠标点击marker弹出自定义的信息窗体
+	        AMap.event.addListener(marker, 'click', function() {
+	            infoWindow.open(map, marker.getPosition());
+	        });
+	    };
+	     //实例化信息窗体
+    var content = [];
+    content.push("<div class='txt-box am-fl'>我也不知道这是哪啊</div><span class = 'map-edit'></span>");
+//  content.push("<span class = 'map-edit'></span>");
+    var infoWindow = new AMap.InfoWindow({
+        isCustom: true,  //使用自定义窗体
+        content: createInfoWindow(content.join()),
+//      offset: new AMap.Pixel(16, -45)
+    });
+     //构建自定义信息窗体
+    function createInfoWindow(content) {
+        var info = document.createElement("div");
+        info.className = "info";
+
+        //可以通过下面的方式修改自定义窗体的宽高
+          info.style.width = "180px";
+          info.style.height = "50px";
+          info.style.margin = "0 auto"
+        // 定义中部内容
+        var middle = document.createElement("div");
+        middle.className = "info-middle";
+        middle.style.backgroundColor = 'white';
+        middle.style.borderRadius = "3px";
+        middle.innerHTML = content;
+        info.appendChild(middle);
+
+        // 定义底部内容
+        var bottom = document.createElement("div");
+        bottom.className = "info-bottom";
+        bottom.style.position = 'relative';
+        bottom.style.top = '0px';
+        bottom.style.left = '50%';
+        bottom.style.margin = '0 auto';
+        var sharp = document.createElement("img");
+        sharp.src = "http://webapi.amap.com/images/sharp.png";
+        bottom.appendChild(sharp);
+        info.appendChild(bottom);
+        return info;
+    }
+
+    //关闭信息窗体
+    function closeInfoWindow() {
+        map.clearInfoWindow();
+    }
+
+		
+	
+	</script>
+</html>

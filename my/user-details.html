@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>用户详情</title>
+		<link rel="stylesheet" href="../assets/css/reset.css" />
+		<link rel="stylesheet" href="../assets/css/amazeui.css" />
+		<link rel="stylesheet" href="../assets/css/common.css" />
+		<link rel="stylesheet" href="../assets/css/login.css" />
+
+	</head>
+
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white border-b">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="_back"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+	       用户详情
+	      </h1>
+
+		</header>
+		<div class="c-container box-background">
+			<div class="hui"></div>
+			<script type="text/html" id="user-details">
+				<ul class="pd-list">
+					<li class="pd-item">
+						<a href="javascript:;" class="clearfix">头像<i class="_right am-fr"></i><span class="am-fr top-pdc"><img class = "avatar" src="{{infor[0].img}}" alt="" /><input type="file" name = 'temp_file' class = "choose_photo"/></span></a>
+					</li>
+					<li>
+						<a href="javascript:;">姓名<span class="am-fr"><input type="text" placeholder="请输入" id  ="name" value = "{{infor[0].name}}"/></span></a>
+					</li>
+					<li>
+						<a href="javascript:;">身份证号<span class="am-fr"><input type="text" placeholder="请输入" id = "idcard" value = "{{infor[0].idcard}}"/></span></a>
+					</li>
+					<li>
+						<a href="javascript:;">店铺名称<span class="am-fr"><input type="text" placeholder="请输入" id = "shopname" value = "{{infor[0].shopname}}"/></span></a>
+					</li>
+					<li id="shop-cla">
+						<a href="javascript:;" class="clearfix">店铺分类<i class="_right am-fr"></i><span class="am-fr" style="color:#b8b8b8;margin-right: 5px;" id="picker1">{{infor[0].shoptypename}}</span></a>
+					</li>
+					<li id="shop-arddr">
+						<a href="javascript:;" class="clearfix" id="shop-addr">店铺地址<i class="_right am-fr"></i><span class="am-fr pd-addr" style="color:#b8b8b8;margin-right: 5px;" id="chose">{{infor[0].district_name}}</span></a>
+
+						<input id="deaddr" type="text" placeholder="请填写详细地址" value="{{infor[0].address}}" />
+
+					</li>
+					<li class="shop-photo">
+						<a href="javascript:;" class="clearfix">门店照片<i class="_right am-fr"></i></a>
+					</li>
+				</ul>
+				<div class="upload-wrap" style="display: block;">
+					<ul class="upload am-cf">
+						<li class="upload-btn">
+							<img src="{{infor[0].imgs}}">
+							<input type="file" class="j-file-cert" name="temp_file" />
+						</li>
+					</ul>
+				</div>
+			</script>
+
+		</div>
+		<button class="_button" id="save">保存</button>
+		<!--//		 <div class="am-modal-actions" id="my-actions">
+//		  <div class="am-modal-actions-group">
+//		    <ul class="am-list am-mask _mask">
+//		      <li class = "_maskli"><a href="#" class = "gray">拍照</a><input type="file" name = 'temp_file' class = 'photo'/></li>
+//		      <li class = "_maskli">
+//		        <a href="#" class = "gray">从相册中选择<input type="file" name = 'temp_file' class = "choose_photo"/></a>
+//		      </li>
+//		    </ul>
+//		  </div>
+//		  <div class="am-modal-actions-group" style = "border-radius: 3px;">
+//		    <button class="am-btn am-btn-block as-btn" data-am-modal-close style= "background:#fff;color:#FF6801">取消</button>
+//		  </div>-->
+
+	</body>
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/amazeui.js"></script>
+	<script src="../assets/js/template.js"></script>
+	<script src="../assets/js/picker.min.js"></script>
+	<script src='../assets/js/exif.min.js'></script>
+	<script src='../assets/js/md5.js'></script>
+	<script src='../assets/js/common.js'></script>
+	<script>
+		var token = getCookie('token');
+		$.ajax({
+			type: 'POST',
+			url: reqUrl("client_get"),
+			data: {
+				token: token,
+			},
+			dataType: 'JSON',
+			xhrFields: {
+				withCredentials: true
+			},
+			async: false,
+			success: function(data) {
+				if(data.error_code == 200) {
+					window.location.href = preUrl('log/login.html?path=my/user-details.html');
+				} else if(data.success) {
+					var userDetail = template('user-details', data);
+					$('.c-container').html(userDetail);
+					var paycode = data.infor[0].has_pay_password;
+					console.log(paycode)
+					if(paycode == 0) {
+						mask('请设置支付密码')
+					}
+
+				} else {
+					mask(data.msg)
+				}
+
+			},
+			error: function(e, request, settings) {
+				alert(settings)
+			}
+		});
+
+		//上传头像
+		$('.choose_photo').on('change', function(e) {
+			if(!window.FileReader) return;
+			e.stopPropagation();
+			e.preventDefault();
+			var file = e.target.files[0];
+			var content = '';
+			if(!file.type.match('image.*')) {
+				alert('文件' + f.name + '不是图片')
+				return;
+			}
+
+			var orientation;
+			//EXIF js 可以读取图片的元信息 https://github.com/exif-js/exif-js
+			EXIF.getData(file, function() {
+				orientation = EXIF.getTag(this, 'Orientation');
+			});
+
+			var reader = new FileReader();
+
+			reader.onload = function(e) {
+				getImgData(this.result, orientation, function(data) {
+					$.ajax({
+						type: 'POST',
+						url: reqUrl("webfile_upload"),
+						data: {
+							keytype: 1,
+							temp_file: data
+						},
+						dataType: 'JSON',
+						xhrFields: {
+							withCredentials: true
+						},
+						//async: false,
+						success: function(data) {
+
+							content = ' <img class="avatar" src="' + data.infor[0].item1 + '">';
+							$('.top-pdc').find('img').replaceWith(content);
+						}
+					});
+				});
+
+			}
+			reader.readAsDataURL(file);
+
+		});
+
+		//获取城市列表
+		var city = [];
+		$.ajax({
+			type: 'POST',
+			url: reqUrl("district_all_get"),
+			dataType: 'JSON',
+			async: false,
+			xhrFields: {
+				withCredentials: true
+			},
+			success: function(data) {
+
+				city = data.infor.listItems;
+			},
+			error: function(e, request, settings) {
+				alert(settings);
+			}
+		});
+
+		//店铺分类
+
+		var shopType = [];
+		$.ajax({
+			type: 'POST',
+			url: reqUrl("shop_type"),
+			dataType: 'JSON',
+			async: false,
+			xhrFields: {
+				withCredentials: true
+			},
+			success: function(data) {
+				console.log(data.infor.listItems[0].name)
+				if(data.success) {
+					var shopCla = document.getElementById('shop-cla');
+					var shopval = document.getElementById('picker1')
+					var arrLen = data.infor.listItems;
+					for(var i = 1; i <= arrLen.length; i++) {
+						var item = {
+							text: data.infor.listItems[i - 1].name,
+							value: i
+						}
+						shopType.push(item);
+
+					}
+					pickerShow([shopType], shopCla, shopval, 1, "选择店铺分类")
+				} else {
+					mask(data.msg)
+				}
+
+			}
+		});
+
+		//城市选择
+		var cityId = [];
+		var nameEl = document.getElementById('shop-addr');
+		var addr = document.getElementById('chose');
+
+		var first = []; /* 省，直辖市 */
+		var second = []; /* 市 */
+		var third = []; /* 镇 */
+
+		var checked = [0, 0, 0]; /* 已选选项 */
+
+		function creatList(obj, list) {
+			obj.forEach(function(item, index, arr) {
+				var temp = new Object();
+				temp.text = item.name;
+				temp.value = item.id;
+				list.push(temp);
+			})
+		}
+
+		creatList(city, first); // 省
+
+		if(city[0].hasOwnProperty('children')) {
+			creatList(city[0].children, second); //市
+		} else {
+			second = [{
+				text: '',
+				value: 0
+			}];
+		}
+
+		if(city[0].children[0].hasOwnProperty('children')) {
+			creatList(city[0].children[0].children, third); //区
+		} else {
+			third = [{
+				text: '',
+				value: 0
+			}];
+		}
+
+		var picker = new Picker({
+			data: [first, second, third],
+			selectedIndex: [0, 0, 0],
+			title: ''
+		});
+
+		picker.on('picker.select', function(selectedVal, selectedIndex) {
+			var text1 = first[selectedIndex[0]].text;
+			var text2 = second[selectedIndex[1]].text;
+			var text3 = third[selectedIndex[2]] ? third[selectedIndex[2]].text : '';
+
+			addr.innerHTML = text1 + ' ' + text2 + ' ' + text3;
+		});
+
+		picker.on('picker.change', function(index, selectedIndex) {
+			if(index === 0) {
+				firstChange();
+			} else if(index === 1) {
+				secondChange();
+			}
+
+			function firstChange() {
+				second = [];
+				third = [];
+				checked[0] = selectedIndex;
+				var firstCity = city[selectedIndex];
+				if(firstCity.hasOwnProperty('children')) {
+					creatList(firstCity.children, second);
+
+					var secondCity = city[selectedIndex].children[0]
+					if(secondCity.hasOwnProperty('children')) {
+						creatList(secondCity.children, third);
+					} else {
+						third = [{
+							text: '',
+							value: 0
+						}];
+						checked[2] = 0;
+					}
+				} else {
+					second = [{
+						text: '',
+						value: 0
+					}];
+					third = [{
+						text: '',
+						value: 0
+					}];
+					checked[1] = 0;
+					checked[2] = 0;
+				}
+
+				picker.refillColumn(1, second);
+				picker.refillColumn(2, third);
+				picker.scrollColumn(1, 0)
+				picker.scrollColumn(2, 0)
+			}
+
+			function secondChange() {
+				third = [];
+				checked[1] = selectedIndex;
+				var first_index = checked[0];
+				if(city[first_index].children[selectedIndex].hasOwnProperty('children')) {
+					var secondCity = city[first_index].children[selectedIndex];
+					creatList(secondCity.children, third);
+					picker.refillColumn(2, third);
+					picker.scrollColumn(2, 0)
+				} else {
+					third = [{
+						text: '',
+						value: 0
+					}];
+					checked[2] = 0;
+					picker.refillColumn(2, third);
+					picker.scrollColumn(2, 0)
+				}
+			}
+
+		});
+
+		picker.on('picker.valuechange', function(selectedVal, selectedIndex) {
+
+			cityId = selectedVal;
+
+		});
+
+		nameEl.addEventListener('click', function() {
+			picker.show();
+		});
+		//  上传店铺照片
+		$('.shop-photo').click(function() {
+			$('.upload-wrap').show();
+		})
+		var count = 0;
+		$('.j-file-cert').on('change', function(e) {
+			count++;
+			if(count < 4) {
+				var that = $(this);
+				if(!window.FileReader) return;
+
+				e.stopPropagation();
+				e.preventDefault();
+
+				var file = e.target.files[0];
+				var content = '';
+
+				if(!file.type.match('image.*')) {
+					alert('文件' + f.name + '不是图片')
+					return;
+				}
+
+				var orientation;
+				//EXIF js 可以读取图片的元信息 https://github.com/exif-js/exif-js
+				EXIF.getData(file, function() {
+					orientation = EXIF.getTag(this, 'Orientation');
+				});
+
+				var reader = new FileReader();
+
+				reader.onload = function(e) {
+					getImgData(this.result, orientation, function(data) {
+						$.ajax({
+							type: 'POST',
+							url: reqUrl("webfile_upload"),
+							data: {
+								keytype: 2,
+								temp_file: data
+							},
+							xhrFields: {
+								withCredentials: true
+							},
+							dataType: 'JSON',
+							//async: false,
+							success: function(data) {
+								//                              console.log(data.msg);
+								content = '<li>' +
+									'<img class="j-image" src="' + data.infor[0].item1 + '">' +
+									'<i class="icon-close"></i>' +
+									'</li>'
+
+								that.parent().before(content);
+							}
+						});
+					});
+
+				}
+				reader.readAsDataURL(file);
+			} else {
+				mask('最多传3张证件图片');
+				count = 3;
+				return false;
+			}
+
+		});
+		//删除上传图片
+		$('.upload').on('click', '.icon-close', function() {
+			$(this).parent().remove();
+			if(count > 0) {
+				count--;
+			}
+			//      console.log(count);
+		});
+		//资料完善
+		$('#save').on('click', function(e) {
+			console.log(0)
+			e.stopPropagation();
+			e.preventDefault();
+			var token = getCookie('token');
+			var img = $('.avatar').attr('src');
+			var name = $('#name').val();
+			var idcard = $('#idcard').val();
+			var regIdCard = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
+			var shopname = $('#shopname').val();
+			var shopcla = $('#picker1').html();
+			var shopaddr = $('#chose').html();
+			var deaddr = $('#deaddr').val();
+			var imgArr = [];
+			$('.j-image').each(function() {
+				var that = $(this);
+				imgArr.push(that.attr('src'));
+			});
+			var imgSrc = imgArr.join(',');
+			if(!regIdCard.test(idcard)) {
+				mask('身份证号码不正确')
+			}
+			//修改成功，调用保存接口
+			$.ajax({
+				type: 'POST',
+				url: reqUrl("client_save"),
+				dataType: 'JSON',
+				//					async: false,
+				data: {
+					token: token,
+					name: name,
+					shopname: shopname,
+					shoptype: 1,
+					img: img,
+					big_img: img,
+					district_name: shopaddr,
+					address: deaddr,
+					province: cityId[0],
+					city: cityId[1],
+					county: cityId[2],
+
+				},
+				xhrFields: {
+					withCredentials: true
+				},
+				success: function(data) {
+					if(data.error_code == 200) {
+						window.location.href = preUrl('log/login.html?path=my/user-details.html')
+					} else if(data.success) {
+						mask('保存成功')
+					} else {
+						mask(data.msg)
+					}
+				},
+				error: function(e, request, settings) {
+					alert(settings)
+				}
+			});
+
+		})
+	</script>
+
+</html>

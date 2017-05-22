@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>我的银行卡</title>
+		<link rel="stylesheet" href="../assets/css/amazeui.css" />
+		<link rel="stylesheet" href="../assets/css/common.css" />
+		<link rel="stylesheet" href="../assets/css/my.css" />
+	</head>
+
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white border-b">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="_back"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+	       我的银行卡
+	      </h1>
+
+		</header>
+		<div class="c-container box-background">
+			<ul class="my-back-list">
+				<script type = "text/html" id = "back_list">
+				{{each listItems as item index}}
+				<li class="back-item clearfix">
+					
+					<div class="item-right">
+						<p>{{item.bankName}}</p>
+						<p>{{item.bankCardNo}}</p>
+					</div>
+				</li>
+				{{/each}}
+				</script>
+			</ul>
+			
+		</div>
+
+	</body>
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/amazeui.js"></script>
+	<script src="../assets/js/swiper.min.js"></script>
+	<script src="../assets/js/dropload.min.js"></script>
+	<script src="../assets/js/template.js"></script>
+	<script src="../assets/js/common.js"></script>
+	<script src="../assets/js/md5.js"></script>
+
+	<script>
+		$(function() {
+			var Height = $(window).height() - $('.am-header').height();
+			$('.c-container').height(Height);
+			//获取银行卡列表
+			var token = getCookie('token');
+			
+			$.ajax({
+				url: reqUrl('bankcar_list'),
+				type: 'post',
+				dataType: 'json',
+				data: {
+					token: token
+				},
+				xhrFields: {
+							withCredentials: true
+						},
+				success: function(data) {
+					var back_list = template('back_list', data.infor);
+					$('.my-back-list').html(back_list);
+					
+
+				},
+				error: function(e, request, settings) {
+					alert(settings);
+				}
+			})
+
+		});
+	</script>
+
+</html>

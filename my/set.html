@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>设置</title>
+		<link rel="stylesheet" href="../assets/css/amazeui.css" />
+		<link rel="stylesheet" href="../assets/css/common.css" />
+		<link rel="stylesheet" href="../assets/css/set.css" />
+	</head>
+
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white border-b">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="_back"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+	       	设置
+	      </h1>
+		</header>
+		<div class="c-container box-background">
+			<div class="hui"></div>
+			<ul class="set-ul">
+				<li>
+					<a href="javascript:location.href = preUrl('my/modify-log-password.html?keytype=1')" class="clearfix"><em class="am-fl"></em>修改登录密码<i class="am-fr"></i></a>
+				</li>
+				<li>
+					<a href="javascript:location.href = preUrl('log/forget-password.html?keytype=2')" class="clearfix"><em class="am-fl"></em>设置支付密码<i class="am-fr"></i></a>
+				</li>
+				<li>
+					<a href="javascript:location.href = preUrl('my/modify-pay-password.html?keytype=2')" class="clearfix"><em class="am-fl"></em>修改支付密码<i class="am-fr"></i></a>
+				</li>
+				<div class="hui"></div>
+				<li>
+					<a href="javascript:;" class="clearfix" data-am-modal="{target: '#my-alert'}"><em class="am-fl"></em>联系客服<i class="am-fr"></i></a>
+				</li>
+				<li class="soft">
+					<a href="javascript:location.href = 'http://124.128.23.74:8010/hmapi_jintai/download/mobile/index.jsp'" class="clearfix soft-share"><em class="am-fl"></em>软件分享<i class="am-fr"></i></a>
+				</li>
+				<!--<li><a href="javascript:;" class="clearfix"><em class = "am-fl"></em>检查更新<i class = "am-fr"></i></a></li>-->
+				<li>
+					<a href="javascript:location.href = preUrl('my/feedback.html')" class="clearfix"><em class="am-fl"></em>意见反馈<i class="am-fr"></i></a>
+				</li>
+				<!--<li><a href="javascript:;" class="clearfix clear-cache"><em class = "am-fl"></em>清除缓存<span class = "am-fr gray">5.4M<i class = "am-fr" style = "margin-left: 5px;;"></i></span></a></li>-->
+				<li>
+					<a href="javascript:location.href = preUrl('my/aboutus.html')" class="clearfix"><em class="am-fl"></em>关于我们<i class="am-fr"></i></a>
+				</li>
+			</ul>
+
+		</div>
+		<div class="exit-login">
+			<button id="exit_log">退出登录</button>
+		</div>
+		<!--弹出框-->
+		<!--清除缓存-->
+		<div class="cc-box">缓存已清理</div>
+		<!--分享弹出框-->
+		<div class="am-modal-actions" id="my-actions">
+			<div class="am-modal-actions-group">
+				<ul class="m-c-list">
+					<li>
+						<a href="javascript:;">
+							<span></span>
+							<i>QQ</i>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:;">
+							<span></span>
+							<i>微信</i>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:;">
+							<span></span>
+							<i>朋友圈</i>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:;">
+							<span></span>
+							<i>QQ空间</i>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="am-modal-actions-group">
+				<button class="am-btn am-btn-block header-white share-del" data-am-modal-close>取消</button>
+			</div>
+		</div>
+		<!---联系客服-->
+		<div class="am-modal am-modal-alert" tabindex="-1" id="my-alert">
+			<div class="am-modal-dialog">
+				<div class="am-modal-bd">
+					400-010-1234
+				</div>
+				<div class="am-modal-footer">
+					<span class="am-modal-btn gray">取消</span>
+					<span class="am-modal-btn orange">拨打</span>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/amazeui.js"></script>
+	<script src="../assets/js/md5.js"></script>
+	<script src="../assets/js/common.js"></script>
+	<script src="../assets/js/login.js"></script>
+
+	<script>
+		$(function() {
+			var Height = $(window).height() - $('.am-header').height();
+			$('.c-container').height(Height);
+			///////////////清除缓存/////////////
+			$(".clear-cache").on("click", function() {
+				$(".cc-box").show();
+
+				setInterval(function() {
+					$(".cc-box").hide();
+				}, 3000)
+			});
+			//退出登录
+			var token = getCookie('token');
+			$('#exit_log').on('click', function() {
+				$.ajax({
+					type: 'POST',
+					url: reqUrl("client_loginout"),
+					data: {
+						token: token
+					},
+					dataType: 'JSON',
+					async: false,
+					xhrFields: {
+						withCredentials: true
+					},
+					success: function(data) {
+						if(data.success) {
+							window.location.href = preUrl('log/login.html');
+						}
+					},
+					error: function(e, request, settings) {
+						alert(settings);
+					}
+				})
+			});
+
+		});
+	</script>
+
+</html>

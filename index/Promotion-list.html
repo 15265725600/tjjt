@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>分类列表</title>
+		<link rel="stylesheet" href="../assets/css/amazeui.css" />
+		<link rel="stylesheet" href="../assets/css/dropload.css" />
+		<link rel="stylesheet" href="../assets/css/common.css" />
+		<link rel="stylesheet" href="../assets/css/shop-lists.css" />
+		<style>
+
+		</style>
+	</head>
+
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white border-b">
+			<div class="am-header-left am-header-nav _back-p">
+				<a href="javascript:history.back()" class="">
+					<i class="_back"></i>
+				</a>
+			</div>
+			<div class="jt_search jt-s-search long-search" style="padding-top:0;">
+				<a href="javascript:location.href = preUrl('index/search.html')">
+					<input type="text" placeholder="搜索商品名称" class="jt-header-search" />
+
+				</a>
+			</div>
+		</header>
+		<div class="container">
+			<div data-am-widget="tabs" class="am-tabs sp-classify">
+				<div class="nav-top clearfix">
+					<ul class="am-tabs-nav am-cf sp-c-nav am-fl">
+						<li data="6" flag="0" class="cla-a">
+							<a href="javascript:;" class="sp-c-cla">分类</a><i class="pull-down"></i></li>
+						<li data="1">
+							<a href="javascript:;">销量</a>
+						</li>
+						<li data="2" class="s-price">
+							<a href="javascript:;">价格</a><i class="pull-down-p"></i><i class="up-down-p"></i></li>
+						<li data="4">
+							<a href="javascript:;">人气</a><i class="v-line"></i></li>
+					</ul>
+					<div class="l-style am-fr" id="transform" data="0">
+						<a href="javascript:;"></a>
+					</div>
+				</div>
+				<div class="am-tabs-bd navbox-0 list-box">
+					<ul class="jt-shop-list common-list"></ul>
+					<script type="text/html" id="goods-div">
+						{{each listItems as item index}}
+						<li class="jt-l-item clearfix">
+							<a href="javascript:location.href = preUrl('index/shop-details.html?id={{item.id}}')">
+								<div class="item-left am-fl"><img src="{{item.goods_img}}" alt="" /><span class="cx"></span></div>
+								<div class="item-right am-fl">
+									<h4>{{item.goods_name}}</h4>
+									<div class="i-r-center clearfix">
+										<span class="am-fl">{{item.type_name}}</span>
+										<a href="javascript:;" class="am-fr shopcart" data="{{item.id}}"></a>
+									</div>
+									<div class="i-r-bottom clearfix">
+										<span class="am-fl b-price">￥{{item.price}} <i>￥{{item.origina_price}}</i></span>
+										<span class="am-fr b-num">销量{{item.sales}}</span>
+									</div>
+								</div>
+							</a>
+						</li>
+						{{/each}}
+					</script>
+				</div>
+				<div class="am-tabs-bd navbox-1 list-box" style="display: none;">
+					<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-gallery-imgbordered line-ul">
+						<script type="text/html" id="good-div">
+							{{each listItems as item index}}
+							<li class="re_item">
+								<div class="am-gallery-item">
+									<a href="javascript:location.href = preUrl('index/shop-details.html?id={{item.id}}')"><img src="{{item.goods_img}}" alt="" /><span class="cx"></span></a>
+									<h3 class="am-gallery-title re_item_title">{{item.goods_name}}</h3>
+									<div class="i-r-center clearfix">
+										<span class="am-fl">{{item.type_name}}</span>
+										<span class="am-fr">销量<i>{{item.sales}}</i></span>
+									</div>
+									<div class="re_item_bom clearfix">
+										<span class="am-fl b-price">￥{{item.price}} <i>￥{{item.origina_price}}</i></span>
+
+										<a href="javascript:;" class="am-fr shopcart"></a>
+									</div>
+								</div>
+
+							</li>
+							{{/each}}
+						</script>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--底层一级分类列表--->
+		<div class="one-classify">
+			<div class="close"><i class="am-fr"></i></div>
+			<ul class="classify-list">
+				<script type="text/html" id="oneType">
+					{{each listItems as item index}}
+					<li data='{{item.id}}'>
+						<img src="{{item.img}}" alt="" />
+					</li>
+					{{/each}}
+				</script>
+			</ul>
+		</div>
+		<div class="Mask am-fc">
+			<div class="mmask"></div>
+			<div id="wrapper1">
+				<div id="scroller">
+					<ul class="classify twoClassify">
+						<script type="text/html" id="twoType">
+							{{each listItems as item index}}
+							<li data="{{item.id}}">
+								<a href="javascript:;">{{item.name}}</a>
+							</li>
+							{{/each}}
+						</script>
+
+					</ul>
+				</div>
+			</div>
+			<div id="wrapper2">
+				<div id="scroller">
+					<ul class="classify threeClassify">
+						<script type="text/html" id="threeType">
+							{{each listItems as item index}}
+							<li data="{{item.id}}">
+								<a href="javascript:;">{{item.name}}</a>
+							</li>
+							{{/each}}
+						</script>
+					</ul>
+
+				</div>
+			</div>
+			<div id="wrapper3">
+				<div id="scroller">
+					<ul class="classify fourClassify">
+						<script type="text/html" id="fourType">
+							{{each listItems as item index}}
+							<li data="{{item.id}}">
+								<a href="javascript:;">{{item.name}}</a>
+							</li>
+							{{/each}}
+						</script>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+
+	</body>
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/amazeui.js"></script>
+	<script src="../assets/js/iscroll.js"></script>
+	<script src="../assets/js/template.js"></script>
+	<script src="../assets/js/dropload.min.js"></script>
+	<script src="../assets/js/md5.js"></script>
+	<script src="../assets/js/common.js"></script>
+
+	<script>
+		$('.close').click(function() {
+			$('.one-classify').hide();
+		})
+
+		////下拉内容滑动
+		var myScroll = new IScroll('#wrapper1', {
+			click: true
+		});
+		var myScroll1 = new IScroll('#wrapper2', {
+			click: true
+		});
+		var myScroll1 = new IScroll('#wrapper3', {
+			click: true
+		});
+
+		goodsList(0, "", "", "", "");
+
+		$('.sp-c-nav li').click(function() {
+			$(this).addClass('am-active').siblings().removeClass('am-active');
+			var sort = $(this).attr('data');
+			$('.one-classify').hide();
+			$('.Mask').hide();
+			$('.dropload-down').remove();
+			if(sort == 2) {
+				$('.pull-down-p').css({
+					'background': 'url(../assets/i/pull-down-c.png) no-repeat center'
+				});
+				$('.up-down-p').css({
+					'background': 'url(../assets/i/up-down.png) no-repeat center'
+				});
+				$('.s-price').attr('data', 3);
+
+			} else if(sort == 3) {
+				$('.s-price').attr('data', 2)
+				$('.up-down-p').css({
+					'background': 'url(../assets/i/up.png) no-repeat center'
+				});
+				$('.pull-down-p').css({
+					'background': 'url(../assets/i/pull-down.png) no-repeat center'
+				});
+
+			}
+			goodsList(sort, "", "", "", "");
+
+		});
+
+		$('.sp-c-nav li:eq(0)').click(function() {
+			var flag = parseInt($(this).attr('flag'));
+			if(flag == 0) {
+				$('.one-classify').show();
+				$(this).attr('flag', 1);
+			} else {
+				$('.one-classify').hide();
+				$(this).attr('flag', 0);
+			}
+			sort = $(this).attr('data');
+
+		});
+
+		$('.mmask').on('click', function() {
+			$(this).parent().hide();
+		});
+
+		$.ajax({
+			url: reqUrl('goods_type'),
+			type: 'post',
+			dataType: 'json',
+			data: {
+				pid: 0,
+				level: 1
+			},
+			async: false,
+			xhrFields: {
+				withCredentials: true
+			},
+			success: function(data) {
+				var oneType = template('oneType', data.infor);
+				$('.classify-list').html(oneType);
+
+			}
+
+		});
+		//获取二级分类
+		var oneTypeId;
+		var twoTypeId;
+		var threeTypeId;
+		var fourTypeId;
+		$('.classify-list li').click(function() {
+			oneTypeId = $(this).attr('data');
+			console.log(oneTypeId);
+			$('.Mask').show();
+			$.ajax({
+				url: reqUrl('goods_type'),
+				type: 'post',
+				dataType: 'json',
+				data: {
+					pid: oneTypeId,
+					level: 2
+				},
+				async: false,
+				xhrFields: {
+					withCredentials: true
+				},
+				success: function(data) {
+					var len = data.infor.listItems.length;
+					if(len != 0) {
+						var twoType = template('twoType', data.infor);
+						$('.twoClassify').html(twoType);
+						//获取三级分类
+						$('.twoClassify li').click(function() {
+
+							console.log(0)
+							twoTypeId = $(this).attr('data');
+							console.log(twoTypeId);
+
+							$.ajax({
+								url: reqUrl('goods_type'),
+								type: 'post',
+								dataType: 'json',
+								data: {
+									pid: twoTypeId,
+									level: 3
+								},
+								async: false,
+								xhrFields: {
+									withCredentials: true
+								},
+								success: function(data) {
+									var len = data.infor.listItems.length;
+									console.log(len);
+									if(len != 0) {
+										var threeType = template('threeType', data.infor);
+										$('.threeClassify').html(threeType);
+										console.log('if');
+										//								////获取四级分类
+										$('.threeClassify li').click(function() {
+
+											threeTypeId = $(this).attr('data');
+											$.ajax({
+												url: reqUrl('goods_type'),
+												type: 'post',
+												dataType: 'json',
+												data: {
+													pid: threeTypeId,
+													level: 4
+												},
+												async: false,
+												xhrFields: {
+													withCredentials: true
+												},
+												success: function(data) {
+													var len = data.infor.listItems.length;
+													console.log(len);
+													if(len != 0) {
+														var fourType = template('fourType', data.infor);
+														$('.fourClassify').html(fourType);
+														$('.fourClassify li').click(function() {
+															fourTypeId = $(this).attr('data');
+															$('.one-classify').hide();
+															$('.Mask').hide();
+															$('.dropload-down').remove();
+															goodsList(0, oneTypeId, twoTypeId, threeTypeId, fourTypeId);
+															$('.sp-c-nav li:gt(0)').click(function() {
+																console.log('ok')
+																$(this).addClass('am-active').siblings().removeClass('am-active');
+																var sort = $(this).attr('data');
+																if(sort == 2) {
+																	$('.pull-down-p').css({
+																		'background': 'url(../assets/i/pull-down-c.png) no-repeat center'
+																	});
+																	$('.up-down-p').css({
+																		'background': 'url(../assets/i/up-down.png) no-repeat center'
+																	});
+																	$('.s-price').attr('data', 3);
+
+																} else if(sort == 3) {
+																	$('.s-price').attr('data', 2)
+																	$('.up-down-p').css({
+																		'background': 'url(../assets/i/up.png) no-repeat center'
+																	});
+																	$('.pull-down-p').css({
+																		'background': 'url(../assets/i/pull-down.png) no-repeat center'
+																	});
+
+																}
+																$('.one-classify').hide();
+																$('.Mask').hide();
+																$('.dropload-down').remove();
+																goodsList(sort, oneTypeId, twoTypeId, threeTypeId, fourTypeId);
+
+															});
+														})
+
+													} else {
+														console.log('else');
+														$('.dropload-down').remove();
+														goodsList(0, oneTypeId, twoTypeId, threeTypeId, "");
+														$('.sp-c-nav li:gt(0)').click(function() {
+															console.log('ok')
+															$(this).addClass('am-active').siblings().removeClass('am-active');
+															var sort = $(this).attr('data');
+															if(sort == 2) {
+																$('.pull-down-p').css({
+																	'background': 'url(../assets/i/pull-down-c.png) no-repeat center'
+																});
+																$('.up-down-p').css({
+																	'background': 'url(../assets/i/up-down.png) no-repeat center'
+																});
+																$('.s-price').attr('data', 3);
+
+															} else if(sort == 3) {
+																$('.s-price').attr('data', 2)
+																$('.up-down-p').css({
+																	'background': 'url(../assets/i/up.png) no-repeat center'
+																});
+																$('.pull-down-p').css({
+																	'background': 'url(../assets/i/pull-down.png) no-repeat center'
+																});
+
+															}
+															$('.one-classify').hide();
+															$('.Mask').hide();
+															$('.dropload-down').remove();
+															goodsList(sort, oneTypeId, twoTypeId, threeTypeId, "");
+
+														});
+														$('.one-classify').hide();
+														$('.Mask').hide();
+														$('.sp-c-nav li').eq(0).attr('data', 0);
+													}
+
+												}
+											});
+
+										});
+
+									} else {
+										console.log('else');
+										$('.dropload-down').remove();
+										goodsList(0, oneTypeId, twoTypeId, "", "");
+										$('.sp-c-nav li:gt(0)').click(function() {
+											console.log('ok')
+											$(this).addClass('am-active').siblings().removeClass('am-active');
+											var sort = $(this).attr('data');
+											if(sort == 2) {
+												$('.pull-down-p').css({
+													'background': 'url(../assets/i/pull-down-c.png) no-repeat center'
+												});
+												$('.up-down-p').css({
+													'background': 'url(../assets/i/up-down.png) no-repeat center'
+												});
+												$('.s-price').attr('data', 3);
+
+											} else if(sort == 3) {
+												$('.s-price').attr('data', 2)
+												$('.up-down-p').css({
+													'background': 'url(../assets/i/up.png) no-repeat center'
+												});
+												$('.pull-down-p').css({
+													'background': 'url(../assets/i/pull-down.png) no-repeat center'
+												});
+
+											}
+											$('.one-classify').hide();
+											$('.Mask').hide();
+											$('.dropload-down').remove();
+											goodsList(sort, oneTypeId, twoTypeId, "", "");
+
+										});
+										$('.one-classify').hide();
+										$('.Mask').hide();
+										$('.sp-c-nav li').eq(0).attr('data', 0);
+									}
+
+								}
+							});
+
+						});
+						console.log('if')
+
+					} else {
+
+						$('.dropload-down').remove();
+						goodsList(0, oneTypeId, "", "", "");
+						$('.sp-c-nav li:gt(0)').click(function() {
+							console.log('ok')
+							$(this).addClass('am-active').siblings().removeClass('am-active');
+							var sort = $(this).attr('data');
+							if(sort == 2) {
+								$('.pull-down-p').css({
+									'background': 'url(../assets/i/pull-down-c.png) no-repeat center'
+								});
+								$('.up-down-p').css({
+									'background': 'url(../assets/i/up-down.png) no-repeat center'
+								});
+								$('.s-price').attr('data', 3);
+
+							} else if(sort == 3) {
+								$('.s-price').attr('data', 2)
+								$('.up-down-p').css({
+									'background': 'url(../assets/i/up.png) no-repeat center'
+								});
+								$('.pull-down-p').css({
+									'background': 'url(../assets/i/pull-down.png) no-repeat center'
+								});
+
+							}
+							$('.one-classify').hide();
+							$('.Mask').hide();
+							$('.dropload-down').remove();
+							goodsList(sort, oneTypeId, "", "", "");
+
+						});
+						$('.one-classify').hide();
+						$('.Mask').hide();
+						$('.sp-c-nav li').eq(0).attr('data', 0);
+					}
+
+				}
+			});
+
+		});
+		$('#transform').click(function() {
+			var data = $(this).attr('data');
+			$(this).toggleClass('t-style');
+			if($(this).hasClass('t-style')) {
+				$('.navbox-1').show();
+				$('.navbox-0').hide();
+			} else {
+				$('.navbox-0').show();
+				$('.navbox-1').hide();
+			}
+
+		});
+		var city_ = getInfo('city_name');
+
+		function goodsList(sort, oneType, twoType, threeType, fourType) {
+			var page = 0;
+			$('.container').dropload({
+				scrollArea: window,
+				threshold: 500,
+				domDown: {
+					domNoData: '<div class="dropload-noData">没有更多</div>'
+				},
+				loadDownFn: function(me) {
+					$.ajax({
+						type: 'post',
+						url: reqUrl('goods_list'),
+						dataType: "json",
+						data: {
+							keyword: "",
+							city: city_,
+							one_type: oneType,
+							two_type: twoType,
+							three_type: threeType,
+							four_type: fourType,
+							brand_id: "",
+							is_promotion: 1,
+							groom_type: "",
+							sort: sort,
+							page: page
+						},
+						async: false, //同步
+						success: function(data) {
+							if(data.success) {
+								page++;
+								var html = '';
+								var content = "";
+								var arrLen = data.infor.listItems.length;
+								if(arrLen > 0) {
+									//预编译模板
+									html = template('goods-div', data.infor);
+									content = template('good-div', data.infor);
+
+								} else {
+									// 锁定
+									me.lock();
+									// 无数据
+									me.noData();
+								}
+
+								if(page == 1) {
+									$('.common-list').html(html);
+									$('.line-ul').html(content);
+									addshopcart()
+
+								} else {
+									$('.common-list').append(html);
+									$('.line-ul').append(content)
+									addshopcart()
+
+								}
+
+								me.resetload();
+
+							} else {
+								mask(data.msg);
+							}
+						}
+					});
+				}
+			});
+		};
+	</script>
+
+</html>

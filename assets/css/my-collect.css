@@ -1,0 +1,143 @@
+/*商品列表*/
+/*.am-tabs-bd{
+	border:none;
+}
+.am-tabs-bd .am-tab-panel{
+	padding:0;
+}*/
+.mc-box{
+	overflow-x: hidden;
+}
+.mc-box ul{
+	margin-left:-40px;
+	/*overflow-x: hidden;*/
+	
+}
+.jt-l-item{
+	margin-top:6px;
+	border-top: 1px solid #DDDDDD;
+	border-bottom: 1px solid #DDDDDD;
+	background: #fff;
+	/*width:110%;*/
+	position: relative;
+	
+}
+.jt-l-item .mc-Left{
+	position: absolute;
+	left:9px;
+	top:0;
+	line-height: 110px;
+}
+.jt-l-item .mc-Right{
+	display:block;
+	margin-left:40px;
+	width:100vw;
+	/*float:left;*/
+	
+	
+}
+.jt-l-item .item-left{
+	    width: 33.75%;
+    /* height: 113px; */
+    position: relative;
+    padding: 12px;
+	
+}
+.jt-l-item .item-left span{
+	background:url(../i/cuxiao.png) no-repeat center;
+	position: absolute;
+	top:0;
+	right:10px;
+	display:block;
+	width:30px;
+	height:20px;
+	background-size:contain;
+}
+.jt-l-item .item-left img{
+	width:70px;
+	height:70px;
+}
+.jt-l-item .item-right{
+	width:66.25%;
+	padding:15px 15px 0 0px;
+	
+}
+.item-right h4{
+	color:#1b0d10;
+	font-size:12px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	white-space: pre-wrap;
+}
+.i-r-center{
+	margin-top:8px;
+}
+.i-r-center span{
+	display:block;
+	padding:0 3px;
+	line-height:20px;
+	color:#8b8b8b;
+	background: #ececec;
+	text-align: center;
+	font-size:12px;
+}
+.i-r-center a{
+	display:block;
+	width:25px;
+	height:25px;
+	background: url(../i/shop-cart.png) no-repeat center;
+	background-size:25px 25px ;
+}
+.i-r-bottom{
+	font-size:14px;
+	margin-top:3px;
+}
+.i-r-bottom .b-price{
+	color:#ff6801;
+	font-size:14px;
+}
+.i-r-bottom .b-price i{
+	font-size:12px;
+	color:#939393;
+	text-decoration: line-through;
+}
+.i-r-bottom .b-num{
+	color:#939393;
+}
+/*底部*/
+.mc-footer{
+	position: fixed;
+	bottom:0px;
+	left:0;
+	line-height:49px;
+	height:49px;
+	width:100%;
+	background: #fff;
+	display: none;
+}
+.mc-footer li{
+	float:left;
+}
+.mc-footer li:first-child{
+	width:66.666666%;
+	font-size:14px;
+	background: #fff;
+	text-align: right;
+	padding:0 10px;
+}
+
+.mc-footer li:first-child i{
+	color:#FF6801;
+}
+.mc-footer li:last-child{
+	width:33.33333%;
+	font-size:16px;
+	background: #FF6801;
+	text-align: center;
+}
+.mc-footer li:last-child a{
+	color:#fff;
+}

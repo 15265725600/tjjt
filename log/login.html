@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <meta charset="UTF-8">
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	  <meta name="description" content="">
+	  <meta name="keywords" content="">
+	  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	  <title>登录</title>
+	  <link rel="stylesheet" href="../assets/css/amazeui.css" />
+	  <link rel="stylesheet" href="../assets/css/common.css" />
+	  <link rel="stylesheet" href="../assets/css/login.css" />
+	  <style>
+	  	html,body{
+	  		background: #f2f2f2;
+	  	}
+	  </style>
+	</head>
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white">
+	      <h1 class="am-header-title">
+	        登录
+	      </h1>
+	      <div class="am-header-right am-header-nav">
+	          <a href="javascript:location.href=preUrl('log/register.html')" class="">
+	              <span class="am-header-nav-title orange" style = "font-size:14px;">
+	                注册
+	              </span>
+	          </a>
+	      </div>
+	 </header>
+	 <div class="container">
+	 	<div class="log-top">
+	 		<div class="logo"><img src="../assets/i/logo.png" alt="" /></div>
+	 		<p>天津金泰</p>
+	 	</div>
+	 	<div class="log-phone"><input type="text" placeholder="请输入手机号" id = "phone"/></div>
+	 	<div class="log-password"><input type="password" placeholder="请输入密码" id = "pwd"/></div>
+	 	<p><a class= "am-fr orange" href="javascript:location.href=preUrl('log/forget-password.html?&keytype=1')" style = "font-size: 14px;">忘记密码？</a></p>
+	 	<button class = "_button" style = "line-height: 34px;" id = "login">登录</button>
+	 </div>
+	 
+	</body>
+	<script src = "../assets/js/jquery.min.js"></script>
+	<script src = "../assets/js/amazeui.js"></script>
+	<script src = "../assets/js/md5.js"></script>
+	<script src = "../assets/js/common.js"></script>
+	<script src = "../assets/js/login.js"></script>
+	
+</html>

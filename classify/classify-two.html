@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>分类（二级页面）</title>
+		<link rel="stylesheet" href="../assets/css/amazeui.css" />
+		<link rel="stylesheet" href="../assets/css/common.css" />
+		<link rel="stylesheet" href="../assets/css/shop-lists.css" />
+	</head>
+
+	<body>
+		<!--header部分-->
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white border-b">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="_back"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+	       
+	      </h1>
+		</header>
+		<div class="container box-background">
+			<div data-am-widget="tabs" class="am-tabs sp-classify">
+				<ul class="am-tabs-nav am-cf sp-c-nav" style="width:100%">
+					<li data="2" class="s-price">
+						<a href="javascript:;">价格</a><i class="pull-down-p" style="right:20px;"></i><i class="up-down-p" style="right:20px;"></i></li>
+					<li data="1">
+						<a href="javascript:;">销量</a>
+					</li>
+					<li data="4">
+						<a href="javascript:;">人气</a>
+					</li>
+
+				</ul>
+
+				<div class="am-tabs-bd">
+					<ul class="jt-shop-list">
+						<script type="text/html" id="goods-item">
+
+							{{each listItems as item index }}
+							<li class="jt-l-item clearfix search-li">
+								<a href="javascript:location.href = preUrl('index/shop-details.html?id={{item.id}}')">
+									<div class="item-left am-fl"><img src="{{item.goods_img}}" alt="" />{{if item.is_promotion == 1}}<span></span>{{/if}}</div>
+									<div class="item-right am-fl">
+										<h4>{{item.goods_name}}</h4>
+										<div class="i-r-center clearfix">
+											<span class="am-fl">{{item.type_name}}</span>
+											<a href="javascript:;" class="am-fr shopcart" data='{{item.id}}'></a>
+										</div>
+										<div class="i-r-bottom clearfix">
+											<span class="am-fl b-price">￥{{item.price}}<i>￥{{item.origina_price}}</i></span>
+											<span class="am-fr b-num">销量<i>{{item.sales}}</i></span>
+										</div>
+									</div>
+								</a>
+							</li>
+							
+							{{/each}}
+
+						</script>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+	</body>
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/template.js"></script>
+	<script src="../assets/js/dropload.min.js"></script>
+	<script src="../assets/js/common.js"></script>
+	<script src="../assets/js/md5.js"></script>
+
+	<script>
+		var Height = $(window).height() - $('.am-header').height();
+		$('.com-container').height(Height);
+		var city = getInfo('city_name');
+		
+		var oneTypeId = GetQueryString('oneTypeId');
+		var twoTypeId = GetQueryString('twoTypeId');
+		var threeTypeId = GetQueryString('threeTypeId');
+		var fourTypeId = GetQueryString('fourTypeId');
+		var word = GetQueryString('word');
+		$('.am-header-title').text(word)
+		$('.sp-c-nav li').on('click',function(){
+			var data = $(this).attr('data');
+			$(this).addClass('color').siblings().removeClass('color');
+			if(data == 2){
+				$('.pull-down-p').css({'background': 'url(../assets/i/pull-down-c.png) no-repeat center'});
+				$('.up-down-p').css({'background': 'url(../assets/i/up-down.png) no-repeat center'});
+				$('.s-price').attr('data',3);
+				
+			}
+			else if(data == 3){
+				$('.s-price').attr('data',2)
+				$('.up-down-p').css({'background': 'url(../assets/i/up.png) no-repeat center'});
+				$('.pull-down-p').css({'background': 'url(../assets/i/pull-down.png) no-repeat center'});
+				
+			}else if(data == 1){
+				$('.up-down-p').css({'background': 'url(../assets/i/up-down.png) no-repeat center'});
+				$('.pull-down-p').css({'background': 'url(../assets/i/pull-down.png) no-repeat center'});
+				
+			}
+			else if(data == 4){
+				$('.up-down-p').css({'background': 'url(../assets/i/up-down.png) no-repeat center'});
+				$('.pull-down-p').css({'background': 'url(../assets/i/pull-down.png) no-repeat center'});
+				
+			}
+			$('.dropload-down').remove();
+			goodsList(data,twoTypeId);
+			
+			
+		});
+			goodsList(0,twoTypeId);	
+		function goodsList(sort,twoType) {
+			var page = 0;
+			var $dropload = $('.jt-shop-list').dropload({
+				scrollArea: window,
+				threshold: 50,
+				domDown: {
+					domNoData: '<div class="dropload-noData"></div>'
+				},
+				loadDownFn: function(me) {
+					$.ajax({
+						type: 'post',
+						url: reqUrl('goods_list'),
+						dataType: "json",
+						data: {
+							keyword: '',
+							city: city,
+							one_type: "",
+							two_type: twoType,
+							three_type: "",
+							four_type: "",
+							brand_id: "",
+							is_promotion: "",
+							groom_type: "",
+							sort: sort,
+							page: page,
+						},
+						async: false, //同步
+						xhrFields: {
+							withCredentials: true
+						},
+						success: function(data) {
+							if(data.success) {
+								var html = '';
+								page++;
+								var arrLen = data.infor.listItems.length;
+								if(arrLen > 0) {
+									//预编译模板
+									html = template('goods-item', data.infor);
+
+								} else {
+									// 锁定
+									me.lock();
+									// 无数据
+									me.noData();
+								}
+
+								if(page == 1) {
+									$('.jt-shop-list').html(html);
+									//加入购物车
+									addshopcart()
+
+								} else {
+									$('.jt-shop-list').append(html);
+									addshopcart()
+								}
+
+								me.resetload();
+							} else {
+								mask(data.msg);
+							}
+						}
+					});
+				}
+			});
+		}
+		
+		
+	</script>
+
+</html>

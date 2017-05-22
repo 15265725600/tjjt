@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>提交订单</title>
+		<link rel="stylesheet" href="../assets/css/amazeui.css" />
+		<link rel="stylesheet" href="../assets/css/common.css" />
+		<link rel="stylesheet" href="../assets/css/place-order.css" />
+		<link rel="stylesheet" href="../assets/css/choose-address.css" />
+	</head>
+
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="_back"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+	         提交订单
+	      </h1>
+
+		</header>
+		<div class="container" style="margin-bottom: 59px;">
+			<div class="po-address clearfix">
+				<a href="javascript:;">
+					<p>添加收货地址</p><i class="am-icon-chevron-right am-fr"></i></a>
+			</div>
+			<div class="po-time">
+				<div class="p-t-top">配送时间</div>
+				<div class="p-t-choose">
+					<input type="radio" name="radio1" class="mt" value="1" />不限时间
+					<input type="radio" name="radio1" class="mt" value="2" />工作日送货
+					<input type="radio" name="radio1" class="mt" value="3" />周末送货
+				</div>
+			</div>
+			<div class="hui"></div>
+			<!--商品信息-->
+			<div class="po-info">
+
+				<div class="po-i-pic border-b clearfix">
+					<script type="text/html" id="po-i-pic_div">
+						<div class="i-p-left am-fl"><img src="{{infor[0].img}}" alt="" onclick="aa()" /></div>
+						<div class="i-p-right ">
+							<p class="shop-name">{{infor[0].name}}</p>
+							<span>￥<i class = "Unit-Price">{{infor[0].price}}</i><em class = "gray quantity">x<i class = "Num"></i></em></span>
+						</div>
+					</script>
+				</div>
+				<!--<div class="po-i-num clearfix border-b">
+	 			<span class = "am-fl">数量</span>
+		    	<div class="b-n-num am-fr">
+		    		<a href="javascript:;" class = "del-num"></a>
+		    		<input type="text" value = "3" class = "t-num"/>
+		    		<a href="javascript:;" class = "add-num"></a>
+		    	</div>
+	 		</div>-->
+				<div class="po-i-total clearfix border-b">
+					<sapn>商品总额</sapn>
+					<span class="am-fr">￥<i class = "total">0</i></span>
+				</div>
+				<div class="po-i-discount clearfix border-b">
+					优惠券<i class="am-icon-chevron-right am-fr"></i><span class="am-fr">-￥<i class= "discount"></i></span>
+				</div>
+				<div class="po-i-price clearfix">
+					<span class="am-fr">实付款<i class = "Actual-payment">￥<em class = "actual-price">0</em></i></span><span class="am-fr gray" style="margin-right:10px;text-decoration: line-through;">原价：￥<i style = "" class = "Oprice"></i></span>
+				</div>
+				<div class="hui"></div>
+				<div class="po-i-txt">
+					<textarea name="" rows="4" cols="" placeholder="添加备注"></textarea>
+				</div>
+			</div>
+		</div>
+		<!--footer-->
+		<footer class="po-foot">
+			<ul class="f-box clearfix">
+				<li><span>实付款  <i>￥<em class = "actual-price">0</em></i></span></li>
+				<li>
+					<a href="javascript:;" id="payment">立即支付</a>
+				</li>
+			</ul>
+		</footer>
+
+	</body>
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/amazeui.js"></script>
+	<script src="../assets/js/template.js"></script>
+	<script src="../assets/js/common.js"></script>
+	<script src="../assets/js/md5.js"></script>
+	<script src = "../assets/js/place-order1.js"></script>
+	<script>
+		
+	</script>
+
+</html>

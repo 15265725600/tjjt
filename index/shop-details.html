@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>商品详情</title>
+		<link rel="stylesheet" href="../assets/css/amazeui.css" />
+		<link rel="stylesheet" href="../assets/css/swiper.min.css" />
+		<link rel="stylesheet" href="../assets/css/common.css" />
+		<link rel="stylesheet" href="../assets/css/shop-details.css" />
+	</head>
+
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="_back"></i>
+				</a>
+
+			</div>
+			<h1 class="am-header-title">
+		          商品详情
+		      </h1>
+			<div class="am-header-right am-header-nav">
+				<a href="javascript:;" class="">
+					<i class="_collect" id="share"></i>
+				</a>
+				<a href="javascript:;" data-am-modal="{target: '#my-actions'}">
+					<i class="_share"></i>
+				</a>
+			</div>
+		</header>
+		<div class="container" style="padding-bottom: 49px;margin:0">
+			<div id="shop_datail_box"></div>
+			<script type="text/html" id="shop_datails_div">
+				<div class="sd-banner">
+
+					<!--<div class="sd-pic"><img src="{{infor[0].img}}" alt="" /></div>-->
+					<div class="swiper-container">
+						<div class="swiper-wrapper">
+							{{each infor[0].imgs.split(',') as item i}}
+							<div class="swiper-slide">
+								<img src="../assets/i/sd-banner.png" alt="" />
+							</div>
+							{{/each}}
+						</div>
+						<!-- Add Pagination -->
+						<!--<div class="swiper-pagination"></div>-->
+						<!-- Add Arrows -->
+
+					</div>
+					<div class="sd-detail">
+						<p>{{infor[0].name}}</p>
+						<span class="s-d-c"># {{infor[0].type_name}}  #</span>
+						<span class="s-d-p">￥<i>{{infor[0].price}}</i></span>
+						<span class="s-d-n">销量<em>{{infor[0].sales}}</em></span>
+					</div>
+				</div>
+
+				<div class="sd-comment">
+					<div class="sd-c-top clearfix">
+						<span class="s-t-num am-fl">评价  <i>{{infor[0].reviews}}</i></span>
+						<span class="s-t-rate am-fr">好评率   <i>{{infor[0].score}}%</i></span>
+					</div>
+					<ul class="sd-c-content">
+						{{each infor[0].reviews_list as item index}}
+						<li class="sd-c-item">
+							<div class="item-top clearfix">
+								<div class="i-t-l am-fl">
+									<div class="t-l-l am-fl"><img src="{{item.client_img}}" alt="" /></div>
+									<div class="t-l-r">
+										<span>{{item.client_name}}</span>
+										<i>{{item.createtime}}</i>
+									</div>
+								</div>
+								<div class="i-t-r am-fr">
+									<span class="am-icon-star star-o {{1<=item.star?'star':''}}"></span>
+									<span class="am-icon-star star-o {{2<=item.star?'star':''}}"></span>
+									<span class="am-icon-star star-o {{3<=item.star?'star':''}}"></span>
+									<span class="am-icon-star star-o {{4<=item.star?'star':''}}"></span>
+									<span class="am-icon-star star-o {{5<=item.star?'star':''}}"></span>
+								</div>
+
+							</div>
+							<div class="item-evaluate">
+								{{item.content}}
+							</div>
+							{{if item.imgs != ""}}
+							<div class="item-img">
+								<ul data-am-widget="gallery" class="am-gallery am-avg-sm-4 am-gallery-default img-ul" data-am-gallery="{ pureview: true }">
+									{{each item.big_imgs.split(',') as imgItem index}}
+									<li id="garimg">
+										<div class="am-gallery-item" id="grall_img">
+											<img src="{{imgItem}}" />
+										</div>
+									</li>
+									{{/each}}
+								</ul>
+
+							</div>
+							{{/if}}
+						</li>
+						{{/each}}
+
+					</ul>
+					<div class="look-all">
+						<a href="javascript:location.href = preUrl('index/all-comment.html?ID={{infor[0].id}}&num={{infor[0].reviews}}&rate={{infor[0].score}}')">查看所有评价</a>
+					</div>
+				</div>
+
+				<div class="sd-brand">
+					<div class="sd-b-top clearfix">
+						<dis class="b-t-l am-fl"><img src="{{infor[0].brand_img}}" alt="" /></dis>
+						<div class="b-t-r">
+							<span>{{infor[0].brand_name}}</span>
+							<a href="javascript:location.href = preUrl('classify/classify.html?brand_id={{infor[0].brand_id}}')">浏览品牌＞</a>
+						</div>
+					</div>
+					<!--<div class="sd-b-con">
+						<p class="b-c-title">厂名：Nestle Spain-Girona Plant厂址：Crtra Antiga d Amer No 3,17007 G</p>
+						{{each infor[0].imgs.split(',') as item i}}
+						<div class="img_div">
+							<img src="{{item}}" alt="" />
+						</div>
+						{{/each}}
+					</div>-->
+				</div>
+			</script>
+		</div>
+		<footer>
+			<ul class="clearfix">
+				<li>
+					<a href="javascript:location.href = preUrl('shopcart/shop-cart.html')"><span class="num" id="num"></span></a>
+				</li>
+				<li>
+					<a href="javascript:;" data-am-modal="{target: '#my-shopcart'}">加入购物车</a>
+				</li>
+				<li>
+					<a href="javascript:;" data-am-modal="{target: '#my-shopbuy'}">立即购买</a>
+				</li>
+			</ul>
+		</footer>
+		<!--分享弹出框-->
+		<div class="am-modal-actions" id="my-actions">
+			<div class="am-modal-actions-group">
+				<ul class="m-c-list">
+					<li>
+						<a href="javascript:;">
+							<span id="onMenuShareQQ"></span>
+							<i>QQ</i>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:;">
+							<span id="onMenuShareAppMessage"></span>
+							<i>微信</i>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:;">
+							<span id="onMenuShareTimeline"></span>
+							<i>朋友圈</i>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:;">
+							<span id="onMenuShareQZone"></span>
+							<i>QQ空间</i>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="am-modal-actions-group">
+				<button class="am-btn am-btn-block header-white share-del" data-am-modal-close>取消</button>
+			</div>
+		</div>
+		<!--加入购物车弹框-->
+		<div class="am-modal-actions s-container" id="my-shopcart">
+			<script type="text/html" id="addshopcart_div">
+				<div class="shop-c-box">
+					<div class="box-top clearfix">
+						<div class="b-t-pic"><img src="{{infor[0].img}}" /></div>
+						<div class="b-t-detail">
+							<span class="d-price">￥{{infor[0].price}}</span>
+							<span>请选择购买数量</span>
+						</div>
+					</div>
+					<div class="box-num clearfix">
+						<span class="am-fl">数量</span>
+						<div class="b-n-num am-fr">
+							<a href="javascript:;" class="del-num"></a>
+							<input type="text" value="1" class="t-num" />
+							<a href="javascript:;" class="add-num"></a>
+						</div>
+					</div>
+				</div>
+				<div class="am-modal-actions-group confirm-p">
+					<button class="am-btn am-btn-block confirm" data-am-modal-close id='addshopcart'>确定</button>
+				</div>
+			</script>
+		</div>
+		<!--立即购买弹窗-->
+		<div class="am-modal-actions s-container" id="my-shopbuy">
+			<script type="text/html" id="shopbuy_div">
+				<div class="shop-c-box">
+					<div class="box-top clearfix">
+						<div class="b-t-pic"><img src="{{infor[0].img}}" /></div>
+						<div class="b-t-detail">
+							<span class="d-price">￥{{infor[0].price}}</span>
+							<span>请选择购买数量</span>
+						</div>
+					</div>
+					<div class="box-num clearfix">
+						<span class="am-fl">数量</span>
+						<div class="b-n-num am-fr">
+							<a href="javascript:;" class="del-num"></a>
+							<input type="text" value="1" class="t-num" />
+							<a href="javascript:;" class="add-num"></a>
+						</div>
+					</div>
+				</div>
+				<div class="am-modal-actions-group confirm-p">
+					<button class="am-btn am-btn-block confirm" data-am-modal-close id="buyNow">确定</button>
+				</div>
+			</script>
+		</div>
+	</body>
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/amazeui.js"></script>
+	<script src="../assets/js/template.js"></script>
+	<script src="../assets/js/swiper.min.js"></script>
+	<script src="../assets/js/common.js"></script>
+	<script src="../assets/js/md5.js"></script>
+	<script src='../assets/js/shop-datails.js'></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script>
+		$.ajax({
+			url: netUrl('getShareParam'),
+			type: "POST",
+			dataType: "json",
+			data: {
+				url: preUrl('index/shop-details.html')
+			},
+			xhrFields: {
+				withCredentials: true
+			},
+			success: function(data) {
+				var data = data.infor[0];
+				console.log(data)
+				wx.config({
+					debug: false,
+					appId: 'wx890e257b56af98d0',
+					timestamp: data.timestamp,
+					nonceStr: data.nonceStr,
+					signature: data.signature,
+					jsApiList: [
+						'checkJsApi',
+						'onMenuShareTimeline',
+						'hideOptionMenu',
+						'onMenuShareAppMessage'
+					]
+				});
+				wx.ready(function() {
+					// 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+					document.querySelector('#checkJsApi').onclick = function() {
+						wx.checkJsApi({
+							jsApiList: [
+								'getNetworkType',
+								'previewImage'
+							],
+							success: function(res) {
+								alert(JSON.stringify(res));
+							}
+						});
+					};
+					// 2. 分享接口
+					// 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+					document.querySelector('#onMenuShareAppMessage').onclick = function() {
+						console.log(0)
+						wx.onMenuShareAppMessage({
+							title: '互联网之子',
+							desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
+							link: 'http://movie.douban.com/subject/25785114/',
+							imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+							trigger: function(res) {
+								alert('用户点击发送给朋友');
+							},
+							success: function(res) {
+								alert('已分享');
+							},
+							cancel: function(res) {
+								alert('已取消');
+							},
+							fail: function(res) {
+								alert(JSON.stringify(res));
+							}
+						});
+						alert('已注册获取“发送给朋友”状态事件');
+					};
+					// 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+					document.querySelector('#onMenuShareTimeline').onclick = function() {
+						console.log(1)
+						wx.onMenuShareTimeline({
+							title: '互联网之子',
+							link: 'http://movie.douban.com/subject/25785114/',
+							imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+							trigger: function(res) {
+								alert('用户点击分享到朋友圈');
+							},
+							success: function(res) {
+								alert('已分享');
+							},
+							cancel: function(res) {
+								alert('已取消');
+							},
+							fail: function(res) {
+								alert(JSON.stringify(res));
+							}
+						});
+						alert('已注册获取“分享到朋友圈”状态事件');
+					};
+					// 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+					document.querySelector('#onMenuShareQQ').onclick = function() {
+						console.log(2)
+						wx.onMenuShareQQ({
+							title: '互联网之子',
+							desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
+							link: 'http://movie.douban.com/subject/25785114/',
+							imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+							trigger: function(res) {
+								alert('用户点击分享到QQ');
+							},
+							complete: function(res) {
+								alert(JSON.stringify(res));
+							},
+							success: function(res) {
+								alert('已分享');
+							},
+							cancel: function(res) {
+								alert('已取消');
+							},
+							fail: function(res) {
+								alert(JSON.stringify(res));
+							}
+						});
+						alert('已注册获取“分享到 QQ”状态事件');
+					};
+
+					// 2.4 监听“分享到QQ空间”按钮点击、自定义分享内容及分享结果接口
+					document.querySelector('#onMenuShareQZone').onclick = function() {
+						console.log(3)
+						wx.onMenuShareWeibo({
+							title: '互联网之子',
+							desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
+							link: 'http://movie.douban.com/subject/25785114/',
+							imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+							trigger: function(res) {
+								alert('用户点击分享到QQ空间');
+							},
+							complete: function(res) {
+								alert(JSON.stringify(res));
+							},
+							success: function(res) {
+								alert('已分享');
+							},
+							cancel: function(res) {
+								alert('已取消');
+							},
+							fail: function(res) {
+								alert(JSON.stringify(res));
+							}
+						});
+						alert('已注册获取“分享到QQ空间”状态事件');
+					}
+				})
+			}
+		});
+	</script>
+
+</html>

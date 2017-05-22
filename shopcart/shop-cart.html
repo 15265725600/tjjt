@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>购物车</title>
+		<link rel="stylesheet" href="../assets/css/amazeui.css" />
+		<link rel="stylesheet" href="../assets/css/common.css" />
+		<link rel="stylesheet" href="../assets/css/shop-cart.css" />
+	</head>
+
+	<body>
+		<header data-am-widget="header" class="am-header header-white border-b">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="_back"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+	      	 购物车
+	      </h1>
+			<div class="am-header-right am-header-nav">
+				<a href="javascript:;" class="">
+					<span class="am-header-nav-title gray" style="font-size:14px;" id="delete">
+	                删除
+	              </span>
+				</a>
+			</div>
+		</header>
+		<div class="c-container box-background">
+			<ul class="shop-list">
+				<script type="text/html" id="shopcart_div">
+					{{each listItems as item index}}
+					<li class="s-l-item clearfix" data="{{item.goods_id}}">
+						<input type="checkbox" class="mt am-fl GoodsCheck" id="qq" value="{{item.goods_id}}" />
+
+						<div class="item-right clearfix">
+							<div class="i-r-l am-fl" data="{{item.goods_id}}">
+								<img src="{{item.goods_img}}" alt="" />
+							</div>
+							<div class="i-r-r">
+								<p class="two-truncate">{{item.goods_name}}</p>
+								<div class="i-r-bottom clearfix">
+									<span class="am-fl middle">￥<i class = "price">{{item.price}}</i></span>
+									<div class="b-n-num am-fr">
+										<a href="javascript:;" class="del-num"></a>
+										<input type="text" value="{{item.count}}" class="t-num" />
+										<a href="javascript:;" class="add-num"></a>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+					</li>
+					{{/each}}
+				</script>
+
+			</ul>
+		</div>
+		<!--footer-->
+		<footer class="po-foot">
+			<ul class="f-box clearfix">
+				<li><span class="am-fl"><input type="checkbox" class = "mt allgoods" style = "margin-right:10px"/>全选</span><span class="gray">合计：  <i>￥<em class = "allprice">0.0</em></i></span></li>
+				<li>
+					<a href="javascript:;" id="accounts">结算</a>
+				</li>
+			</ul>
+		</footer>
+		<div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default " id="">
+			<ul class="am-navbar-nav am-cf am-avg-sm-4">
+				<li class="foot_item">
+					<a href="javascript:location.href = preUrl('index/index.html')">
+						<i class="home"></i>
+						<span class="">首页</span>
+					</a>
+				</li>
+				<li class="foot_item">
+					<a href="javascript:location.href = preUrl('classify/classify.html')">
+						<i class="classify"></i>
+						<span class="">分类</span>
+					</a>
+				</li>
+				<li class="foot_item">
+					<a href="javascript:;" class="active">
+						<i class="shop"></i>
+						<span class="">购物车</span>
+					</a>
+				</li>
+				<li class="foot_item">
+					<a href="javascript:location.href = preUrl('my/my.html')" class="">
+						<i class="my"></i>
+						<span class="">我的</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/amazeui.js"></script>
+	<script src="../assets/js/template.js"></script>
+	<script src="../assets/js/common.js"></script>
+	<script src="../assets/js/md5.js"></script>
+	<script>
+		$(document).ready(function() {
+			var Height = $(window).height() - $('.am-header').height();
+			$('.c-container').height(Height);
+
+			//获取购物车列表
+			var token = getCookie('token');
+			var idString; //保存删除的id字符串
+			$.ajax({
+				type: 'POST',
+				url: reqUrl("shopping_cart_list"),
+				data: {
+					token: token
+
+				},
+				dataType: 'JSON',
+				async: false,
+				xhrFields: {
+					withCredentials: true
+				},
+				success: function(data) {
+					if(data.error_code == 200) {
+						window.location.href = preUrl('log/login.html?path=shopcart/shop-cart.html');
+					} else if(data.success) {
+						var shopcart_div = template('shopcart_div', data.infor);
+						$('.shop-list').html(shopcart_div);
+						$('.i-r-l').click(function() {
+							var data = $(this).attr('data');
+							window.location.href = preUrl('index/shop-details.html?id=' + data + '')
+
+						})
+						$('#delete').on('click', function() {
+							var checkItem = $('.GoodsCheck:checked');
+							var arr = [];
+							checkItem.each(function() {
+								arr.push($(this).val());
+								$(this).parents('.s-l-item').remove();
+							});
+							idString = arr.join(',');
+							return false;
+						});
+						var list = $('.s-l-item').length;
+						if(list == 0) {
+							var content = "<div style = 'text-align:center;padding-top:100px;color:#2f2f2f;font-size:26px;'>购物车是空的</div>"
+							$('.shop-list').html(content);
+							$('.po-foot').hide();
+						};
+						//点击结算
+						$('#accounts').on('click', function() {
+							var checkItem = $('.GoodsCheck:checked');
+							var arr = [];
+							checkItem.each(function() {
+								arr.push($(this).val());
+							});
+							idString = arr.join(',');
+							window.location.href = preUrl('index/place-order-more.html?idString=' + idString + '')
+						})
+
+						//						
+					}
+
+				},
+				error: function(e, request, settings) {
+					alert(settings);
+				}
+			});
+			//修改商品数量
+			var addItem = $('.add-num');
+			var reduceItem = $('.del-num');
+
+			//加的效果
+			addItem.each(function(i, ele) {
+				var that = $(this);
+				$(this).click(function() {
+					console.log(that)
+					var data = parseInt(that.parents('.s-l-item').attr('data'));
+					var n = that.prev().val();
+					var num = parseInt(n) + 1;
+					if(num == 0) {
+						return;
+					}
+					that.prev().val(num);
+					$.ajax({
+						type: 'POST',
+						url: reqUrl("oper_shopping_cart"),
+						data: {
+							token: token,
+							type: 1,
+							goods_id: data,
+							count: num
+
+						},
+						dataType: 'JSON',
+						async: false,
+						xhrFields: {
+							withCredentials: true
+						},
+						success: function(data) {
+
+							TotalPrice();
+						},
+						error: function(e, request, settings) {
+							alert(settings)
+						}
+					});
+				})
+			});
+			//减的效果
+			reduceItem.each(function(i, ele) {
+				var that = $(this);
+				$(this).click(function() {
+					console.log(that)
+					var data = parseInt(that.parents('.s-l-item').attr('data'));
+					var n = that.next().val();
+					var num = parseInt(n) - 1;
+					if(num == 0) {
+						return;
+					}
+					that.next().val(num);
+					$.ajax({
+						type: 'POST',
+						url: reqUrl("oper_shopping_cart"),
+						data: {
+							token: token,
+							type: 1,
+							goods_id: data,
+							count: num
+
+						},
+						xhrFields: {
+							withCredentials: true
+						},
+						dataType: 'JSON',
+						async: false,
+						success: function(data) {
+
+							TotalPrice();
+						},
+						error: function(e, request, settings) {
+							alert(settings)
+						}
+					});
+				})
+			});
+			// 删除商品
+
+			$('#delete').on('click', function() {
+
+				$.ajax({
+					type: 'POST',
+					url: reqUrl("oper_shopping_cart"),
+					data: {
+						token: token,
+						type: 2,
+						goods_id: idString,
+						count: 0
+
+					},
+					xhrFields: {
+						withCredentials: true
+					},
+					dataType: 'JSON',
+					async: false,
+					success: function(data) {
+						var list = $('.s-l-item').length;
+						if(list == 0) {
+							var content = "<div style = 'text-align:center;padding-top:100px;color:#2f2f2f;font-size:26px;'>购物车是空的</div>"
+							$('.shop-list').html(content);
+							$('.po-foot').hide();
+						};
+
+					},
+					error: function(e, request, settings) {
+						alert(settings)
+					}
+				});
+			});
+			var price = parseFloat($(this).parents('.s-l-item').find('.price').text()); //得到商品的单价 
+			var num = parseInt($(this).parent('.s-l-item').find('.t-num').val()); //得到商品的数量 
+			var total = price * num; //得到商品的总价
+			//点击商品按钮
+			$('.GoodsCheck').click(function() {
+					var goods = $(this).closest('.shop-list').find('.GoodsCheck'); //获取所有商品
+					var Cgoods = $(this).closest('.shop-list').find('.GoodsCheck:checked'); //获取所有选中的商品
+					var allGoods = $('.allgoods'); //获取全选按钮
+
+					if(goods.length == Cgoods.length) {
+						allGoods.prop('checked', true);
+						TotalPrice()
+					} else {
+						allGoods.prop('checked', false);
+						TotalPrice()
+					}
+				})
+				//点击全选按钮
+			$('.allgoods').change(function() {
+				var goods = $('.shop-list').find('.GoodsCheck');
+				if($(this).prop("checked") == true) {
+					goods.prop('checked', true);
+					TotalPrice()
+				} else {
+					goods.prop('checked', false);
+					TotalPrice()
+				}
+			});
+			//计算价格
+			function TotalPrice() {
+				var goods = $('.shop-list').find('.GoodsCheck'); //获取所有商品
+				var allprice = 0; //总价 
+				goods.each(function() {
+					if($(this).is(":checked")) {
+						var price = parseFloat($(this).parent('.s-l-item').find('.price').text()); //得到商品的单价 
+						var num = parseInt($(this).parent('.s-l-item').find('.t-num').val()); //得到商品的数量 
+						var total = price * num; //得到商品的总价
+						allprice += total;
+					}
+					$('.allprice').text(allprice);
+				})
+			};
+
+		});
+	</script>
+
+</html>

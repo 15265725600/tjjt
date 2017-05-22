@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>分类列表</title>
+		<link rel="stylesheet" href="../assets/css/amazeui.css" />
+		<link rel="stylesheet" href="../assets/css/dropload.css" />
+		<link rel="stylesheet" href="../assets/css/common.css" />
+		<link rel="stylesheet" href="../assets/css/shop-lists.css" />
+		<style>
+
+		</style>
+	</head>
+
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white border-b">
+			<div class="am-header-left am-header-nav _back-p">
+				<a href="javascript:history.back()" class="">
+					<i class="_back"></i>
+				</a>
+			</div>
+			<div class="jt_search jt-s-search long-search" style="padding-top:0;">
+				<a href="javascript:location.href = preUrl('index/search.html')">
+					<input type="text" placeholder="搜索商品名称" class="jt-header-search" />
+
+				</a>
+			</div>
+		</header>
+		<div class="container">
+			<div data-am-widget="tabs" class="am-tabs sp-classify">
+				<div class="nav-top clearfix">
+					<ul class="am-tabs-nav am-cf sp-c-nav am-fl">
+						<li data="6" flag="0" class = "cla-a">
+							<a href="javascript:;" class="sp-c-cla">分类</a><i class="pull-down"></i></li>
+						<li data = "1">
+							<a href="javascript:;">销量</a>
+						</li>
+						<li data= "2" class = "s-price">
+							<a href="javascript:;">价格</a><i class="pull-down-p"></i><i class="up-down-p"></i></li>
+						<li data = "4">
+							<a href="javascript:;">人气</a><i class="v-line"></i></li>
+					</ul>
+					<div class="l-style am-fr" id="transform" data = "0">
+						<a href="javascript:;"></a>
+					</div>
+				</div>
+				<div class="am-tabs-bd navbox-0 list-box">
+					<ul class="jt-shop-list common-list"></ul>
+					<script type="text/html" id="goods-div">
+						{{each listItems as item index}}
+						<li class="jt-l-item clearfix">
+							<a href="javascript:location.href = preUrl('index/shop-details.html?id={{item.id}}')">
+								<div class="item-left am-fl"><img src="{{item.goods_img}}" alt="" /></div>
+								<div class="item-right am-fl">
+									<h4>{{item.goods_name}}</h4>
+									<div class="i-r-center clearfix">
+										<span class="am-fl">{{item.type_name}}</span>
+										<a href="javascript:;" class="am-fr shopcart" data = "{{item.id}}"></a>
+									</div>
+									<div class="i-r-bottom clearfix">
+										<span class="am-fl b-price">￥{{item.price}} <i>￥{{item.origina_price}}</i></span>
+										<span class="am-fr b-num">销量{{item.sales}}</span>
+									</div>
+								</div>
+							</a>
+						</li>
+						{{/each}}
+					</script>
+				</div>
+				<div class="am-tabs-bd navbox-1 list-box" style= "display: none;">
+					<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-gallery-imgbordered line-ul">
+						<script type="text/html" id="good-div">
+							{{each listItems as item index}}
+							<li class="re_item">
+									<div class="am-gallery-item">
+										<a href="javascript:location.href = preUrl('index/shop-details.html?id={{item.id}}')"><img src="{{item.goods_img}}" alt="" /></a>
+										<h3 class="am-gallery-title re_item_title">{{item.goods_name}}</h3>
+										<div class="i-r-center clearfix">
+											<span class="am-fl">{{item.type_name}}</span>
+											<span class="am-fr">销量<i>{{item.sales}}</i></span>
+										</div>
+										<div class="re_item_bom clearfix">
+											<span class="am-fl b-price">￥{{item.price}} <i>￥{{item.origina_price}}</i></span>
+
+											<a href="javascript:;" class="am-fr shopcart"></a>
+										</div>
+									</div>
+								
+							</li>
+							{{/each}}
+						</script>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--底层一级分类列表--->
+		<div class="one-classify">
+			<div class="close"><i class="am-fr"></i></div>
+			<ul class="classify-list">
+				<script type="text/html" id="oneType">
+					{{each listItems as item index}}
+					<li data='{{item.id}}'>
+						<img src="{{item.img}}" alt="" />
+					</li>
+					{{/each}}
+				</script>
+			</ul>
+		</div>
+		<div class="Mask am-fc">
+			<div class="mmask"></div>
+			<div id="wrapper1">
+				<div id="scroller">
+					<ul class="classify twoClassify">
+						<script type="text/html" id="twoType">
+							{{each listItems as item index}}
+							<li data="{{item.id}}">
+								<a href="javascript:;">{{item.name}}</a>
+							</li>
+							{{/each}}
+						</script>
+
+					</ul>
+				</div>
+			</div>
+			<div id="wrapper2">
+				<div id="scroller">
+					<ul class="classify threeClassify">
+						<script type="text/html" id="threeType">
+							{{each listItems as item index}}
+							<li data="{{item.id}}">
+								<a href="javascript:;">{{item.name}}</a>
+							</li>
+							{{/each}}
+						</script>
+					</ul>
+
+				</div>
+			</div>
+			<div id="wrapper3">
+				<div id="scroller">
+					<ul class="classify fourClassify">
+						<script type="text/html" id="fourType">
+							{{each listItems as item index}}
+							<li data="{{item.id}}">
+								<a href="javascript:;">{{item.name}}</a>
+							</li>
+							{{/each}}
+						</script>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+
+	</body>
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/amazeui.js"></script>
+	<script src="../assets/js/iscroll.js"></script>
+	<script src="../assets/js/template.js"></script>
+	<script src="../assets/js/dropload.min.js"></script>
+	<script src="../assets/js/md5.js"></script>
+	<script src="../assets/js/common.js"></script>
+	<script src="../assets/js/category-list.js"></script>
+	<script>
+	
+	</script>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <meta charset="UTF-8">
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	  <meta name="description" content="">
+	  <meta name="keywords" content="">
+	  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	  <title>注册</title>
+	  <link rel="stylesheet" href="../assets/css/amazeui.css" />
+	  <link rel="stylesheet" href="../assets/css/common.css" />
+	  <link rel="stylesheet" href="../assets/css/login.css" />
+	  <style>
+	  	html,body{
+	  		background: #f2f2f2;
+	  	}
+	  </style>
+	</head>
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white border-b">
+			<div class="am-header-left am-header-nav">
+		          <a href="javascript:history.back()" class="">
+		              <i class="_back"></i>
+		          </a> 
+		      </div>
+	      <h1 class="am-header-title">
+	        注册
+	      </h1>
+	    
+	 </header>
+	 <div class="container">
+	 	<div class="c-container box-background">
+			<ul class = "reg-pass-ul">
+				<li class = "border-b"><input type="text" name = 'test' placeholder = "请输入手机号" id= 'phone' onkeyup="value=value.replace(/[^\d]/g,'') "/><i class = "remove-phone"></i></li>
+				<li class = "reg-mask">验证码已发送到<span class = 'codephone'>152****2345</span></li>
+				<li><input type="text" placeholder = "输入验证码" id = 'input_code'/><i class = "get-code" data = '0'>获取验证码</i></li>
+			</ul>
+			<div class="hui"></div>
+			<ul class = "set-pass-ul">
+				<li class = "border-b"><input type="password" placeholder="请输入6-20个字符的密码" id = 'pwd'/></li>
+				<li class = "border-b"><input type="password" placeholder="请再次输入6-20个字符的密码" id = "repwd"/></li>
+			</ul>
+			<button class = "sp-submit">下一步</button>
+		</div>
+	 </div>
+	 <!--弹框-->
+	<!-- <span class = "reg-alert">密码不正确</span>-->
+	 
+	</body>
+	<script src = "../assets/js/jquery.min.js"></script>
+	<script src = "../assets/js/amazeui.js"></script>
+	<script src = '../assets/js/md5.js'></script>
+	<script src = '../assets/js/common.js'></script>
+	<script src = '../assets/js/res.js'></script>
+</html>

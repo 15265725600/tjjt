@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <meta charset="UTF-8">
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	  <meta name="description" content="">
+	  <meta name="keywords" content="">
+	  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	  <title>完善信息</title>
+	  <link rel="stylesheet" href="../assets/css/reset.css" />
+	  <link rel="stylesheet" href="../assets/css/amazeui.css" />
+	  <link rel="stylesheet" href="../assets/css/common.css" />
+	  <link rel="stylesheet" href="../assets/css/login.css" />
+	 
+	</head>
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white border-b">
+	      <div class="am-header-left am-header-nav">
+	          <a href="javascript:history.back()" class="">
+	                <i class="_back"></i>
+	          </a>
+	      </div>
+	      <h1 class="am-header-title">
+	       完善信息
+	      </h1>
+	      
+	  </header>
+	<div class="c-container box-background">
+		<div class="hui"></div>
+		<ul class = "pd-list">
+			<li class = "pd-item"><a href="javascript:;" class = "clearfix">头像<i class = "_right am-fr"></i><span class = "am-fr top-pdc"><img class = "avatar" src="../assets/i/avatar.jpg" alt="" /><input type="file" name = 'temp_file' class = "choose_photo"/></span></a></li>
+			<li><a href="javascript:;">姓名<span class= "am-fr"><input type="text" placeholder="请输入" id  ="name"/></span></a></li>
+			<li><a href="javascript:;">身份证号<span class= "am-fr"><input type="text" placeholder="请输入" id = "idcard"/></span></a></li>
+			<li><a href="javascript:;">店铺名称<span class= "am-fr"><input type="text" placeholder="请输入" id = "shopname"/></span></a></li>
+			<li id = "shop-cla"><a href="javascript:;" class = "clearfix">店铺分类<i class = "_right am-fr"></i><span class= "am-fr" style = "color:#b8b8b8;margin-right: 5px;" id= "picker1">请选择</span></a></li>
+			<li>
+				<a href="javascript:;" class = "clearfix" id = "shop-addr">店铺地址<i class = "_right am-fr"></i><span class= "am-fr pd-addr" style = "color:#b8b8b8;margin-right: 5px;" id = "chose">请选择</span></a>
+					<!--<p style= "color:#b8b8b8;font-size:12px;">请填写详细地址</p>-->
+					<input id = "deaddr" type="text" placeholder="请填写详细地址"/>
+				
+			</li>
+			<li class = "shop-photo"><a href="javascript:;" class = "clearfix">门店照片<i class = "_right am-fr"></i></a></li>
+		</ul>
+		<div class="upload-wrap">
+            <ul class="upload am-cf">
+                <li class="upload-btn">
+                    <img src="../assets/i/upload.jpg">
+                    <input type="file" class="j-file-cert" name="temp_file" />
+                </li>
+            </ul>
+        </div> 
+		
+		<button class = "_button" id= "Submit-audit">提交审核</button>
+	</div>
+	<!--弹出框--->
+	 <!--弹出框--->
+	 <!--<div class="am-modal-actions" id="my-actions">
+	  <div class="am-modal-actions-group">
+	    <ul class="am-list am-mask _mask">
+	      <li class = "_maskli"><a href="#" class = "gray">拍照</a><input type="file" name = 'temp_file' class = 'photo'/></li>
+	      <li class = "_maskli">
+	        <a href="#" class = "gray">从相册中选择<input type="file" name = 'temp_file' class = "choose_photo"/></a>
+	      </li>
+	    </ul>
+	  </div>
+	  <div class="am-modal-actions-group" style = "border-radius: 3px;">
+	    <button class="am-btn am-btn-block as-btn" data-am-modal-close style= "background:#fff;color:#FF6801">取消</button>
+	  </div>
+	</div>-->
+	</body>
+	<script src = "../assets/js/jquery.min.js"></script>
+	<script src = "../assets/js/amazeui.js"></script>
+	<script src = "../assets/js/picker.min.js"></script>
+	<script src = '../assets/js/exif.min.js'></script>
+	<script src = '../assets/js/md5.js'></script>
+	<script src = '../assets/js/common.js'></script>
+	<script src = '../assets/js/perfect-data.js'></script>
+	
+	
+</html>

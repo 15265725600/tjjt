@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>交易记录</title>
+		<link rel="stylesheet" href="../assets/css/amazeui.css" />
+		<link rel="stylesheet" href="../assets/css/common.css" />
+		<link rel="stylesheet" href="../assets/css/dropload.css" />
+		<link rel="stylesheet" href="../assets/css/my.css" />
+	</head>
+
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white border-b">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="_back"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+	       交易记录
+	      </h1>
+
+		</header>
+		<div class="c-container box-background">
+			<ul class="my-back-list"></ul>
+			<script type='text/html' id="transation-list">
+				{{each listItems as item index}}
+				<li class="back-item clearfix">
+					<div class="item-left am-fl"><img src="../assets/i/1 (2).png" alt="" /></div>
+					<div class="item-right">
+						<p>{{item.remark}}</p>
+						<p class="gray card-phone">{{item.changeTime}}</p>
+					</div>
+					<span class="am-fr green">{{item.chgAmount}}</span>
+				</li>
+				{{/each}}
+			</script>
+		</div>
+	</body>
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/amazeui.js"></script>
+	<script src="../assets/js/template.js"></script>
+	<script src = "../assets/js/dropload.min.js"></script>
+	<script src='../assets/js/md5.js'></script>
+	<script src='../assets/js/common.js'></script>
+
+	<script>
+		$(function() {
+			var Height = $(window).height() - $('.am-header').height();
+			$('.c-container').height(Height);
+			var token = getCookie('token');
+			//获取普通账户交易记录
+			var page = 0;
+			var $dropload = $('.c-container').dropload({
+				scrollArea: window,
+				domDown: {
+					domNoData: '<div class="dropload-noData">没有更多</div>'
+				},
+				loadUpFn: function(me) {
+					$.ajax({
+						type: 'post',
+						url: reqUrl('tonglian_queryInExpDetail'),
+						dataType: "json",
+						data: {
+							token:token,
+							page: page
+						},
+						xhrFields: {
+							withCredentials: true
+						},
+						async: false, //同步
+						success: function(data) {
+							if(data.success) {
+								page++;
+								var arrLen = data.infor.listItems.length;
+								if(arrLen > 0) {
+									//预编译模板
+									var html = template('transation-list', data.infor);
+
+								} else {
+
+									// 锁定
+									me.lock();
+									// 无数据
+									me.noData();
+								}
+
+								$('.my-back-list').html(html);
+
+								me.resetload();
+							} else {
+								mask(data.msg);
+							}
+						}
+					});
+				},
+				loadDownFn: function(me) {
+					$.ajax({
+						type: 'post',
+						url: reqUrl('tonglian_queryInExpDetail'),
+						dataType: "json",
+						data: {
+							token:token,
+							page: page
+						
+						},
+						xhrFields: {
+							withCredentials: true
+						},
+						async: false, //同步
+						success: function(data) {
+							if(data.success) {
+								page++;
+								var arrLen = data.infor.listItems.length;
+								if(arrLen > 0) {
+									//预编译模板
+									var html = template('transation-list', data.infor);
+
+								} else {
+
+									// 锁定
+									me.lock();
+									// 无数据
+									me.noData();
+								}
+
+								$('.my-back-list').html(html);
+
+								me.resetload();
+							} else {
+								mask(data.msg);
+							}
+						}
+					});
+				}
+			});
+
+		});
+	</script>
+
+</html>

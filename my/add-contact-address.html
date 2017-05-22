@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>添加联系地址</title>
+		<link rel="stylesheet" href="../assets/css/amazeui.css" />
+		<link rel="stylesheet" href="../assets/css/common.css" />
+		<link rel="stylesheet" href="../assets/css/choose-address.css" />
+	</head>
+
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="_back"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+	        添加联系地址
+	      </h1>
+		</header>
+		<div class="c-container box-background">
+			<ul class="add-c-ul">
+				<script type='text/html' id="address_list">
+					{{each listItems as item index}}
+					<li>
+						<div class="add-item-top">
+							<span>{{item.name}}</span><span>{{item.mobile}}</span>
+						</div>
+						<div class="add-item-bottom gray">
+							<p>{{item.district_name}}</p>
+							<p>{{item.address}}</p>
+						</div>
+						<div class="add-location"></div>
+					</li>
+					{{/each}}
+				</script>
+			</ul>
+			<div class="ac-address">
+				<a href="javascript:;">＋</a>
+			</div>
+		</div>
+	</body>
+
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/amazeui.js"></script>
+	<script src="../assets/js/template.js"></script>
+	<script src="../assets/js/common.js"></script>
+	<script src="../assets/js/md5.js"></script>
+	<script>
+		var Height = $(window).height() - $('.am-header').height();
+		$('.c-container').height(Height);
+
+		var ID = GetQueryString('id');
+		var count = GetQueryString('count');
+		var idString = GetQueryString('idString');
+		var couID = GetQueryString('couid');
+		//获取地址列表
+		var token = getCookie('token');
+		$.ajax({
+			url: reqUrl('delivery_address_list'),
+			type: 'post',
+			data: {
+				token: token
+			},
+			dataType: 'json',
+			xhrFields: {
+				withCredentials: true
+			},
+			success: function(data) {
+				if(data.error_code == '200') {
+					window.location.href = preUrl('log/login.html?path=my/add-content-address.html')
+				} else if(data.success) {
+					var address_list = template('address_list', data.infor);
+					$('.add-c-ul').html(address_list);
+					var arrLen = data.infor.listItems;
+					$('.add-c-ul li').click(function() {
+						var index = $(this).index();
+						var addID = data.infor.listItems[index].id;
+						console.log(addID)
+						window.location.href = preUrl('index/place-order1.html?id=' + ID + '&addid=' + addID + '&count=' + count + '&couID=' + couID + '');
+
+					});
+
+					if(arrLen.length >= 5) {
+						$('.ac-address').hide();
+					}
+					$('.ac-address').click(function() {
+						window.location.href = preUrl('my/add-address.html?id=' + ID + '&count=' + count + '');
+					});
+				} else {
+					mask(data.msg)
+				}
+
+			},
+			error: function(e, request, settings) {
+				alert(settings);
+			}
+		});
+	</script>
+
+</html>

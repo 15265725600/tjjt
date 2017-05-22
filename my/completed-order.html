@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <meta charset="UTF-8">
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	  <meta name="description" content="">
+	  <meta name="keywords" content="">
+	  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	  <title>订单详情（已完成）</title>
+	  <link rel="stylesheet" href="../assets/css/amazeui.css" />
+	  <link rel="stylesheet" href="../assets/css/common.css" />
+	  <link rel="stylesheet" href="../assets/css/order-details.css" />
+	</head>
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white">
+	      <div class="am-header-left am-header-nav">
+	          <a href="javascript:history.back()" class="">
+	              <i class="_back"></i>
+	          </a> 
+	      </div>
+	      <h1 class="am-header-title">
+	        详情
+	      </h1>
+	      
+	 </header>
+	 <div class="container" style = "margin-bottom: 69px;">
+	 	<div class="po-address clearfix">
+	 		<p>
+	 			<span>谁谁谁</span>  <em>15165623455</em></br>
+	 			地址地址地地址地址地址之地地址地址地
+	 		</p>
+	 		
+	 	</div>
+	 	<div class="po-time">
+	 		<div class="p-t-top">配送时间    <span class= "gray">不限时间</span></div>
+	 		
+	 	</div>
+	 	<div class="hui"></div>
+	 	<!--商品信息-->
+	 	<div class="po-info">
+	 		<div class="po-i-pic border-b clearfix">
+	 			<div class="i-p-left am-fl"><img src="../assets/i/s-c-pic.png" alt="" /></div>
+	 			<div class="i-p-right">
+	 				<p>印尼KOPIKO 可比可白咖啡24杯720克 速溶咖啡印尼KOPIKO 可比可白咖啡24杯720克 速溶咖啡</p>
+	 				<span>￥<i class = "Unit-Price">1</i><em class = "gray quantity">x<b class = "Num">5</b></em></span>
+	 			</div>
+	 			
+	 		</div>
+	 		<div class="po-i-pic border-b clearfix">
+	 			<div class="i-p-left am-fl"><img src="../assets/i/s-c-pic.png" alt="" /></div>
+	 			<div class="i-p-right">
+	 				<p>印尼KOPIKO 可比可白咖啡24杯720克 速溶咖啡印尼KOPIKO 可比可白咖啡24杯720克 速溶咖啡</p>
+	 				<span>￥<i class = "Unit-Price">1</i><em class = "gray quantity">x<b class = "Num">5</b></em></span>
+	 			</div>
+	 			
+	 		</div>
+	 		
+	 		<div class="po-i-total clearfix border-b">
+	 			<sapn>商品总额</sapn>
+	 			<span class = "am-fr">￥<i class = "total">0</i></span>
+	 		</div>
+	 		<div class="po-i-discount clearfix border-b">
+	 			<a href="Coupon.html" style = "display: block;">优惠券<i class = "am-fr">－￥<em class = "discount">5</em></i></a>
+	 		</div>
+	 		<div class="po-i-price clearfix">
+	 			<span class = "am-fr gray">实付款<i class = "Actual-payment orange">￥<em class = "actual-price">0</em></i></span>
+	 		</div>
+	 		<div class="hui"></div>
+	 		
+	 	</div>
+	 	<!--备注-->
+	 	<div class="po-remarks">
+	 		<h4 class = "black">备注</h4>
+	 		<p  class= "gray">赶紧发货吧</p>
+	 	</div>
+	 	
+	 	<div class="po-status">
+	 		<p>下单时间:<span>2014.1.1 12:12</span></p>
+	 		<p>付款时间:<span>2014.1.1 12:12</span></p>
+	 		<p>订单号:<span>12345678</span></p>
+	 		<p>快递名称:<span>韵达</span></p>
+	 		<p>快递单号:<span>12345678</span></p>
+	 		<p>订单状态:<span>已完成</span></p>
+	 	</div>
+	 </div>
+	 <footer class = "np-footer clearfix">
+	 	<a href="javascript:;" class = "del-order am-fr">删除订单</a>
+	 </footer>
+	 
+	</body>
+	<script src = "../assets/js/jquery.min.js"></script>
+	<script src = "../assets/js/amazeui.js"></script>
+	<script>
+		var shopnum = $('.po-i-pic');
+		var allprice = 0;
+		shopnum.each(function(){
+			var price = parseFloat($(this).find('.Unit-Price').text());
+			var num = parseInt($(this).find('.Num').text());
+			var discount = parseFloat($('.discount').text());
+			var total = price * num;
+		        allprice += total;
+			var aprice = allprice - discount;
+			$('.total').text(allprice.toFixed(2));
+			$('.actual-price').text(aprice.toFixed(2));
+		})
+		
+	</script>
+</html>

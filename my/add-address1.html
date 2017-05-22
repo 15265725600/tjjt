@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>新增地址</title>
+		<link rel="stylesheet" href="../assets/css/reset.css" />
+		<link rel="stylesheet" href="../assets/css/amazeui.css" />
+		<link rel="stylesheet" href="../assets/css/common.css" />
+		<link rel="stylesheet" href="../assets/css/choose-address.css" />
+	</head>
+
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white border-b">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="_back"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+	       新增地址
+	      </h1>
+			<div class="am-header-right am-header-nav">
+				<a href="javascript:;" class="qingkong">
+					<span class="am-header-nav-title gray" style="font-size:14px;" id="save">
+	               保存
+	              </span>
+				</a>
+			</div>
+		</header>
+		<div class="c-container box-background">
+			<ul class="add-addr-ul">
+				<li>
+					<span>联系人</span><input type="text" placeholder="输入联系人姓名" id='name' />
+
+				</li>
+				<li><span>电话</span><input type="text" placeholder="输入联系人电话" id="phone" /></li>
+				<li class="clearfix"><span class="am-fl">联系地址</span>
+					<p class="add-address" id="chose">济南市</p><i class="am-icon-chevron-right am-fr gray"></i></li>
+				<li><span>详细地址</span><input type="text" placeholder="请填写地址" id="address" /></li>
+			</ul>
+		</div>
+
+	</body>
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/amazeui.js"></script>
+	<script src="../assets/js/picker.min.js"></script>
+	<script src="../assets/js/template.js"></script>
+	<script src="../assets/js/common.js"></script>
+	<script src="../assets/js/md5.js"></script>
+
+	<script>
+		$(function() {
+			var Height = $(window).height() - $('.am-header').height();
+			$('.c-container').height(Height);
+			//获取城市列表
+			var city = [];
+			$.ajax({
+				type: 'POST',
+				url: reqUrl("district_all_get"),
+				dataType: 'JSON',
+				async: false,
+				xhrFields: {
+					withCredentials: true
+				},
+				success: function(data) {
+					//          console.log(data.msg);
+					city = data.infor.listItems;
+				},
+				error: function(e, request, settings) {
+					alert(settings);
+				}
+			});
+			//收货地址
+			//城市选择
+			var cityId = [];
+			//  var nameEl = document.getElementById('shop-addr');
+			var addr = document.getElementById('chose');
+
+			var first = []; /* 省，直辖市 */
+			var second = []; /* 市 */
+			var third = []; /* 镇 */
+
+			var checked = [0, 0, 0]; /* 已选选项 */
+
+			function creatList(obj, list) {
+				obj.forEach(function(item, index, arr) {
+					var temp = new Object();
+					temp.text = item.name;
+					temp.value = item.id;
+					list.push(temp);
+				})
+			}
+
+			creatList(city, first); // 省
+
+			if(city[0].hasOwnProperty('children')) {
+				creatList(city[0].children, second); //市
+			} else {
+				second = [{
+					text: '',
+					value: 0
+				}];
+			}
+
+			if(city[0].children[0].hasOwnProperty('children')) {
+				creatList(city[0].children[0].children, third); //区
+			} else {
+				third = [{
+					text: '',
+					value: 0
+				}];
+			}
+
+			var picker = new Picker({
+				data: [first, second, third],
+				selectedIndex: [0, 0, 0],
+				title: ''
+			});
+
+			picker.on('picker.select', function(selectedVal, selectedIndex) {
+				var text1 = first[selectedIndex[0]].text;
+				var text2 = second[selectedIndex[1]].text;
+				var text3 = third[selectedIndex[2]] ? third[selectedIndex[2]].text : '';
+
+				addr.innerHTML = text1 + ' ' + text2 + ' ' + text3;
+			});
+
+			picker.on('picker.change', function(index, selectedIndex) {
+				if(index === 0) {
+					firstChange();
+				} else if(index === 1) {
+					secondChange();
+				}
+
+				function firstChange() {
+					second = [];
+					third = [];
+					checked[0] = selectedIndex;
+					var firstCity = city[selectedIndex];
+					if(firstCity.hasOwnProperty('children')) {
+						creatList(firstCity.children, second);
+
+						var secondCity = city[selectedIndex].children[0]
+						if(secondCity.hasOwnProperty('children')) {
+							creatList(secondCity.children, third);
+						} else {
+							third = [{
+								text: '',
+								value: 0
+							}];
+							checked[2] = 0;
+						}
+					} else {
+						second = [{
+							text: '',
+							value: 0
+						}];
+						third = [{
+							text: '',
+							value: 0
+						}];
+						checked[1] = 0;
+						checked[2] = 0;
+					}
+
+					picker.refillColumn(1, second);
+					picker.refillColumn(2, third);
+					picker.scrollColumn(1, 0)
+					picker.scrollColumn(2, 0)
+				}
+
+				function secondChange() {
+					third = [];
+					checked[1] = selectedIndex;
+					var first_index = checked[0];
+					if(city[first_index].children[selectedIndex].hasOwnProperty('children')) {
+						var secondCity = city[first_index].children[selectedIndex];
+						creatList(secondCity.children, third);
+						picker.refillColumn(2, third);
+						picker.scrollColumn(2, 0)
+					} else {
+						third = [{
+							text: '',
+							value: 0
+						}];
+						checked[2] = 0;
+						picker.refillColumn(2, third);
+						picker.scrollColumn(2, 0)
+					}
+				}
+
+			});
+
+			picker.on('picker.valuechange', function(selectedVal, selectedIndex) {
+				//      console.log(selectedVal);
+				cityId = selectedVal;
+
+				//      console.log(cityId);
+				//      console.log(selectedIndex);
+			});
+
+			addr.addEventListener('click', function() {
+				picker.show();
+			});
+
+			//从新增地址页面过来
+			var addID = GetQueryString('addID');
+			var idString = GetQueryString('idString');
+			var count = GetQueryString('count');
+
+			//保存地址
+			var token = getCookie('token');
+			$('#save').click(function() {
+				var numbers = /^[1][358][0-9]{9}$/;
+				var Name = $('#name').val();
+				var phone = $('#phone').val();
+				var district_name = $('.add-address').html();
+				var address = $('#address').val();
+
+				if(Name == "") {
+					mask('联系人不能为空');
+				}
+				if(!numbers.test(phone)) {
+					mask('请输入正确的手机号');
+				};
+
+				if(district_name == '') {
+					mask('联系地址不能为空');
+				}
+				if(address == '') {
+					mask('请输入详细地址');
+				}
+				$.ajax({
+					url: reqUrl('delivery_address_save'),
+					data: {
+						token: token,
+						name: Name,
+						id: '',
+						district_name: district_name,
+						address: address,
+						mobile: phone
+					},
+					type: 'post',
+					dataType: 'json',
+					xhrFields: {
+						withCredentials: true
+					},
+					success: function(data) {
+						if(data.error_code == 200) {
+							window.location.href = preUrl('log/login.html?path=my/add-address1.html');
+						} else if(data.success) {
+
+							window.location.href = preUrl('my/add-contact-address1.html?idString=' + idString + '');
+						}
+					},
+					error: function(e, request, settings) {
+						alert(settings);
+					}
+				});
+			})
+
+		});
+	</script>
+
+</html>

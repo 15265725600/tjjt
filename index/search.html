@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>天津金泰</title>
+		<link rel="stylesheet" href="../assets/css/amazeui.css" />
+		<link rel="stylesheet" href="../assets/css/common.css" />
+		<link rel="stylesheet" href="../assets/css/search.css" />
+	</head>
+
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header search-header">
+			<div class="am-header-left am-header-nav search-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="_back"></i>
+				</a>
+			</div>
+			<div class="jt-s-search">
+				<a href="javascript:;">
+					<input type="text" placeholder="搜索商品名称" class="jt-header-search" />
+					<!--<input id="searchUrl" class="jt-header-search" placeholder=" 搜索商品名称">-->
+				</a>
+			</div>
+
+			<div class="am-header-right am-header-nav">
+				<a href="javascript:;" class="Search black">
+					搜索
+				</a>
+			</div>
+		</header>
+		<div class="com-container">
+			<div class="search-box">
+				<div class="s-box-hot">
+					<h4 class="gray">热门搜索</h4>
+					<div class="s-hot-box clearfix">
+						<script type="text/html" id="hot-word">
+							{{each listItems as item index}}
+							<div>
+								<a href="javascript:;" class="am-text-truncate">{{item.name}}</a>
+							</div>
+							{{/each}}
+						</script>
+					</div>
+				</div>
+
+				<div class="s-box-history">
+					<h4 class="gray">历史搜索</h4>
+					<div class="s-history-box clearfix">
+						<ul class='history_list'>
+							<!--<li class="s-history-item border-top">
+								<a href="javascript:;">
+									辣椒酱<i class='s-h-close'></i>
+								</a>
+							</li>
+							<li class="s-history-item">
+								<a href="javascript:;">
+									辣椒酱<i class='s-h-close'></i>
+								</a>
+							</li>
+							<li class="s-history-item">
+								<a href="javascript:;">
+									辣椒酱<i class='s-h-close'></i>
+								</a>
+							</li>-->
+
+						</ul>
+					</div>
+					<div class="remove-history">
+						<div class="r-h-box">
+							清空历史搜索
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</body>
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/amazeui.js"></script>
+	<script src="../assets/js/template.js"></script>
+	<script src="../assets/js/dropload.min.js"></script>
+	<script src="../assets/js/common.js"></script>
+	<script src="../assets/js/md5.js"></script>
+
+	<script>
+		//		$('.r-h-box').click(function() {
+		//			$('.s-box-history').remove();
+		//			delCookie('history');
+		//		});
+		//获取热门词汇
+		$.ajax({
+			url: reqUrl('hot_word'),
+			type: 'post',
+			dataType: 'json',
+			xhrFields: {
+				withCredentials: true
+			},
+			success: function(data) {
+				var city_list = template('hot-word', data.infor);
+				$('.s-hot-box').html(city_list);
+				$('.s-hot-box div').on('click', function() {
+					var text = $(this).children('a').text();
+					$('.jt-header-search').val(text);
+				})
+			},
+			error: function(e, request, settings) {
+				alert(settings);
+			}
+		});
+
+		//历史搜索
+		$(document).delegate(".history_list>li", "click", function() {
+			$(".jt-header-search").val($(this).text());
+		});
+		var hisTime; //从localStorage里获取搜索时间的数组
+		var hisItem; //从localStorage里获取搜索内容的数组
+		var firstKey; //从localStorage获取最早的1个搜索时间
+		function init() {
+			hisTime = [];
+			hisItem = [];
+			var i = 0;
+			for(; i < localStorage.length; i++) {
+				if(!isNaN(localStorage.key(i))) {
+					hisTime.push(localStorage.key(i));
+				}
+			}
+			//    取到的是历史记录如果不是空格，先取再存到数组里
+			if(hisTime.length > 0) {
+				hisTime.sort();
+				for(var y = hisTime.length - 1; y > 0; y--) {
+					localStorage.getItem(hisTime[y]).trim() && hisItem.push(localStorage.getItem(hisTime[y]));
+				}
+			}
+			i = 0;
+			//执行init(),每次清空之前添加的节点
+			$(".history_list").html("");
+			for(; i < hisItem.length; i++) {
+				//alert(hisItem);
+				$(".history_list").prepend('<li class="s-history-item border-top"><a href="javascript:;">' + hisItem[i] + '</a></li>')
+			}
+		}
+		init();
+
+		//搜索
+		$('.Search').on('click', function() {
+			var keyword = escape($('.jt-header-search').val());
+			var value = $('.jt-header-search').val();
+			var time = (new Date()).getTime();
+			if(!value) {
+				//				alert("你未输入搜索内容");
+				return false;
+			}
+			//输入的内容localStorage有记录
+			if($.inArray(value, hisItem) >= 0) {
+				for(var j = 0; j < localStorage.length; j++) {
+					if(value == localStorage.getItem(localStorage.key(j))) {
+						localStorage.removeItem(localStorage.key(j));
+					}
+				}
+				localStorage.setItem(time, value);
+			}
+			//输入的内容localStorage没有记录
+			else {
+				//由于限制了只能有6条记录，所以这里进行判断
+				if(hisItem.length > 4) {
+					firstKey = hisTime[0]
+					localStorage.removeItem(firstKey);
+					localStorage.setItem(time, value);
+				} else {
+					localStorage.setItem(time, value)
+				}
+			}
+			init();
+
+			window.location.href = preUrl('index/search-have.html?keyword=' + keyword + '')
+		});
+		//清除记录功能
+		$(".remove-history").click(function() {
+			var f = 0;
+			for(; f < hisTime.length; f++) {
+				localStorage.removeItem(hisTime[f]);
+			}
+			init();
+			window.location.reload();
+		});
+		//苹果手机不兼容出现input无法取值以下是解决方法
+		$(function() {
+			$('.s-history-item').click(function() {
+					var div = $(this).text();
+					$('.jt-header-search').val(div);
+				})
+				//取到值以后button存储无法取值，这里强迫浏览器强行刷新可解决
+				//				$('.Search').click(function() {
+				//					window.location.reload();
+				//				})
+		})
+	</script>
+
+</html>

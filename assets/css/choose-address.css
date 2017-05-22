@@ -1,0 +1,200 @@
+.c-container{
+	padding-top:6px;
+}
+.ac-address{
+	background:#fff;
+	padding:22px 0;
+}
+.ac-address a{
+	display: block;
+	width:20px;
+	height:20px;
+	border-radius: 50%;
+	display: block;
+	margin:auto;
+	background:#000;
+	color:#fff;
+	text-align: center;
+	line-height: 16px;
+	font-size:20px;
+}
+.ca-add-item{
+	width:100%;
+	padding:14px 14px 0 14px;
+	background: #fff;
+	border-top:1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	font-size:14px;
+	margin-bottom: 6px;
+}
+.c-i-top{
+	padding-bottom: 10px;
+	/*border-bottom: 1px solid #ddd;*/
+}
+.c-i-top p:first-child{
+	color:#373737;
+}
+.c-i-top p:first-child span:first-child{
+	margin-right:14px;
+}
+.c-i-top p:last-child{
+	color:#a8a8a8;
+}
+.c-i-bom{
+	padding:10px 0;
+	color:#a8a8a8;
+}
+.c-i-bom span .mt{
+	margin-right:10px;
+	
+}
+.c-i-edit a{
+	color:#a8a8a8;
+	padding-left:25px;
+}
+.edit{
+	display: inline-block;
+	width:66px;
+	height:20px;
+	background:url(../i/edit.png) no-repeat left;
+	background-size:15px 15px;
+}
+.delete{
+	display: inline-block;
+	width:66px;
+	height:20px;
+	background:url(../i/delete.png) no-repeat left;
+	background-size:15px 15px;
+}
+/*新增地址页面*/
+.add-addr-ul li{
+	width:100%;
+	border-bottom: 1px solid #ddd;
+	padding:10px 14px;
+	background:#fff;
+	position:relative;
+	font-size: 14px;
+	
+}
+.add-addr-ul li span{
+	display: inline-block;
+	width:25%;
+	color:#2f2f2f;
+}
+.add-address{
+	display:inline-block;
+	width:68%;
+	color:#000;
+}
+/*新增地址地图页面*/
+.c-add-foot{
+	width:100%;
+	padding:6px;
+	position: fixed;
+	bottom: 0;
+	left:0;
+	background: #fff;
+}
+.amap-logo{
+	display: none;
+}
+.c-add-title{
+	width:100%;
+	line-height:34px;
+	color:#fff;
+	font-size:12px;
+	background:rgba(76,85,103,0.7);
+	text-align: center;
+}
+.tagg{
+	width:28px;
+	height:35px;
+	background:url(../i/tagg.png) no-repeat center;
+	background-size:contain;
+}
+div.info-middle {
+    font-size: 12px;
+    padding: 6px;
+    line-height: 20px;
+}
+div.info-bottom {
+    height: 0px;
+    width: 100%;
+    clear: both;
+    text-align: center;
+}
+div.info-bottom img {
+    position: relative;
+    z-index: 104;
+}
+/*span {
+    margin-left: 5px;
+    font-size: 11px;
+}*/
+.info-middle img {
+    float: left;
+    margin-right: 6px;
+}
+.txt-box{
+	width:70%;
+	border-right:1px solid #ddd;
+	color:#000;
+	font-size:14px;
+}
+.txt-box input{
+	width:100%;
+	height:100%;
+	outline: 0;
+	color:#000;
+	font-size:14px;
+	
+}
+.map-edit{
+	display: inline-block;
+	width:20%;
+	height:30px;
+	background:url(..//i/map-edit.png) no-repeat right center;
+	background-size:20px 20px;
+}
+/*添加联系地址页面*/
+.add-c-ul li{
+	padding:10px 14px;
+	border-bottom: 1px solid #ddd;
+	border-top: 1px solid #ddd;
+	background:#fff;
+	margin-bottom:6px;
+	font-size:14px;
+	position: relative;
+}
+.add-c-ul li span{
+	margin-right:6px;
+}
+.add-item-top,.add-item-bottom{
+	width:86%;
+}
+.add-location{
+	position: absolute;
+	width:20px;
+	height:20px;
+	background:url(../i/location.png) no-repeat center;
+	background-size:contain;
+	top:50%;
+	right:14px;
+	margin-top:-10px;
+}
+.a-b-send{
+	width:30%;
+	height:100%;
+	display: block;
+	position: absolute;
+	top:0;right:0;
+	background: #ffe1cc;
+	color:#FF6801;
+	text-align: center;
+	line-height: 45px;
+}
+/*添加银行卡页面*/
+.add-bc li:not(:last-child) input{
+	width:70%;
+}
+ 

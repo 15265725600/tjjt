@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <meta charset="UTF-8">
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	  <meta name="description" content="">
+	  <meta name="keywords" content="">
+	  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	  <title>提交订单</title>
+	  <link rel="stylesheet" href="../assets/css/amazeui.css" />
+	  <link rel="stylesheet" href="../assets/css/common.css" />
+	  <link rel="stylesheet" href="../assets/css/place-order.css" />
+	</head>
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white border-b">
+	      <div class="am-header-left am-header-nav">
+	          <a href="javascript:history.back()" class="">
+	              <i class="_back"></i>
+	          </a> 
+	      </div>
+	      <h1 class="am-header-title">
+	      			 支付成功
+	      </h1>
+	 </header>
+	 <div class="container">
+	 	<div class="ps-box">
+	 		<div class="ps-pic"></div>
+	 		<p>支付成功</p>
+	 		<a href="javascript:;" class = "look-detail black">查看订单详情</a>
+	 		<a href="javascript:location.href=preUrl('index/index.html')" class = "back-home orange">返回首页</a>
+	 	</div>
+	 </div>
+	</body>
+	<script src = "../assets/js/jquery.min.js"></script>
+	<script src = "../assets/js/amazeui.js"></script>
+	<script src = "../assets/js/template.js"></script>
+	<script src = "../assets/js/common.js"></script>
+	<script src = "../assets/js/md5.js"></script>
+	<script>
+	var orderID = GetQueryString('orderID');
+	$('.look-detail').click(function(){
+		window.location.href = preUrl('my/shipment-details.html?orderID='+orderID+'');
+	})
+	</script>
+</html>

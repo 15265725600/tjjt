@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>提交订单</title>
+		<link rel="stylesheet" href="../assets/css/amazeui.css" />
+		<link rel="stylesheet" href="../assets/css/common.css" />
+		<link rel="stylesheet" href="../assets/css/choose-address.css" />
+	</head>
+
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="_back"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+	        选择收货地址
+	      </h1>
+		</header>
+		<div class="c-container box-background">
+			<div class="ac-address" style="display: none;">
+				<a href="javascript:;">＋</a>
+			</div>
+			<ul class="ca-add">
+				<script type="text/html" id="cd-add_div">
+					{{each listItems as item index}}
+					<li class="ca-add-item">
+						<div class="c-i-top">
+							<p><span>收件人：    <i>{{item.name}}</i></span><span>电话：    <i>{{item.mobile}}</i></span></p>
+							<p>{{item.district_name}}{{item.address}}</p>
+						</div>
+						<div class="c-i-bom clearfix">
+							<span class="am-fl"><input type="radio" class = "mt check" name="doc-radio-1" value = "{{item.id}}"/>设为默认地址</span>
+							<div class="am-fr c-i-edit">
+								<a href="javascript:;" class="delete" data="{{item.id}}">删除</a>
+								<a href="javascript:;" class="edit" data="{{item.id}}">编辑</a>
+							</div>
+						</div>
+					</li>
+					{{/each}}
+				</script>
+
+			</ul>
+
+		</div>
+	</body>
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/amazeui.js"></script>
+	<script src="../assets/js/template.js"></script>
+	<script src="../assets/js/common.js"></script>
+	<script src="../assets/js/md5.js"></script>
+
+	<script>
+		var Height = $(window).height() - $('.am-header').height();
+		$('.c-container').height(Height);
+		var token = getCookie('token');
+
+		$.ajax({
+			url: reqUrl('delivery_address_list'),
+			type: 'post',
+			data: {
+				token: token
+			},
+			dataType: 'json',
+			xhrFields: {
+				withCredentials: true
+			},
+			success: function(data) {
+				if(data.error_code == 200) {
+					window.location.href = preUrl('log/login.html?path=index/choose-address-have.html');
+				}
+				if(data.success) {
+					var address_list = template('cd-add_div', data.infor);
+					$('.ca-add').html(address_list);
+					$('.delete').click(function() {
+						$(this).parents('.ca-add-item').remove();
+
+					});
+
+					//	            		//设为默认地址
+					//	            		
+					$('.check').click(function() {
+						var id = parseInt($(this).val());
+						if($(this).prop('checked') == true) {
+							$.ajax({
+								url: reqUrl('delivery_address_oper'),
+								data: {
+									token: token,
+									type: 0,
+									id: id,
+
+								},
+								type: 'post',
+								dataType: 'json',
+								xhrFields: {
+									withCredentials: true
+								},
+								success: function(data) {
+									if(data.error_code == 200) {
+										window.location.href = preUrl('log/login.html?path=index/choose-address-have.html');
+									} else if(data.success) {
+
+									}
+								},
+								error: function(e, request, settings) {
+									alert(settings);
+								}
+							});
+						}
+					});
+
+					var arrLen = data.infor.listItems;
+					console.log(arrLen)
+					for(var i = 0; i < arrLen.length; i++) {
+						if(arrLen[i].is_default == 1) {
+							console.log(i);
+							$('.check:eq(' + i + ')').prop('checked', true)
+						}
+					}
+
+					//删除地址
+					$('.delete').click(function() {
+						var id = $(this).attr('data');
+						$(this).parents('ca-add-item').remove();
+						$.ajax({
+							url: reqUrl('delivery_address_oper'),
+							data: {
+								token: token,
+								type: 1,
+								id: id,
+
+							},
+							type: 'post',
+							dataType: 'json',
+							xhrFields: {
+								withCredentials: true
+							},
+							success: function(data) {
+								if(data.error_code == 200) {
+									window.location.href = preUrl('log/login.html?path=index/choose-address-have.html');
+								} else if(data.success) {
+
+								}
+							},
+							error: function(e, request, settings) {
+								alert(settings);
+							}
+						});
+					});
+					//点击编辑
+					$('.edit').click(function() {
+						var id = $(this).attr('data');
+						window.location.href = preUrl('my/edit-address.html?id=' + id + '');
+					})
+				}
+
+			},
+			error: function(e, request, settings) {
+				alert(settings);
+			}
+		});
+	</script>
+
+</html>

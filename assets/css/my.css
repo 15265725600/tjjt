@@ -1,0 +1,408 @@
+.my-top{
+	padding:17px 14px;
+	width:100%;
+	background:url(../i/background.png) no-repeat center;
+	background-size:100%;
+}
+.my-pic img{
+	width:60px;
+	height:60px;
+	border-radius: 50%;
+}
+.my-top span{
+	color:#fff;
+	font-size:16px;
+	display: block;
+	margin-left: 10px;
+	margin-top:14px;
+}
+.my-top .vip{
+	float:left;
+	width:18px;
+	height:18px;
+	border-radius: 50%;
+	background:url(../i/vip.png) no-repeat center center;
+	background-size:18px 18px;
+	display: block;
+	margin-top:18px;
+	margin-left:3px;
+}
+.my-top ._right{
+	background: url(../i/right-w.png) no-repeat center center;
+	margin-top:24px;
+}
+.my-status h3{
+	font-size:12px;
+	padding:5px 14px;
+	border-bottom: 1px solid #ddd;
+}
+.my-s-ul{
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: row;
+    flex-direction: row;
+	-ms-flex-wrap: nowrap;
+	flex-wrap: nowrap;
+	padding-bottom: 10px;
+}
+.my-s-ul li{
+	width:20%;
+	height:62px;
+	padding:14px 0 10px 0;
+	font-size:12px;
+	position: relative;
+}
+.my-item a{
+	display: block;
+	width:100%;
+	height:100%;
+	text-align: center;
+}
+.my-item em{
+	display: block;
+	width:16px;
+	height:16px;
+	border-radius: 50%;
+	border:1px solid #FF6801;
+	color:#FF6801;
+	line-height: 14px;
+	text-align: center;
+	position: absolute;
+	top:10px;
+	right:13px;
+	font-size:10px;
+}
+.my-item span{
+	display: block;
+	width:100%;
+	height:70%;
+	margin:auto;
+	margin-bottom: 5px;
+}
+.my-s-ul li:nth-of-type(1) span{
+	background:url('../i/Shape 275.png') no-repeat center;
+	background-size:18px 22px;
+}
+.my-s-ul li:nth-of-type(2) span{
+	background:url('../i/Shape 305.png') no-repeat center;
+	background-size:18px 22px;
+}
+.my-s-ul li:nth-of-type(3) span{
+	background:url('../i/Shape 260.png') no-repeat center;
+	background-size:18px 22px;
+}
+.my-s-ul li:nth-of-type(4) span{
+	background:url('../i/Shape 292.png') no-repeat center;
+	background-size:18px 22px;
+}
+.my-s-ul li:nth-of-type(5) span{
+	background:url('../i/Shape 301.png') no-repeat center;
+	background-size:18px 22px;
+}
+
+.my-business-ul li{
+	padding:10px 14px;
+	font-size:12px;
+	background:#fff;
+	border-bottom: 1px solid #ddd;
+	line-height:24px;
+}
+.my-business-ul li a{
+	display: block;
+}
+.my-business-ul li:nth-of-type(1) em{
+	display: block;
+	width:24px;
+	height:24px;
+	background:url('../i/my (1).png') no-repeat center;
+	background-size: 70%;
+	margin-right: 8px;
+}
+.my-business-ul li:nth-of-type(2) em{
+	display: block;
+	width:24px;
+	height:24px;
+	background:url('../i/my (2).png') no-repeat center;
+	background-size: 70%;
+	margin-right: 8px;
+}
+.my-business-ul li:nth-of-type(3) em{
+	display: block;
+	width:24px;
+	height:24px;
+	background:url('../i/my (3).png') no-repeat center;
+	background-size: 70%;
+	margin-right: 8px;
+}
+.my-business-ul li:nth-of-type(4) em{
+	display: block;
+	width:24px;
+	height:24px;
+	background:url('../i/my (4).png') no-repeat center;
+	background-size: 70%;
+	border-radius: 50%;
+	margin-right: 8px;
+}
+.my-business-ul li:nth-of-type(5) em{
+	display: block;
+	width:24px;
+	height:24px;
+	background:url('../i/my (5).png') no-repeat center;
+	background-size: 70%;
+	margin-right: 8px;
+}
+.my-business-ul li i{
+	display: block;
+	width:10px;
+	height:10px;
+	background: url(../i/right.png) no-repeat center center;
+	margin-top:6px;
+	
+}
+/*我的银行卡页面*/
+.back-item{
+	padding:14px 18px;
+	background:#fff;
+	border-bottom: 1px solid #ddd;
+}
+/*.back-item .mt{
+	margin-top:-36px!important;
+}*/
+ .item-left img{
+	width:30px;
+	height:30px;
+}
+.item-right{
+	padding-left:18px;
+	width:70%;
+	display: inline-block;
+	
+}
+.item-right p:first-child{
+	font-size:14px;
+	color:#2f2f2f;
+	line-height:28px;
+}
+.item-right p:last-child{
+	font-size:12px;
+	color:#2f2f2f;
+	
+}
+.card-phone{
+	color:#929292!important;
+}
+.add-back{
+	width:100%;
+	padding:15px 0;
+	text-align: center;
+	background: #fff;
+	color:#FF6801;
+	margin-top:6px;
+	
+}
+.add-back a{
+	color:#FF6801;
+}
+/*账户充值页面*/
+.ar-price{
+	padding:10px 14px;
+	background: #FFF;
+	border-bottom: 1px solid #ddd;
+	font-size:14px;
+}
+.ar-price input{
+	width:100%;
+	height:100%;
+	outline: 0;
+}
+.ar-send{
+	padding:6px 14px 14px 14px;
+	font-size:12px;
+	background: #F2F2F2;
+}
+.tong-pay{
+	padding:10px 14px 10px 44px;
+	background: #FFF url(../i/tong.png) no-repeat 14px center;
+	background-size:20px 20px;
+	
+	
+}
+/*普通账户页面*/
+.or-top{
+	padding:17px 14px 30px 14px;
+	background: #fff;
+	/*border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;*/
+}
+.or-top p{
+	font-size:16px;
+}
+.or-t-price{
+	margin-top:10px;
+	text-align: center;
+	font-size:26px;
+	color:#000;
+}
+.or-bottom{
+	padding:12px 14px;
+	font-size:14px;
+}
+.Withdrawals{
+	text-align: center;
+	font-size: 16px;
+}
+.or-history{
+	width:100%;
+	padding:12px 14px;
+	background:#fff;
+	font-size:14px;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	
+}
+.or-footer,.ca-footer{
+	width:100%;
+	border-top: 1px solid #ddd;
+	position: fixed;
+	bottom: 0;
+	left:0;
+	padding:9px 14px;
+	background:#fff;
+}
+.or-footer a{
+	display: block;
+	width:100%;
+	border:1px solid #FF6801;
+	background:url(../i/cz.png) no-repeat 38% center;
+	background-size:18px 18px;
+	border-radius: 3px;
+	line-height:30px;
+	color:#FF6801;
+	font-size:16px;
+	text-align: center;
+}
+.ca-footer a{
+	display: block;
+	width:100%;
+	border:1px solid #6eade6;
+	background:url(../i/tx.png) no-repeat 38% center;
+	background-size:18px 18px;
+	border-radius: 3px;
+	line-height:30px;
+	color:#6eade6;
+	font-size:16px;
+	text-align: center;
+}
+/*申情提现页面*/
+.ap-may{
+	
+	padding:22px 14px 14px 14px;
+	font-size:16px;
+}
+.ap-top{
+	padding:17px 14px 30px 14px;
+	background: #f3e5da;
+	
+}
+.ap-top p{
+	font-size:16px;
+}
+.ap-t-price{
+	font-size:26px;
+	text-align: center;
+}
+.count-fee{
+	font-size:12px;
+	padding:6px 14px;
+}
+.av-price{
+	background:#F2F2F2;
+	width:200px;
+	display: inline-block;
+	margin:auto;
+	line-height:30px;
+	font-size:12px;
+	color:#333;
+	padding-left:10px;
+	
+}
+/*完善资料页面*/
+.pi-list li{
+	background:#fff;
+	border-bottom: 1px solid #ddd;
+}
+.pi-list li a{
+	padding:16px 14px;
+	display: block;
+	width:100%;
+	height:100%;
+	font-size:14px;
+	
+}
+.pi-list li:nth-of-type(2) span,.pi-list li:nth-of-type(3) span{
+	margin-right:22px;
+}
+.pi-list li span{
+	color:#797979;
+	margin-right: 10px;
+}
+.pi-list .pi-item a{
+	padding:12px 14px;
+	display: block;
+	width:100%;
+	height:100%;
+	font-size:14px;
+	line-height:30px;
+}
+.pi-item ._right{
+	margin-top:12px;
+}
+.top-pic img{
+	width:33px;
+	height:33px;
+	border-radius: 50%;
+	margin-right:10px;
+}
+.pi-addr{
+	margin-right:10px;
+}
+.re-word{
+	background:#fff;
+	width:100%;
+	height:200px;
+	border:none;
+	padding:5px;
+	font-size:14px;
+	color:#333;
+}
+/*我的账户页面*/
+.withdrawals{
+	display: block;
+    width: 60px;
+    background: url(../i/tx_03.png) no-repeat left center;
+    background-size: 18px 18px;
+    line-height: 30px;
+    color: #93d559;
+    font-size: 16px;
+    text-align: left;
+    padding-left:24px;
+    margin:auto;
+}
+.recharge{
+	display: block;
+    width: 60px;
+    background: url(../i/cz.png) no-repeat left center;
+    background-size: 18px 18px;
+    line-height: 30px;
+    color: #FF6801;
+    font-size: 16px;
+    text-align: left;
+    padding-left:24px;
+    margin:auto;
+}

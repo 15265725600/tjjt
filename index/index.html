@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>天津金泰</title>
+		<link rel="stylesheet" href="../assets/css/amazeui.css" />
+		<link rel="stylesheet" href="../assets/css/swiper.min.css" />
+		<link rel="stylesheet" href="../assets/css/dropload.css" />
+		<link rel="stylesheet" href="../assets/css/common.css" />
+		<link rel="stylesheet" href="../assets/css/index.css" />
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=8cf1a81ed325757401fa24e4822e2c25&plugin=AMap.CitySearch"></script>
+	</head>
+	<script>
+		
+	</script>
+	<style>
+		
+	</style>
+
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header am-header-default index-header">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:;" class="location-city">
+					<i class="city" id="tip"></i>
+					<span class="down_up"></span>
+				</a>
+			</div>
+			<div class="jt_search">
+				<a href="search.html">
+					<div id="searchUrl" class="jt-header-search">
+						请输入商品名称
+					</div>
+				</a>
+			</div>
+
+			<div class="am-header-right am-header-nav">
+				<a href=" javascript:location.href = preUrl('index/information-list.html?type=0')" class="">
+					<i class="head-bell"><span class = "infor-num" style = "display: none;"></span></i>
+				</a>
+			</div>
+		</header>
+		<div class="container">
+			<div class="swiper-container">
+				<div class="swiper-wrapper" id="swiper-box">
+					<script type="text/html" id="carousel-box">
+						{{each listItems as item i}}
+						<div class="swiper-slide">
+							<a {{if item.key_type==1}} href="javascript:location.href = preUrl('index/shop-details.html?id={{item.id}}')" {{else if item.key_type==2}} href="javascript:location.href = preUrl('index/Commodity-details.html?id={{item.id}}')" {{/if}}>
+								<img src={{item.img}} alt="" />
+							</a>
+						</div>
+						{{/each}}
+					</script>
+				</div>
+				<!-- Add Pagination -->
+				<div class="swiper-pagination"></div>
+				<!-- Add Arrows -->
+
+			</div>
+			<!--商品分类-->
+			<div class="jt_classify">
+				<div class="am-g jt-nav" id="category_list_box">
+					<script type="text/html" id="category_list_div">
+						{{each listItems as cItem index}}
+						<div class="am-u-sm-3">
+							<a href="javascript:location.href = preUrl('index/category-list.html')">
+								<figure>
+									<div>
+										<img src="{{cItem.img}}" />
+									</div>
+									<figcaption>{{cItem.name}}</figcaption>
+								</figure>
+							</a>
+						</div>
+						{{/each}}
+						<div class="am-u-sm-3" style="float:left">
+							<a href="javascript:location.href = preUrl('classify/classify.html')">
+								<figure>
+									<div>
+										<img src="../assets/i/index4.png" />
+									</div>
+									<figcaption>全部分类</figcaption>
+								</figure>
+							</a>
+						</div>
+					</script>
+
+				</div>
+
+			</div>
+			<div class="jt_advert" id="advert_box">
+				<script id="advert_div" type="text/html">
+					<a href="javascript:location.href = preUrl('index/Promotion-list.html')"><img src='{{listItems[0].img}}' /></a>
+				</script>
+
+			</div>
+
+			<!--平台推荐-->
+			<div class="jt_recommend">
+				<div class="re_title">
+					<i></i>平台推荐
+				</div>
+				<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-gallery-imgbordered goods-wrap">
+					<script type="text/html" id="goods_div">
+						{{each listItems as item index}}
+						<li class="re_item">
+							<a href="javascript:location.href = preUrl('index/shop-details.html?id={{item.id}}')">
+								<div class="am-gallery-item">
+									<img src="{{item.goods_img}}" alt='' /> {{if item.is_promotion == 1}}
+									<span class="promotion"></span> {{/if}}
+									<h3 class="am-gallery-title re_item_title">{{item.goods_name}}</h3>
+									<div class="re_item_name">{{item.type_name}}</div>
+									<div class="re_item_bom"><span class="am_fl re_price orange">￥<i>{{item.price}}</i></span><span class="am-fr re_num gray">销量<i>123</i></span></div>
+								</div>
+							</a>
+						</li>
+						{{/each}}
+					</script>
+
+				</ul>
+				<!--<div class="re_more">
+				<img src="../assets/i/loading.png" alt="" class = "load-img"/>点击查看更多
+			</div>-->
+			</div>
+		</div>
+		<!--footer-->
+		<div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default " id="">
+			<ul class="am-navbar-nav am-cf am-avg-sm-4">
+				<li class="foot_item">
+					<a href="index.html" class="active">
+						<i class="home"></i>
+						<span class="">首页</span>
+					</a>
+				</li>
+				<li class="foot_item">
+					<a href="javascript:location.href = preUrl('classify/classify.html')" class="">
+						<i class="classify"></i>
+						<span class="">分类</span>
+					</a>
+				</li>
+				<li class="foot_item">
+					<a href="javascript:location.href = preUrl('shopcart/shop-cart.html')" class="">
+						<i class="shop"></i>
+						<span class="">购物车</span>
+					</a>
+				</li>
+				<li class="foot_item">
+					<a href="javascript:location.href = preUrl('my/my.html')" class="">
+						<i class="my"></i>
+						<span class="">我的</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<!--footer结束-->
+		<!--搜索城市开始-->
+		<div class="city-page">
+			<header data-am-widget="header" class="am-header header-white border-b" data-am-sticky>
+				<div class="am-header-left am-header-nav">
+					<a href="javascript:;" class="city-back">
+						<i class="_back"></i>
+					</a>
+				</div>
+				<h1 class="am-header-title">
+	      			 当前城市
+	      </h1>
+			</header>
+			<div class="city-search" data-am-sticky="{top:49}">
+				<div class="search-con">
+					<i class="search-img"></i>
+					<input id="keyWords" type="search" name="keyword" placeholder="请输入城市名" required="">
+					<span class="serch-close"></span>
+				</div>
+			</div>
+
+			<div id="wrapper">
+				<div class="loc-wrap">
+					<div class="loc-city">定位城市</div>
+					<ul class='city-list'>
+						<li class="l-city-item">
+							<a href="javascript:;" class="Loc-city">济南</a>
+						</li>
+					</ul>
+				</div>
+				<div class="loc-wrap">
+					<div class="visit-city">最近访问城市</div>
+					<ul class='city-list his-list'>
+						<!--<li class="v-city-item">
+							<a href="javascriot:;">建安</a>
+						</li>
+						<li class="v-city-item">
+							<a href="javascriot:;">建安</a>
+						</li>
+						<li class="v-city-item">
+							<a href="javascriot:;">建安</a>
+						</li>-->
+
+					</ul>
+				</div>
+				
+				<div class="loc-wrap hot-wrap">
+					<div class="hot-city">热门城市</div>
+					<ul class='city-list' id="hot-list">
+						<script type="text/html" id="hot-list">
+							{{each listItems as item index}}
+							<li class="v-city-item">
+								<a href="javascriot:;">建安</a>
+							</li>
+							{{/each}}
+						</script>
+
+					</ul>
+				</div>
+				<!-- 城市列表 -->
+				<div class="city-wrap">
+					<script type="text/html" id="city_list">
+						{{each listItems as item index}}
+						<div class="city-item">
+							<div class="stick">{{item.charindex}}</div>
+							<p class="index-{{item.charindex}}" id="{{item.charindex}}">{{item.charindex}}</p>
+							<ul class="city-list">
+								{{each item.name.split(',') as value i}}
+								<li>
+									<a href="javascript:;">{{value}}</a>
+								</li>
+								{{/each}}
+							</ul>
+						</div>
+						{{/each}}
+					</script>
+				</div>
+
+			</div>
+
+			<!-- 首字母列表 -->
+			<ul class="alpha-list">
+				<li>
+					<a data='A' href=" javascript:;A">A</a>
+				</li>
+				<li>
+					<a data='B' href=" javascript:;B">B</a>
+				</li>
+				<li>
+					<a data='C' href=" javascript:;C">C</a>
+				</li>
+				<li>
+					<a data='D' href=" javascript:;D">D</a>
+				</li>
+				<li>
+					<a data='E' href=" javascript:;E">E</a>
+				</li>
+				<li>
+					<a data='F' href=" javascript:;F">F</a>
+				</li>
+				<li>
+					<a data='G' href=" javascript:;G">G</a>
+				</li>
+				<li>
+					<a data='H' href=" javascript:;H">H</a>
+				</li>
+				<li>
+					<a data='I' href=" javascript:;I">I</a>
+				</li>
+				<li>
+					<a data='J' href=" javascript:;J">J</a>
+				</li>
+				<li>
+					<a data='K' href=" javascript:;K">K</a>
+				</li>
+				<li>
+					<a data='L' href=" javascript:;L">L</a>
+				</li>
+				<li>
+					<a data='M' href=" javascript:;M">M</a>
+				</li>
+				<li>
+					<a data='N' href=" javascript:;N">N</a>
+				</li>
+				<li>
+					<a data='O' href=" javascript:;O">O</a>
+				</li>
+				<li>
+					<a data='P' href=" javascript:;P">P</a>
+				</li>
+				<li>
+					<a data='Q' href=" javascript:;Q">Q</a>
+				</li>
+				<li>
+					<a data='R' href=" javascript:;R">R</a>
+				</li>
+				<li>
+					<a data='S' href=" javascript:;S">S</a>
+				</li>
+				<li>
+					<a data='T' href=" javascript:;T">T</a>
+				</li>
+				<li>
+					<a data='U' href=" javascript:;U">U</a>
+				</li>
+				<li>
+					<a data='V' href=" javascript:;V">V</a>
+				</li>
+				<li>
+					<a data='W' href=" javascript:;W">W</a>
+				</li>
+				<li>
+					<a data='X' href=" javascript:;X">X</a>
+				</li>
+				<li>
+					<a data='Y' href=" javascript:;Y">Y</a>
+				</li>
+				<li>
+					<a data='Z' href=" javascript:;Z">Z</a>
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/amazeui.js"></script>
+	<script src="../assets/js/swiper.min.js"></script>
+	<script src="../assets/js/template.js"></script>
+	<script src="../assets/js/dropload.min.js"></script>
+	<script src="../assets/js/common.js"></script>
+	<script src="../assets/js/md5.js"></script>
+	<script src='../assets/js/index.js'></script>
+	<script>
+	</script>
+
+</html>

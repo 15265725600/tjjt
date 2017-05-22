@@ -1,0 +1,118 @@
+!DOCTYPE html>
+<html>
+	<head>
+	  <meta charset="UTF-8">
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	  <meta name="description" content="">
+	  <meta name="keywords" content="">
+	  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	  <title>确认订单</title>
+	  <link rel="stylesheet" href="../assets/css/amazeui.css" />
+	  <link rel="stylesheet" href="../assets/css/common.css" />
+	  <link rel="stylesheet" href="../assets/css/shop-cart.css" />
+	</head>
+	<body>
+	    <header data-am-widget="header" class="am-header header-white border-b">
+	      <div class="am-header-left am-header-nav">
+	          <a href="javascript:history.back()" class="">
+	                <i class="_back"></i>
+	          </a>
+	      </div>
+	      <h1 class="am-header-title">
+	      	 共<span>3</span>件
+	      </h1>
+	      <!--<div class="am-header-right am-header-nav">
+	          <a href="javascript:;" class="">
+	              <span class="am-header-nav-title gray" style = "font-size:14px;">
+	                清空
+	              </span>
+	          </a>
+	      </div>-->
+	  </header>
+		<div class="c-container box-background">
+	  		<ul class = "shop-list">
+	  			<li class = "s-l-item clearfix p-o-item">
+	  				<div class="item-right clearfix">
+	  					<div class="i-r-l am-fl">
+	  						<img src="../assets/i/s-c-pic.png" alt="" />
+	  					</div>
+	  					<div class="i-r-r p-o-r">
+	  						<p class = "two-truncate">印尼KOPIKO 可比可白咖啡24杯720克 速溶咖啡可比可白咖啡24杯720克 速溶咖啡</p>
+	  						<div class="i-r-bottom clearfix">
+	  							<span class = "am-fl">￥<i>123</i></span>
+	  							<div class="b-n-num am-fr">
+						    		<a href="javascript:;" class = "del-num"></a>
+						    		<input type="text" value = "3" class = "t-num"/>
+						    		<a href="javascript:;" class = "add-num"></a>
+						    	</div>
+	  							
+	  						</div>
+	  					</div>
+	  				</div>
+	  			</li>
+	  			<li class = "s-l-item clearfix p-o-item">
+	  				<div class="item-right clearfix">
+	  					<div class="i-r-l am-fl">
+	  						<img src="../assets/i/s-c-pic.png" alt="" />
+	  					</div>
+	  					<div class="i-r-r p-o-r">
+	  						<p class = "two-truncate">印尼KOPIKO 可比可白咖啡24杯720克 速溶咖啡可比可白咖啡24杯720克 速溶咖啡</p>
+	  						<div class="i-r-bottom clearfix">
+	  							<span class = "am-fl">￥<i>123</i></span>
+	  							<div class="b-n-num am-fr">
+						    		<a href="javascript:;" class = "del-num"></a>
+						    		<input type="text" value = "3" class = "t-num"/>
+						    		<a href="javascript:;" class = "add-num"></a>
+						    	</div>
+	  							
+	  						</div>
+	  					</div>
+	  				</div>
+	  			</li>
+	  			<li class = "s-l-item clearfix p-o-item">
+	  				<div class="item-right clearfix">
+	  					<div class="i-r-l am-fl">
+	  						<img src="../assets/i/s-c-pic.png" alt="" />
+	  					</div>
+	  					<div class="i-r-r p-o-r">
+	  						<p class = "two-truncate">印尼KOPIKO 可比可白咖啡24杯720克 速溶咖啡可比可白咖啡24杯720克 速溶咖啡</p>
+	  						<div class="i-r-bottom clearfix">
+	  							<span class = "am-fl">￥<i>123</i></span>
+	  							<div class="b-n-num am-fr">
+						    		<a href="javascript:;" class = "del-num"></a>
+						    		<input type="text" value = "3" class = "t-num"/>
+						    		<a href="javascript:;" class = "add-num"></a>
+						    	</div>
+	  							
+	  						</div>
+	  					</div>
+	  				</div>
+	  			</li>
+	  		</ul>
+  		</div>
+	
+	</body>
+	<script src = "../assets/js/jquery.min.js"></script>
+	<script src = "../assets/js/amazeui.js"></script>
+	
+	<script>
+		var Height = $(window).height()-$('.am-header').height();
+		$('.c-container').height(Height);
+		//加的效果
+			$(".add-num").click(function(){
+				var n=$(this).prev().val();
+				var num=parseInt(n)+1;
+				if(num==0){ return;}
+				$(this).prev().val(num);
+				
+			});
+			//减的效果
+			$(".del-num").click(function(){
+				var n=$(this).next().val();
+				var num=parseInt(n)-1;
+				if(num==0){ return}
+				$(this).next().val(num);
+				
+			});	
+	</script>
+</html>
