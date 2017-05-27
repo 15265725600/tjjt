@@ -67,7 +67,7 @@
 				if(data.error_code == 200) {
 					window.location.href = preUrl('log/login.html?path=my/apply-price.html');
 				} else if(data.success) {
-					var balance = data.infor[0].allAmount;
+					var balance = data.infor[0].yun_balance;
 					$('.available').html(balance);
 
 				} else {
@@ -81,8 +81,13 @@
 
 		$('#next-step').click(function() {
 			var price = $('.av-price').val();
-			console.log(price)
-			window.location.href = preUrl('my/choose-bankcard.html?price=' + price + '')
+			var Price = Number(price);
+			if(Price < 2){
+				mask('提现金额不得低于2元');
+			}else{
+				window.location.href = preUrl('my/choose-bankcard.html?price=' + price + '&type=' + 0 + '')
+			}
+			
 		})
 	</script>
 

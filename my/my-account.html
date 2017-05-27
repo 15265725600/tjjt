@@ -57,6 +57,7 @@
 	
 	
 	<script>
+		//获取金额
 		var token = getCookie('token');
 			$.ajax({
 				type: 'POST',
@@ -78,7 +79,7 @@
 	            		var balance = data.infor[0].yun_balance;
 	            		$('#flow_price').html(balance);
 	            		var reg_balance = data.infor[0].recharge_balance;
-	            		$('#recharge_price').html(balance)
+	            		$('#recharge_price').html(reg_balance)
 
 	            	}
 					
@@ -87,5 +88,13 @@
 	            	alert(settings)
 	            }
 			});	
+			//点击提现
+			$('.withdrawals').click(function(){
+				window.location.href = preUrl('my/apply-price.html');
+			});
+			//点击充值
+			$('.recharge').click(function(){
+				window.location.href = preUrl('my/account-recharge.html');
+			})
 	</script>
 </html>

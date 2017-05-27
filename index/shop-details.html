@@ -121,14 +121,14 @@
 							<a href="javascript:location.href = preUrl('classify/classify.html?brand_id={{infor[0].brand_id}}')">浏览品牌＞</a>
 						</div>
 					</div>
-					<!--<div class="sd-b-con">
+					<div class="sd-b-con">
 						<p class="b-c-title">厂名：Nestle Spain-Girona Plant厂址：Crtra Antiga d Amer No 3,17007 G</p>
 						{{each infor[0].imgs.split(',') as item i}}
 						<div class="img_div">
 							<img src="{{item}}" alt="" />
 						</div>
 						{{/each}}
-					</div>-->
+					</div>
 				</div>
 			</script>
 		</div>
@@ -239,6 +239,7 @@
 	<script src='../assets/js/shop-datails.js'></script>
 	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script>
+		var para = window.location.search;
 		$.ajax({
 			url: netUrl('getShareParam'),
 			type: "POST",

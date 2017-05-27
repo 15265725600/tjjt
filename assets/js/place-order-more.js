@@ -86,7 +86,7 @@ $.ajax({
 	},
 	success: function(data) {
 		if(data.error_code == 200) {
-			window.location.href = preUrl('log/login.html?path=my/place-order-more.html');
+			window.location.href = preUrl('log/login.html?path=index/place-order-more.html');
 		} else if(data.success) {
 			var content = '';
 			if(data.infor.totalCount == '0') {
@@ -142,7 +142,7 @@ $('.po-address').click(function() {
 		},
 		success: function(data) {
 			if(data.error_code == 200) {
-				window.loaction.href = preUrl('log/login/html?path=my/place-order-more.html');
+				window.loaction.href = preUrl('log/login/html?path=index/place-order-more.html');
 			} else if(data.success) {
 				var content = '';
 				if(data.infor.totalCount == '0') {
@@ -176,7 +176,7 @@ $.ajax({
 	},
 	success: function(data) {
 		if(data.error_code == 200) {
-			window.loaction.href = preUrl('log/login/html?path=my/place-order1.html');
+			window.loaction.href = preUrl('log/login/html?path=index/place-order-more.html');
 		} else if(data.success) {
 			var arrLen = data.infor.listItems;
 			for(var i = 0; i < arrLen.length; i++) {

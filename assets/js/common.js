@@ -30,13 +30,14 @@ function reqUrl(path) {
  
 }
 function netUrl(path) {
-	var frontUrl = 'http://localhost:8080/hmapi_jintai/plugins/';
+//	var frontUrl = 'http://localhost:8080/hmapi_jintai/plugins/';
+	var frontUrl = 'http://124.128.23.74:8010/hmapi_jintai/plugins/'; 
 	var key = '95c67c9261c567b48c1ddf9e5fd6a1d7';
 	var myDate = new Date();
 	var regTime = myDate.getMilliseconds();
 
 	var hash = hex_md5(key + '|' + regTime + '|' + path);
-	return frontUrl + path + '?datetime=' + regTime + '&sign=' + hash;
+	return frontUrl + path + '?datetime=' + regTime + '&sign=' + hash +'&clienttype=1';
 }
 var token;
 

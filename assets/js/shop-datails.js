@@ -83,7 +83,6 @@ $(function() {
 						withCredentials: true
 					},
 					success: function(data) {
-						console.log(data)
 						$('#num').show().html($('.t-num').val());
 					},
 					error: function(e, request, settings) {
@@ -155,7 +154,7 @@ $(function() {
 		},
 		success: function(data) {
 			if(data.error_code == 200) {
-				//				window.location.href = preUrl('log/login.html?path=index/shop-details.html');
+			window.location.href = preUrl('log/login.html?path=index/shop-details.html');
 			} else if(data.success) {
 				var arrLen = data.infor.listItems;
 				for(var i = 0; i < arrLen.length; i++) {
