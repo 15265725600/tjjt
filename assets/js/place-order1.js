@@ -1,5 +1,6 @@
 var Height = $(window).height() - $('.am-header').height();
 $('.c-container').height(Height);
+var para = window.location.search;
 var token = getCookie('token');
 var discount = getCookie('discount');
 var ID = GetQueryString('id');

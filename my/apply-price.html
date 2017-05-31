@@ -82,8 +82,8 @@
 		$('#next-step').click(function() {
 			var price = $('.av-price').val();
 			var Price = Number(price);
-			if(Price < 2){
-				mask('提现金额不得低于2元');
+			if(Price < 50){
+				mask('提现金额不得低于50元');
 			}else{
 				window.location.href = preUrl('my/choose-bankcard.html?price=' + price + '&type=' + 0 + '')
 			}

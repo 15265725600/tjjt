@@ -1,3 +1,7 @@
+
+
+
+
 //弹出城市页面
 $('.location-city').click(function() {
 	$('.city-page').show().animate({
@@ -29,6 +33,7 @@ $('#keyWords').keydown(function() {
 
 //获取热门城市
 $.ajax({
+
 	url: reqUrl('district_list'),
 	type: 'post',
 	dataType: 'json',
@@ -54,6 +59,24 @@ $.ajax({
 		alert(settings);
 	}
 });
+//历史搜索
+var cityArr;
+var hCity = getInfo('hiscity');
+var html = '';
+if(hCity == null) {
+	cityArr = [];
+	$('.his-list').html('')
+} else if(hCity != null) {
+	cityArr = getInfo('hiscity');
+	var reCity = hCity.reverse();
+
+	for(var i = 0; i < reCity.length; i++) {
+
+		html += "<li class=\"v-city-item\"><a href=\"javascriot:;\">" + reCity[i] + "</a></li>";
+	}
+	$('.his-list').html(html);
+}
+
 //获取城市列表
 $.ajax({
 	url: reqUrl('district_web_get'),
@@ -74,18 +97,20 @@ $.ajax({
 				scrollTop: (_top - 95)
 			}, 500);
 		});
+
 		$('.city-list a').on('click', function() {
 			var text = $(this).text();
 			setInfo('city_name', text);
-			var ss = getInfo('city_name');
-			$('.location-city').find('i').html(ss);
-			//历史搜索
 
 			$('.city-page').show().animate({
 				'right': '-100%'
 			}, 300);
 			$('.alpha-list').hide();
 			$('body').scrollTop(0);
+			
+			
+			$('#tip').html(getInfo('city_name'));
+
 		});
 
 	},
@@ -93,11 +118,39 @@ $.ajax({
 		alert(settings);
 	}
 });
+//数组去重
+Array.prototype.unique = function() {
+	var res = [];
+	var json = {};
+	for(var i = 0; i < this.length; i++) {
+		if(!json[this[i]]) {
+			res.push(this[i]);
+			json[this[i]] = 1;
+		}
+	}
+	return res;
+}
+var oCity = getInfo('city_name');
+console.log(oCity)
+cityArr.push(oCity);
+cityArr = cityArr.unique();
+
+if(cityArr.length > 6) {
+	cityArr.shift();
+}
+console.log(cityArr)
+setInfo('hiscity', cityArr);
+
 var map = new AMap.Map('map', {
 	resizeEnable: true,
 });
-showCityInfo();
 
+
+if(oCity == null) {
+	showCityInfo();
+} else {
+	$('#tip').html(oCity);
+}
 //获取用户所在城市信息
 function showCityInfo() {
 	//实例化城市查询类
@@ -107,11 +160,9 @@ function showCityInfo() {
 		if(status === 'complete' && result.info === 'OK') {
 			if(result && result.city && result.bounds) {
 				var cityinfo = result.city;
+				setInfo('city_name', cityinfo);
+				document.getElementById('tip').innerHTML = getInfo('city_name');
 
-				document.getElementById('tip').innerHTML = cityinfo;
-				$('.Loc-city').html(cityinfo);
-				var city = $('#tip').html();
-				setInfo('city_name', city);
 			}
 		} else {
 			document.getElementById('tip').innerHTML = result.info;
@@ -144,61 +195,6 @@ function filterList(list, ff) {
 
 	});
 }
-//历史搜索
-
-function chkcookies(NameOfCookie) {
-	var c = document.cookie.indexOf(NameOfCookie + "=");
-	if((c == "undefined") || (c == 'undefined') || (typeof(c) == "undefined")) {
-		return false;
-	}
-	return true;
-}
-
-function delCookie(NameOfCookie) //删除cookie
-{
-	document.cookie = NameOfCookie + "=;";
-}
-
-function addCookie(NameOfCookie, objValue, expiredays) {
-	var oldCookie = getCookie(NameOfCookie);
-	//var tmp = typeof(oldCookie);
-	//alert(tmp);
-	//需要设置过期时长，否则关闭浏览器就会清除cookie
-	var exp = new Date();
-	exp.setTime(exp.getTime() + expiredays * 24 * 60 * 60 * 1000);
-	var expires = "expires=" + exp.toUTCString();
-	//alert(expires);
-	if((oldCookie == "undefined") || (oldCookie == 'undefined') || (typeof(oldCookie) == "undefined")) {
-		document.cookie = NameOfCookie + "=" + objValue + ";" + expires;
-	} else {
-		document.cookie = NameOfCookie + "=" + oldCookie + "|" + objValue + ";" + expires;
-	}
-}
-
-function getCookie(NameOfCookie) {
-	var arrStr = document.cookie.split("; ");
-	for(var i = 0; i < arrStr.length; i++) {
-		var temp = arrStr[i].split("=");
-		//alert(temp);
-		if(temp[0] == NameOfCookie)
-			return unescape(temp[1]);
-	}
-	return "";
-}
-
-function AddTextCookie() {
-	var data = document.getElementById("input_id1").value;
-	addCookie("MY_Test_Text_Cookie", data, 10);
-}
-
-function GetTextCookie() {
-	document.getElementById("input_id2").value = getCookie("MY_Test_Text_Cookie");
-}
-
-function DelTextCookie() {
-	delCookie("MY_Test_Text_Cookie");
-}
-
 
 ////////////////////////////////////////
 //获取未读消息数量
@@ -233,177 +229,174 @@ $.ajax({
 });
 
 //获取轮播图图片
-$(function() {
-	$.ajax({
-		url: reqUrl('ad_list'),
-		data: {
-			position: 0
-		},
-		type: 'post',
-		dataType: 'json',
-		xhrFields: {
-			withCredentials: true
-		},
-		success: function(data) {
 
-			var carouselBox = template('carousel-box', data.infor);
-			$("#swiper-box").html(carouselBox);
-			//轮播图
-			var swiper = new Swiper('.swiper-container', {
-				pagination: '.swiper-pagination',
-				slidesPerView: 1,
-				paginationClickable: true,
-				spaceBetween: 0,
-				loop: true,
-				autoplay: 3000
-			});
-		},
-		error: function(e, request, settings) {
-			alert(settings);
-		}
-	});
-	//首页分类
-	$.ajax({
-		url: reqUrl('goods_type_all'),
-		type: 'post',
-		dataType: 'json',
-		xhrFields: {
-			withCredentials: true
-		},
-		success: function(data) {
+$.ajax({
+	url: reqUrl('ad_list'),
+	data: {
+		position: 0
+	},
+	type: 'post',
+	dataType: 'json',
+	xhrFields: {
+		withCredentials: true
+	},
+	success: function(data) {
 
-			var category_list_div = template('category_list_div', data.infor);
-			$("#category_list_box").html(category_list_div);
-			//              console.log(data.infor)
-
-		},
-		error: function(e, request, settings) {
-			alert(settings);
-		}
-	});
-
-	//首页广告
-	$.ajax({
-		url: reqUrl('ad_list'),
-		data: {
-			position: 1
-		},
-		type: 'post',
-		dataType: 'json',
-		xhrFields: {
-			withCredentials: true
-		},
-		success: function(data) {
-			var advert_div = template('advert_div', data.infor);
-			$("#advert_box").html(advert_div);
-		},
-		error: function(e, request, settings) {
-			alert(settings);
-		}
-	});
-	//平台推荐上拉刷新下拉加载
-	var city_ = getInfo('city_name');
-	var page = 0;
-	var $dropload = $('.jt_recommend').dropload({
-		scrollArea: window,
-		domDown: {
-			domNoData: '<div class="dropload-noData">没有更多</div>'
-		},
-		loadUpFn: function(me) {
-			$.ajax({
-				type: 'post',
-				url: reqUrl('goods_list'),
-				dataType: "json",
-				data: {
-					keyword: "",
-					city: city_,
-					one_type: "",
-					two_type: "",
-					three_type: "",
-					four_type: "",
-					brand_id: "",
-					is_promotion: 0,
-					groom_type: "",
-					sort: 0,
-					page: page
-				},
-				async: false, //同步
-				xhrFields: {
-					withCredentials: true
-				},
-				success: function(data) {
-					if(data.success) {
-						page++;
-						var arrLen = data.infor.listItems.length;
-						if(arrLen > 0) {
-							//预编译模板
-							var html = template('goods_div', data.infor);
-
-						} else {
-
-							// 锁定
-							me.lock();
-							// 无数据
-							me.noData();
-						}
-
-						$('.goods-wrap').html(html);
-
-						me.resetload();
-					} else {
-						mask(data.msg);
-					}
-				}
-			});
-		},
-		loadDownFn: function(me) {
-			$.ajax({
-				type: 'post',
-				url: reqUrl('goods_list'),
-				dataType: "json",
-				data: {
-					keyword: "",
-					city: "",
-					one_type: "",
-					two_type: "",
-					three_type: "",
-					four_type: "",
-					brand_id: "",
-					is_promotion: 0,
-					groom_type: "",
-					sort: 0,
-					page: page
-				},
-				async: false, //同步
-				xhrFields: {
-					withCredentials: true
-				},
-				success: function(data) {
-					if(data.success) {
-						page++;
-						var arrLen = data.infor.listItems.length;
-						if(arrLen > 0) {
-							//预编译模板
-							var html = template('goods_div', data.infor);
-
-						} else {
-
-							// 锁定
-							me.lock();
-							// 无数据
-							me.noData();
-						}
-
-						$('.goods-wrap').html(html);
-
-						me.resetload();
-					} else {
-						mask(data.msg);
-					}
-				}
-			});
-		}
-	});
-
+		var carouselBox = template('carousel-box', data.infor);
+		$("#swiper-box").html(carouselBox);
+		//轮播图
+		var swiper = new Swiper('.swiper-container', {
+			pagination: '.swiper-pagination',
+			slidesPerView: 1,
+			paginationClickable: true,
+			spaceBetween: 0,
+			loop: true,
+			autoplay: 3000
+		});
+	},
+	error: function(e, request, settings) {
+		alert(settings);
+	}
 });
-//
+//首页分类
+$.ajax({
+	url: reqUrl('goods_type_all'),
+	type: 'post',
+	dataType: 'json',
+	xhrFields: {
+		withCredentials: true
+	},
+	success: function(data) {
+
+		var category_list_div = template('category_list_div', data.infor);
+		$("#category_list_box").html(category_list_div);
+
+	},
+	error: function(e, request, settings) {
+		alert(settings);
+	}
+});
+
+//首页广告
+$.ajax({
+	url: reqUrl('ad_list'),
+	data: {
+		position: 1
+	},
+	type: 'post',
+	dataType: 'json',
+	xhrFields: {
+		withCredentials: true
+	},
+	success: function(data) {
+		var advert_div = template('advert_div', data.infor);
+		$("#advert_box").html(advert_div);
+	},
+	error: function(e, request, settings) {
+		alert(settings);
+	}
+});
+//平台推荐上拉刷新下拉加载
+var city_ = getInfo('city_name');
+console.log(city_)
+var page = 0;
+var $dropload = $('.jt_recommend').dropload({
+	scrollArea: window,
+	domDown: {
+		domNoData: '<div class="dropload-noData">没有更多</div>'
+	},
+	loadUpFn: function(me) {
+		$.ajax({
+			type: 'post',
+			url: reqUrl('goods_list'),
+			dataType: "json",
+			data: {
+				keyword: "",
+				city: city_,
+				one_type: "",
+				two_type: "",
+				three_type: "",
+				four_type: "",
+				brand_id: "",
+				is_promotion: 0,
+				groom_type: "",
+				sort: 0,
+				page: page
+			},
+			async: false, //同步
+			xhrFields: {
+				withCredentials: true
+			},
+			success: function(data) {
+				if(data.success) {
+					page++;
+					var arrLen = data.infor.listItems.length;
+					if(arrLen > 0) {
+						//预编译模板
+						var html = template('goods_div', data.infor);
+
+					} else {
+
+						// 锁定
+						me.lock();
+						// 无数据
+						me.noData();
+					}
+
+					$('.goods-wrap').html(html);
+
+					me.resetload();
+				} else {
+					mask(data.msg);
+				}
+			}
+		});
+	},
+	loadDownFn: function(me) {
+		$.ajax({
+			type: 'post',
+			url: reqUrl('goods_list'),
+			dataType: "json",
+			data: {
+				keyword: "",
+				city: "",
+				one_type: "",
+				two_type: "",
+				three_type: "",
+				four_type: "",
+				brand_id: "",
+				is_promotion: 0,
+				groom_type: "",
+				sort: 0,
+				page: page
+			},
+			async: false, //同步
+			xhrFields: {
+				withCredentials: true
+			},
+			success: function(data) {
+				if(data.success) {
+					page++;
+					var arrLen = data.infor.listItems.length;
+					if(arrLen > 0) {
+						//预编译模板
+						var html = template('goods_div', data.infor);
+
+					} else {
+
+						// 锁定
+						me.lock();
+						// 无数据
+						me.noData();
+					}
+
+					$('.goods-wrap').html(html);
+
+					me.resetload();
+				} else {
+					mask(data.msg);
+				}
+			}
+		});
+	}
+});

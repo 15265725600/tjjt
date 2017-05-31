@@ -111,6 +111,7 @@
 	<script src="../assets/js/md5.js"></script>
 	<script>
 		var price = GetQueryString('price');
+		console.log(typeof(price))
 		$('.p-price').html(price);
 		var token = getCookie("token");
 		var para = window.location.search;
@@ -146,6 +147,7 @@
 
 		//确认支付
 		var orderID = GetQueryString('orderID');
+		console.log(orderID)
 		
 		$('.confirm-pay').click(function(e) {
 			e.stopPropagation();

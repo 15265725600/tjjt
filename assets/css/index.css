@@ -85,7 +85,7 @@
     display: inline-block;
     border-radius: 2px;
     background: none; 
-    opacity: 1; 
+    opacity: 1;  
 }
 .swiper-pagination-bullet-active {
     opacity: 1;
