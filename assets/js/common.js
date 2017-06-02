@@ -1,7 +1,7 @@
 //页面地址前缀
 function preUrl(path) {
 	var fUrl = 'http://localhost:8080/hm_tjjt/';
-//	var fUrl = "http://124.128.23.74:8010/hm_tjjt/"
+	//	var fUrl = "http://124.128.23.74:8010/hm_tjjt/"
 	return fUrl + path;
 }
 
@@ -19,25 +19,26 @@ function GetQueryString(name) {
 
 //ajax 传参url
 function reqUrl(path) {
-//	var frontUrl = 'http://localhost:8080/hmapi_jintai/v100/';
+	//	var frontUrl = 'http://localhost:8080/hmapi_jintai/v100/';
 	var frontUrl = 'http://124.128.23.74:8010/hmapi_jintai/v100/';
 	var key = '95c67c9261c567b48c1ddf9e5fd6a1d7';
 	var myDate = new Date();
 	var regTime = myDate.getMilliseconds();
 
 	var hash = hex_md5(key + '|' + regTime + '|' + path);
-	return frontUrl + path + '?datetime=' + regTime + '&sign=' + hash +'&clienttype=1';
- 
+	return frontUrl + path + '?datetime=' + regTime + '&sign=' + hash + '&clienttype=1';
+
 }
+
 function netUrl(path) {
-//	var frontUrl = 'http://localhost:8080/hmapi_jintai/plugins/';
-	var frontUrl = 'http://124.128.23.74:8010/hmapi_jintai/plugins/'; 
+	//	var frontUrl = 'http://localhost:8080/hmapi_jintai/plugins/';
+	var frontUrl = 'http://124.128.23.74:8010/hmapi_jintai/plugins/';
 	var key = '95c67c9261c567b48c1ddf9e5fd6a1d7';
 	var myDate = new Date();
 	var regTime = myDate.getMilliseconds();
 
 	var hash = hex_md5(key + '|' + regTime + '|' + path);
-	return frontUrl + path + '?datetime=' + regTime + '&sign=' + hash +'&clienttype=1';
+	return frontUrl + path + '?datetime=' + regTime + '&sign=' + hash + '&clienttype=1';
 }
 var token;
 
@@ -64,13 +65,13 @@ function getCookie(cname) {
 	}
 	return "";
 }
-function delCookie(name)
-{
-    var exp = new Date();
-    exp.setTime(exp.getTime() - 1);
-    var cval=getCookie(name);
-    if(cval!=null)
-        document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+
+function delCookie(name) {
+	var exp = new Date();
+	exp.setTime(exp.getTime() - 1);
+	var cval = getCookie(name);
+	if(cval != null)
+		document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
 }
 //localstorage
 //保存永久数据
@@ -94,6 +95,21 @@ function removeInfo(k) {
  *   oper: 区分 value 和 innerHTMl
  *   title: 顶部标题
  */
+//页面链接跳转历史URL不记录的兼容处理
+var fnUrlReplace = function(eleLink) {
+	if(!eleLink) {
+		return;
+	}
+	var href = eleLink.href;
+	if(href && /^#|javasc/.test(href) === false) {
+		if(history.replaceState) {
+			history.replaceState(null, document.title, href.split('#')[0] + '#');
+			location.replace('');
+		} else {
+			location.replace(href);
+		}
+	}
+};
 
 function pickerShow(arr, nameEl, valEl, oper, title) {
 	var picker = new Picker({

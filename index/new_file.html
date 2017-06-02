@@ -12,16 +12,6 @@
 		<link rel="stylesheet" href="../assets/css/information.css" />
 
 	</head>
-	<style>
-		/*.con img {
-			width: 25px;
-			height: 25px;
-			display: inline;
-			position: absolute;
-			top: 14px;
-			left: 14px;
-		}*/
-	</style>
 
 	<body>
 		<header data-am-widget="header" class="am-header header-white border-b">
@@ -55,7 +45,7 @@
 			<div class="hui"></div>
 			<div class="tab-content">
 				<ul class="list-ul">
-					<!--<script type="text/html" id="infor_list">
+					<script type="text/html" id="infor_list">
 						{{each listItems as item index}}
 						<li class="list-li" data="{{item.id}}">
 							<div class="con">
@@ -70,39 +60,8 @@
 							<div class="btn del-btn">删除</div>
 						</li>
 						{{/each}}
-					</script>-->
-					<script type="text/html" id="infor_list">
-						{{each listItems as item index}}
-						<div class="swiper-container " data="{{item.id}}">
-							<div class="swiper-wrapper base-wrap">
-								<div class="swiper-slide slide">
-									<div class="base-item news-item">
-										<div class="station-img" style="overflow: visible;">
-											{{if item.type == "1"}}
-											<img class="icon" src="../assets/i/order-ifor.png"> {{else}}
-											<img class="icon" src="../assets/i/sys.png"> {{/if}} {{if item.is_read == "0"}}
-											<i class="red-pot"></i> {{/if}}
-										</div>
-										<div class="news-cont">
-											<h4>
-				                                {{if item.type == 0}}
-				                                <span>系统消息  </span>
-				                                {{else}}
-				                                <span>订单提醒  </span>
-				                                {{/if}}
-				                                <time>{{item.createtime}}</time>
-				                            </h4>
-											<p>{{item.content}}</p>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide" style="width: 80px;">
-									<div class="btn del-btn">删除</div>
-								</div>
-							</div>
-						</div>
-						{{/each}}
 					</script>
+
 				</ul>
 
 			</div>
@@ -122,9 +81,9 @@
 		</div>
 	</body>
 	<script src="../assets/js/jquery.min.js"></script>
-	<!--<script src="http://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
-	<script src="../assets/js/swiper.min.js"></script>
+	<script src="http://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 	<script src="../assets/js/amazeui.js"></script>
+	<script src = "../assets/js/swiper.min.js"></script>
 	<script src="../assets/js/dropload.min.js"></script>
 	<script src="../assets/js/template.js"></script>
 	<script src="../assets/js/md5.js"></script>
@@ -178,38 +137,18 @@
 								me.noData();
 							}
 							$('.list-ul').append(content);
-							var mySwiper = new Swiper('.swiper-container', {
-								slidesPerView: 'auto',
+							$(".list-li").on("swipeleft", function() {
+								$(this).addClass('selected').siblings().removeClass('selected');
+							}).on("swiperight", function() {
+								$(this).removeClass('selected');
 							});
-							//删除按钮设置高度
-							$('.swiper-container').each(function() {
-								var h = $(this).find('.base-item').outerHeight();
-
-								$(this).find('.del-btn').css({
-									'height': h + 'px',
-									'lineHeight': h + 'px'
-								});
-								var that = $(this);
-								that.on('click', function() {
-									var id = $(this).attr('data');
-									$(this).find('.red-pot').remove();
-
-									newsOper(token, id, 1, type, '已读');
-								});
-							});
-
-							//							$(".list-li").on("swipeleft", function() {
-							//								$(this).addClass('selected').siblings().removeClass('selected');
-							//							}).on("swiperight", function() {
-							//								$(this).removeClass('selected');
-							//							});
 							//删除消息
 							$('.del-btn').each(function() {
 								var that = $(this);
 								that.on('click', function() {
-									var id = $(this).parents('.swiper-container').attr('data');
+									var id = $(this).parents('.list-li').attr('data');
 									console.log(id)
-									$(this).parents('.swiper-container').remove();
+									$(this).parents('.list-li').remove();
 									if(type == 0) {
 										newsOper(token, id, 3, 0, '删除成功');
 									} else if(type == 1) {
@@ -219,7 +158,7 @@
 								});
 							});
 							//查看消息
-							$('.list-ul .swiper-container').on('click', function() {
+							$('.list-ul li').on('click', function() {
 								var id = $(this).attr('data');
 								if(type == 0) {
 									newsOper(token, id, 1, 0, '');
@@ -241,10 +180,8 @@
 		$('#del-all').on('click', function() {
 			if(type == 0) {
 				newsOper(token, '', 4, 0, '删除成功');
-				$('.swiper-container').remove();
 			} else if(type == 1) {
 				newsOper(token, '', 4, 1, '删除成功');
-				$('.swiper-container').remove();
 			}
 
 			$('#my-alert').modal('close');

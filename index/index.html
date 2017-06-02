@@ -51,7 +51,7 @@
 					<script type="text/html" id="carousel-box">
 						{{each listItems as item i}}
 						<div class="swiper-slide">
-							<a {{if item.key_type==1}} href="javascript:location.href = preUrl('index/shop-details.html?id={{item.id}}')" {{else if item.key_type==2}} href="javascript:location.href = preUrl('index/Commodity-details.html?id={{item.id}}')" {{/if}}>
+							<a {{if item.key_type=="1"}} href="javascript:location.href = preUrl('index/shop-details.html?id={{item.id}}')" {{else if item.key_type=="2"}} href="javascript:location.href = preUrl('index/Commodity-details.html?id={{item.id}}')" {{/if}}>
 								<img src={{item.img}} alt="" />
 							</a>
 						</div>

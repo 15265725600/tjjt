@@ -1,6 +1,7 @@
 $(function() {
 	//获取详情信息
 	var Id = GetQueryString('id');
+	var para = window.location.search;
 
 	$.ajax({
 		url: reqUrl('goods_detail'),
@@ -32,9 +33,9 @@ $(function() {
 			var isdiscount = data.infor[0].is_discount;
 
 			$('#buyNow').click(function() {
-					window.location.href = preUrl('index/place-order1.html?id=' + Id + '&count=' + num + '&isdiscount=' + isdiscount + '');
-				})
-				//加的效果
+				window.location.href = preUrl('index/place-order1.html?id=' + Id + '&count=' + num + '&isdiscount=' + isdiscount + '');
+			})
+			//加的效果
 			$(".add-num").click(function() {
 				var n = $(this).prev().val();
 				var num = parseInt(n) + 1;
@@ -83,7 +84,12 @@ $(function() {
 						withCredentials: true
 					},
 					success: function(data) {
-						$('#num').show().html($('.t-num').val());
+						if(data.error_code == 200) {
+							window.location.href = preUrl('log/login.html' + para + 'path=index/shop-details.html');
+						} else {
+							$('#num').show().html($('.t-num').val());
+						}
+
 					},
 					error: function(e, request, settings) {
 						alert(settings);
@@ -113,7 +119,9 @@ $(function() {
 					withCredentials: true
 				},
 				success: function(data) {
-
+					if(data.error_code == 200) {
+						window.location.href = preUrl('log/login.html' + para + 'path=index/shop-details.html');
+					}
 				},
 				error: function(e, request, settings) {
 					alert(settings);
@@ -132,7 +140,9 @@ $(function() {
 					withCredentials: true
 				},
 				success: function(data) {
-					console.log(data);
+					if(data.error_code == 200) {
+						window.location.href = preUrl('log/login.html' + para + 'path=index/shop-details.html');
+					}
 				},
 				error: function(e, request, settings) {
 					alert(settings);
@@ -154,7 +164,7 @@ $(function() {
 		},
 		success: function(data) {
 			if(data.error_code == 200) {
-			window.location.href = preUrl('log/login.html?path=index/shop-details.html');
+				window.location.href = preUrl('log/login.html' + para + 'path=index/shop-details.html');
 			} else if(data.success) {
 				var arrLen = data.infor.listItems;
 				for(var i = 0; i < arrLen.length; i++) {

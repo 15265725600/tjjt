@@ -222,7 +222,7 @@
 						$('.twoClassify').html(twoType);
 						//获取三级分类
 						$('.twoClassify li').click(function() {
-							$(this).addClass('color').siblings().removeClass('color')
+							$(this).addClass('color').siblings().removeClass('color');
 							word = escape($(this).children('a').text());
 							twoTypeId = $(this).attr('data');
 							console.log(twoTypeId);

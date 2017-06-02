@@ -108,7 +108,7 @@ $('.classify-list li').click(function() {
 				$('.twoClassify').html(twoType);
 				//获取三级分类
 				$('.twoClassify li').click(function() {
-
+					$(this).addClass('color').siblings().removeClass('color');
 					console.log(0)
 					twoTypeId = $(this).attr('data');
 					console.log(twoTypeId);
@@ -134,7 +134,7 @@ $('.classify-list li').click(function() {
 								console.log('if');
 								//								////获取四级分类
 								$('.threeClassify li').click(function() {
-
+									$(this).addClass('color').siblings().removeClass('color');
 									threeTypeId = $(this).attr('data');
 									$.ajax({
 										url: reqUrl('goods_type'),

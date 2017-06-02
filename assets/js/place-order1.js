@@ -11,6 +11,7 @@ var addID = GetQueryString('addid');
 var couID = GetQueryString('couID');
 
 var Pricenum = GetQueryString('Pricenum');
+console.log(Pricenum )
 var is_discount = GetQueryString('isdiscount');
 var aPrice = 0;
 var actualPrice = 0;
@@ -68,7 +69,7 @@ $.ajax({
 	},
 	success: function(data) {
 		if(data.error_code == 200) {
-			window.location.href = preUrl('log/login.html?path=index/place-order1.html');
+			window.location.href = preUrl('log/login.html' + para + '&path=index/place-order1.html');
 		} else if(data.success) {
 			var content = '';
 			if(data.infor.totalCount == '0') {
@@ -122,7 +123,7 @@ $('.po-address').click(function() {
 		},
 		success: function(data) {
 			if(data.error_code == 200) {
-				window.loaction.href = preUrl('log/login/html?path=index/place-order1.html');
+				window.loaction.href = preUrl('log/login.html' + para + '&path=index/place-order1.html');
 			} else if(data.success) {
 				var content = '';
 				if(data.infor.totalCount == '0') {
@@ -139,52 +140,59 @@ $('.po-address').click(function() {
 		}
 	});
 });
-
-//获取优惠券列表
-
-$.ajax({
-	url: reqUrl('coupon_list'),
-	type: 'post',
-	data: {
-		token: token,
-		status: 0,
-		price: 0,
-		page: 0
-	},
-	dataType: 'json',
-	xhrFields: {
-		withCredentials: true
-	},
-	success: function(data) {
-		if(data.error_code == 200) {
-			window.loaction.href = preUrl('log/login/html?path=index/place-order1.html');
-		} else if(data.success) {
-			var arrLen = data.infor.listItems;
-			for(var i = 0; i < arrLen.length; i++) {
-				if(arrLen[i].id == couID){
-					
-					var price = arrLen[i].num;
-					console.log(price)
-					$('.discount').html(price);
-				}else{
-					$('.discount').html('0.0');
-				}
-			}
-		}
-
-	},
-	error: function(e, request, settings) {
-		alert(settings);
-	}
-});
-
 //点击进入优惠券
 $('.po-i-discount').click(function() {
 	
 	window.location.href = preUrl('my/coupon.html?id=' + ID + '&count=' + count + '&addid=' + addID + '&aPrice=' + aPrice + '');
 
 });
-//$('.discount').html(Pricenum);
+//获取优惠券列表
+if(Pricenum == null){
+	$('.discount').html('0.0');
+}else{
+	$('.discount').html(Pricenum);
+}
+
+//$.ajax({
+//	url: reqUrl('coupon_list'),
+//	type: 'post',
+//	data: {
+//		token: token,
+//		status: 0,
+//		price: 0,
+//		page: 0
+//	},
+//	dataType: 'json',
+//	xhrFields: {
+//		withCredentials: true
+//	},
+//	success: function(data) {
+//		if(data.error_code == 200) {
+//			window.loaction.href = preUrl('log/login.html' + para + '&path=index/place-order1.html');
+//		} else if(data.success) {
+//			var arrLen = data.infor.listItems;
+//			for(var i = 0; i < arrLen.length; i++) {
+//				if(arrLen[i].id == couID){
+//					console.log(arrLen[i])
+//					var price = arrLen[i].num;
+//					console.log(price)
+//					
+//					
+//				}else{
+//					$('.discount').html('0.0');
+//				}
+//			}
+//			
+//		}
+//
+//	},
+//	error: function(e, request, settings) {
+//		alert(settings);
+//	}
+//});
+
+
+
 
 //	提交订单
 var mode = '';
@@ -217,7 +225,7 @@ $('#payment').on('click', function() {
 		},
 		success: function(data) {
 			if(data.error_code == 200) {
-				window.location.href = preUrl('index/place-order1.html');
+				window.location.href = preUrl('log/login.html' + para + '&place-order1.html');
 			} else if(data.success) {
 				var orderID = data.infor[0].orderid;
 				console.log(orderID)

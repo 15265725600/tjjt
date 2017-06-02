@@ -23,7 +23,7 @@
 	<body>
 		<header data-am-widget="header" class="am-header header-white border-b">
 			<div class="am-header-left am-header-nav">
-				<a href="javascript:history.back()" class="">
+				<a href="javascript:history.back();">
 					<i class="_back"></i>
 				</a>
 			</div>
@@ -41,22 +41,22 @@
 		<div class="container">
 			<ul class="so-classify clearfix">
 				<li>
-					<a href="javascript:location.href=preUrl('my/shop-order.html?status=0')">全部</a>
+					<a href="shop-order.html?status=0" class = "b_back">全部</a>
 				</li>
 				<li>
-					<a href="javascript:location.href=preUrl('my/shop-order.html?status=1')">待付款</a>
+					<a href="shop-order.html?status=1"  class = "b_back">待付款</a>
 				</li>
 				<li>
-					<a href="javascript:location.href=preUrl('my/shop-order.html?status=2')">待发货</a>
+					<a href="shop-order.html?status=2"  class = "b_back">待发货</a>
 				</li>
 				<li>
-					<a href="javascript:location.href=preUrl('my/shop-order.html?status=3')">待收货</a>
+					<a href="shop-order.html?status=3"  class = "b_back">待收货</a>
 				</li>
 				<li>
-					<a href="javascript:location.href=preUrl('my/shop-order.html?status=4')">待评价</a>
+					<a href="shop-order.html?status=4"  class = "b_back">待评价</a>
 				</li>
 				<li>
-					<a href="javascript:location.href=preUrl('my/shop-order.html?status=5')">已完成</a>
+					<a href="shop-order.html?status=5"  class = "b_back">已完成</a>
 				</li>
 
 			</ul>
@@ -165,8 +165,21 @@
 			} else if(GetQueryString('status') == 6) {
 				$('.so-classify li').eq(6).children('a').addClass('active');
 			}
-			//显示页面内容
+
 			
+			//点击的时候链接不进入历史记录堆栈
+			$('.so-classify a').on('click', function(event) {
+				console.log(0)
+				if(event && event.preventDefault) {
+					event.preventDefault();
+				}
+				fnUrlReplace(this);
+
+				return false;
+			});
+
+			//显示页面内容
+
 			var page = 0;
 			var $dropload = $('.tab-content').dropload({
 				scrollArea: window,

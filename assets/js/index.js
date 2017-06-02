@@ -1,6 +1,7 @@
 
-
-
+//历史搜索
+var cityArr;
+var hCity = [];
 
 //弹出城市页面
 $('.location-city').click(function() {
@@ -8,6 +9,23 @@ $('.location-city').click(function() {
 		'right': 0
 	}, 300);
 	$('.alpha-list').show();
+	
+	var html = '';
+	hCity = getInfo('hiscity');
+	if(hCity == null) {
+		cityArr = [];
+		$('.his-list').html('')
+	} else if(hCity != null) {
+		cityArr = getInfo('hiscity');
+		var reCity = hCity.reverse();
+		console.log(reCity);
+		
+		for(var i = 0; i < reCity.length; i++) {
+	
+			html += "<li class=\"v-city-item\"><a href=\"javascriot:;\">" + reCity[i] + "</a></li>";
+		}
+		$('.his-list').html(html);
+	}
 
 })
 $('.city-back').click(function() {
@@ -59,25 +77,12 @@ $.ajax({
 		alert(settings);
 	}
 });
-//历史搜索
-var cityArr;
-var hCity = getInfo('hiscity');
-var html = '';
-if(hCity == null) {
-	cityArr = [];
-	$('.his-list').html('')
-} else if(hCity != null) {
-	cityArr = getInfo('hiscity');
-	var reCity = hCity.reverse();
 
-	for(var i = 0; i < reCity.length; i++) {
-
-		html += "<li class=\"v-city-item\"><a href=\"javascriot:;\">" + reCity[i] + "</a></li>";
-	}
-	$('.his-list').html(html);
-}
 
 //获取城市列表
+var oCity = null;
+
+
 $.ajax({
 	url: reqUrl('district_web_get'),
 	type: 'post',
@@ -108,9 +113,19 @@ $.ajax({
 			$('.alpha-list').hide();
 			$('body').scrollTop(0);
 			
+			oCity = getInfo('city_name');
+			console.log(oCity)
 			
-			$('#tip').html(getInfo('city_name'));
+			$('#tip').html(oCity);
 
+			cityArr.push(oCity);
+			cityArr = cityArr.unique();
+			
+			if(cityArr.length > 6) {
+				cityArr.shift();
+			}
+			console.log(cityArr)
+			setInfo('hiscity', cityArr);
 		});
 
 	},
@@ -118,6 +133,12 @@ $.ajax({
 		alert(settings);
 	}
 });
+
+oCity = getInfo('city_name');
+console.log(oCity)
+
+$('#tip').html(oCity);
+			
 //数组去重
 Array.prototype.unique = function() {
 	var res = [];
@@ -130,24 +151,17 @@ Array.prototype.unique = function() {
 	}
 	return res;
 }
-var oCity = getInfo('city_name');
-console.log(oCity)
-cityArr.push(oCity);
-cityArr = cityArr.unique();
 
-if(cityArr.length > 6) {
-	cityArr.shift();
-}
-console.log(cityArr)
-setInfo('hiscity', cityArr);
 
 var map = new AMap.Map('map', {
 	resizeEnable: true,
 });
 
+console.log(oCity);
 
 if(oCity == null) {
 	showCityInfo();
+	console.log('ok');
 } else {
 	$('#tip').html(oCity);
 }
@@ -160,6 +174,7 @@ function showCityInfo() {
 		if(status === 'complete' && result.info === 'OK') {
 			if(result && result.city && result.bounds) {
 				var cityinfo = result.city;
+				console.log(cityinfo);
 				setInfo('city_name', cityinfo);
 				document.getElementById('tip').innerHTML = getInfo('city_name');
 
@@ -297,8 +312,8 @@ $.ajax({
 	}
 });
 //平台推荐上拉刷新下拉加载
-var city_ = getInfo('city_name');
-console.log(city_)
+
+
 var page = 0;
 var $dropload = $('.jt_recommend').dropload({
 	scrollArea: window,
@@ -312,7 +327,7 @@ var $dropload = $('.jt_recommend').dropload({
 			dataType: "json",
 			data: {
 				keyword: "",
-				city: city_,
+				city: oCity,
 				one_type: "",
 				two_type: "",
 				three_type: "",

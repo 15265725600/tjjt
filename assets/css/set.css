@@ -39,7 +39,7 @@
 	border-radius: 50%;
 	margin-right: 8px;
 }
-.set-ul li:nth-of-type(4) em{
+.set-ul .contact-customer em{
 	display: block;
 	width:24px;
 	height:24px;
@@ -48,7 +48,7 @@
 	border-radius: 50%;
 	margin-right: 8px;
 }
-.set-ul li:nth-of-type(5) em{
+.set-ul .soft em{
 	display: block;
 	width:24px;
 	height:24px;
@@ -57,7 +57,7 @@
 	border-radius: 50%;
 	margin-right: 8px;
 }
-.set-ul li:nth-of-type(6) em{
+.set-ul .feedback em{
 	display: block;
 	width:24px;
 	height:24px;
@@ -66,7 +66,7 @@
 	border-radius: 50%;
 	margin-right: 8px;
 }
-.set-ul li:nth-of-type(7) em{
+.set-ul .aboutus em{
 	display: block;
 	width:24px;
 	height:24px;
