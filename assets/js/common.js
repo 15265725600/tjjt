@@ -1,7 +1,14 @@
 //页面地址前缀
 function preUrl(path) {
 	var fUrl = 'http://localhost:8080/hm_tjjt/';
-	//	var fUrl = "http://124.128.23.74:8010/hm_tjjt/"
+//	var fUrl = 'http://192.168.2.74:8080/hm_tjjt/';
+//	var fUrl = 'www.jintaiwei.cn/hm_tjjt/';
+	return fUrl + path;
+}
+function newUrl(path) {
+	var fUrl = 'http://124.128.23.74:8010/hmapi_jintai/v100/';
+//	var fUrl = 'www.jintaiwei.cn/hmapi_jintai/v100/';
+//	var fUrl = 'http://192.168.2.74:8080/hmapi_jintai/v100/';
 	return fUrl + path;
 }
 
@@ -19,8 +26,9 @@ function GetQueryString(name) {
 
 //ajax 传参url
 function reqUrl(path) {
-	//	var frontUrl = 'http://localhost:8080/hmapi_jintai/v100/';
 	var frontUrl = 'http://124.128.23.74:8010/hmapi_jintai/v100/';
+//	var frontUrl = 'www.jintaiwei.cn/hmapi_jintai/v100/';
+//	var frontUrl = 'http://192.168.2.74:8080/hmapi_jintai/v100/'
 	var key = '95c67c9261c567b48c1ddf9e5fd6a1d7';
 	var myDate = new Date();
 	var regTime = myDate.getMilliseconds();
@@ -31,8 +39,9 @@ function reqUrl(path) {
 }
 
 function netUrl(path) {
-	//	var frontUrl = 'http://localhost:8080/hmapi_jintai/plugins/';
 	var frontUrl = 'http://124.128.23.74:8010/hmapi_jintai/plugins/';
+//	var frontUrl = 'www.jintaiwei.cn/hmapi_jintai/plugins/';
+//	var frontUrl = 'http://192.168.2.74:8080/hmapi_jintai/plugins/';
 	var key = '95c67c9261c567b48c1ddf9e5fd6a1d7';
 	var myDate = new Date();
 	var regTime = myDate.getMilliseconds();
@@ -154,34 +163,35 @@ function mask(text) {
 	}, 2000);
 }
 //加入购物车
-function addshopcart() {
-	$('.shopcart').click(function() {
-		var token = getCookie('token')
-		var data = $(this).attr('data');
-		console.log(data)
-		$.ajax({
-			url: reqUrl('oper_shopping_cart'),
-			type: 'post',
-			dataType: 'json',
-			data: {
-				token: token,
-				goods_id: data,
-				type: 0,
-				count: 1
-			},
-			success: function(data) {
-				if(data.error_code == 200) {
-					window.location.href = preUrl('log/login.html?path=classify/classify-two.html');
-				} else if(data.success) {
-					mask('加入购物车成功')
-				}
-			},
-			error: function(e, request, settings) {
-				alert(settings);
-			}
-		});
-	});
-}
+
+//function addshopcart() {
+//	$('.shopcart').click(function() {
+//		var token = getCookie('token');
+//		var data = $(this).attr('data');
+//		console.log(token)
+//		$.ajax({
+//			url: reqUrl('oper_shopping_cart'),
+//			type: 'post',
+//			dataType: 'json',
+//			data: {
+//				token: token,
+//				goods_id: data,
+//				type: 0,
+//				count: 1
+//			},
+//			success: function(data) {
+//				if(data.error_code == 200) {
+////					window.location.href = preUrl('log/login.html?path=classify/classify-two.html');
+//				} else if(data.success) {
+//					mask('加入购物车成功')
+//				}
+//			},
+//			error: function(e, request, settings) {
+//				alert(settings);
+//			}
+//		});
+//	});
+//}
 
 // @param {string} img 图片的base64
 // @param {int} dir exif获取的方向信息

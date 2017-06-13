@@ -40,7 +40,7 @@
 
 						<div class="item-right clearfix">
 							<div class="i-r-l am-fl" data="{{item.goods_id}}">
-								<img src="{{item.goods_img}}" alt="" />
+								<img src="{{item.goods_img}}" alt="" width = "70"/>
 							</div>
 							<div class="i-r-r">
 								<p class="two-truncate">{{item.goods_name}}</p>
@@ -160,7 +160,7 @@
 								arr.push($(this).val());
 							});
 							idString = arr.join(',');
-							window.location.href = preUrl('index/place-order-more.html?idString=' + idString + '')
+							window.location.href = preUrl('index/place-order-more.html?idString=' + idString + '&type=0')
 						})
 
 						//						

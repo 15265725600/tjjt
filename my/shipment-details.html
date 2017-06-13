@@ -46,9 +46,11 @@
 					{{each infor[0].goods_list as item index}}
 					<div class="po-i-pic border-b clearfix">
 						<div class="i-p-left am-fl"><img src="{{item.goods_img}}" alt="" /></div>
-						<div class="i-p-right">
+						<div class="i-p-right clearfix">
 							<p>{{item.goods_name}}</p>
-							<span>￥<i class = "Unit-Price">{{item.price}}</i><em class = "gray quantity">x<b class = "Num">{{item.count}}</b></em></span>
+							<span>￥<i class = "Unit-Price">{{item.price}}</i><em class = "gray quantity">x<b class = "Num">{{item.count}}</b></em></span> {{ if infor[0].status == 4 && infor[0].goods_list[0].if_evaluate == 0}}
+							<a href="javascript:location.href = preUrl('my/evaluate.html?orderID={{item.order_id}}&goods_id={{item.goods_id}}&id={{item.id}}')" class="apply-eva">去评价</a>
+							{{/if}}
 						</div>
 
 					</div>
@@ -156,11 +158,6 @@
 				{{else if infor[0].status == 2}}
 				<footer class="np-footer clearfix">
 					<a href="javascript:location.href = preUrl('my/after-sales.html?orderID={{infor[0].id}}&price={{infor[0].paid_price}}')" class="apply-sale am-fr">申请售后</a>
-				</footer>
-				{{else if infor[0].status == 4 && infor[0].goods_list.if_evaluate == 0}}
-
-				<footer class="np-footer clearfix">
-					<a href="javascript:;" class="apply-sale am-fr">去评价</a>
 				</footer>
 
 				{{/if}}

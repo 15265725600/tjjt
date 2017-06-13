@@ -45,10 +45,10 @@
 			<div class="hui"></div>
 			<ul class="clearfix info-title am-tabs-nav">
 				<li class="">
-					<a href="javascript:location.href = preUrl('index/information-list.html?type=0')">系统消息</a>
+					<a href="information-list.html?type=0">系统消息</a>
 				</li>
 				<li>
-					<a href="javascript:location.href = preUrl('index/information-list.html?type=1')">订单消息</a>
+					<a href="information-list.html?type=1">订单消息</a>
 				</li>
 				<span></span>
 			</ul>
@@ -137,6 +137,17 @@
 		} else if(GetQueryString('type') == 1) {
 			$('.info-title li').eq(1).addClass('am-active');
 		}
+		//点击的时候链接不进入历史记录堆栈
+			$('.info-title a').on('click', function(event) {
+				console.log(0)
+				if(event && event.preventDefault) {
+					event.preventDefault();
+				}
+				fnUrlReplace(this);
+
+				return false;
+			});
+
 		//显示页面内容
 		var para = window.location.search;
 		var token = getCookie("token");
@@ -189,13 +200,13 @@
 									'height': h + 'px',
 									'lineHeight': h + 'px'
 								});
-								var that = $(this);
-								that.on('click', function() {
-									var id = $(this).attr('data');
-									$(this).find('.red-pot').remove();
-
-									newsOper(token, id, 1, type, '已读');
-								});
+//								var that = $(this);
+//								that.on('click', function() {
+//									var id = $(this).attr('data');
+//									$(this).find('.red-pot').remove();
+//
+//									newsOper(token, id, 1, type, '已读');
+//								});
 							});
 
 							//							$(".list-li").on("swipeleft", function() {
@@ -211,8 +222,11 @@
 									console.log(id)
 									$(this).parents('.swiper-container').remove();
 									if(type == 0) {
+										
 										newsOper(token, id, 3, 0, '删除成功');
+										
 									} else if(type == 1) {
+										
 										newsOper(token, id, 3, 1, '删除成功');
 									}
 
@@ -222,9 +236,11 @@
 							$('.list-ul .swiper-container').on('click', function() {
 								var id = $(this).attr('data');
 								if(type == 0) {
-									newsOper(token, id, 1, 0, '');
+									$(this).find('.red-pot').remove();
+									newsOper(token, id, 1, 0, '已读');
 								} else if(type == 1) {
-									newsOper(token, id, 1, 1, '');
+									$(this).find('.red-pot').remove();
+									newsOper(token, id, 1, 1, '已读');
 								}
 							})
 							me.resetload();

@@ -8,14 +8,14 @@ $(function() {
 	}
 	$('#login').click(function() {
 		var phone = $('#phone').val();
-		var numbers = /^[1][358][0-9]{9}$/;
+		var numbers = /^[1][34578][0-9]{9}$/;
 		var pwd = hex_md5('95c67c9261c567b48c1ddf9e5fd6a1d7' + hex_md5($("#pwd").val()));
 		if($('#phone').val() == "") {
 			$('#phone').focus();
 			mask('手机号不能为空');
 			return false;
 		}
-		var sMobile = /^[1][358][0-9]{9}$/;
+		var sMobile = /^[1][34578][0-9]{9}$/;
 		if(!sMobile.exec($("#phone").val())) {
 			mask('手机号格式不正确');
 			$('#phone').focus();

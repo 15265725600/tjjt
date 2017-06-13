@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <meta charset="UTF-8">
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	  <meta name="description" content="">
+	  <meta name="keywords" content="">
+	  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	  <title>设置支付密码</title>
+	  <link rel="stylesheet" href="../assets/css/amazeui.css" />
+	  <link rel="stylesheet" href="../assets/css/common.css" />
+	  <link rel="stylesheet" href="../assets/css/set.css" />
+	</head>
+	<body>
+		<!--header部分-->
+		<header data-am-widget="header" class="am-header header-white border-b">
+	      <div class="am-header-left am-header-nav">
+	          <a href="javascript:history.back()" class="">
+	              <i class="_back"></i>
+	          </a> 
+	      </div>
+	      <h1 class="am-header-title">
+	       	设置支付密码
+	      </h1>   
+	 </header>
+	<div class="c-container box-background">
+		<ul class = "set-pass-ul">
+			<li class = "border-b"><input type="password" placeholder="请输入您的姓名"/></li>
+			<li><input type="password" placeholder="请输入您的身份证号"/></li>
+			<div class="hui"></div>
+			<li class = "border-b"><input type="password" placeholder="请输入6-20个字符的密码"/></li>
+			<li><input type="password" placeholder="请再次输入6-20个字符的密码"/></li>
+		</ul>
+		<button class = "sp-submit">提交</button>
+	</div>
+	
+	</body>
+	<script src = "../assets/js/jquery.min.js"></script>
+	<script src = "../assets/js/amazeui.js"></script>
+	
+	<script>
+	$(function(){
+		var Height = $(window).height()-$('.am-header').height();
+		$('.c-container').height(Height);
+		
+		
+	});
+		
+	
+	</script>
+</html>

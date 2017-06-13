@@ -327,31 +327,40 @@ $(function() {
 		});
 		var imgSrc = imgArr.join(',');
 		if(!regIdCard.test(idcard)) {
-			mask('身份证号码不正确')
+			mask('身份证号码不正确');
+			return false;
 		}
 		if(img == '') {
 			mask('请添加头像');
+			return false;
 		}
 		if(name == '') {
 			mask('请添加姓名');
+			return false;
 		}
 		if(idcard == '') {
 			mask('请添加身份证号');
+			return false;
 		}
 		if(shopname == '') {
 			mask('请添加店铺名称');
+			return false;
 		}
 		if(shopcla == '') {
 			mask('请选择店铺分类');
+			return false;
 		}
 		if(shopaddr == '') {
 			mask('请选择店铺地址');
+			return false;
 		}
 		if(deaddr == '') {
 			mask('请填写详细地址');
+			return false;
 		}
 		if(imgSrc == '') {
 			mask('请添加店铺照片');
+			return false;
 		}
 		//提交审核，调用注册接口
 		$.ajax({

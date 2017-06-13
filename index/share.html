@@ -7,7 +7,7 @@
 		<meta name="description" content="">
 		<meta name="keywords" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-		<title>商品详情</title>
+		<title>普及送</title>
 		<link rel="stylesheet" href="../assets/css/amazeui.css" />
 		<link rel="stylesheet" href="../assets/css/swiper.min.css" />
 		<link rel="stylesheet" href="../assets/css/common.css" />
@@ -16,7 +16,7 @@
 
 	<body>
 		<!--header部分-->
-		<header data-am-widget="header" class="am-header header-white">
+		<header data-am-widget="header" class="am-header header-white border-b">
 			<div class="am-header-left am-header-nav">
 				<a href="javascript:history.back()" class="">
 					<i class="_back"></i>
@@ -35,19 +35,22 @@
 		</header>
 		<div class="container" style="padding-bottom: 49px;margin:0">
 			<div id="shop_datail_box"></div>
-			
+			<script type="text/html" id="shop_datails_div">
 				<div class="sd-banner">
 
 					<!--<div class="sd-pic"><img src="{{infor[0].img}}" alt="" /></div>-->
 					<div class="swiper-container">
 						<div class="swiper-wrapper">
-							
+							{{each infor[0].imgs.split(',') as item i}}
 							<div class="swiper-slide">
-								<img src="../assets/i/sd-banner.png" alt="" />
+								<img src="{{item}}" alt="" />
 							</div>
-							
+							{{/each}}
 						</div>
-						
+						<!-- Add Pagination -->
+						<div class="swiper-pagination"></div>
+						<!-- Add Arrows -->
+
 					</div>
 					<div class="sd-detail">
 						<p>{{infor[0].name}}</p>
@@ -59,20 +62,24 @@
 
 				<div class="sd-brand">
 					<div class="sd-b-top clearfix">
-						<dis class="b-t-l am-fl"><img src="../assets/i/brand.png" alt="" /></dis>
+						<dis class="b-t-l am-fl"><img src="{{infor[0].brand_img}}" alt="" /></dis>
 						<div class="b-t-r">
 							<span>{{infor[0].brand_name}}</span>
+							<a href="javascript:location.href = preUrl('classify/classify.html?brand_id={{infor[0].brand_id}}&type=1')">浏览品牌＞</a>
 						</div>
 					</div>
 					<div class="sd-b-con">
-						<p class="b-c-title">厂名：Nestle Spain-Girona Plant厂址：Crtra Antiga d Amer No 3,17007 G</p>
-						
+						<!--<p class="b-c-title">厂名：Nestle Spain-Girona Plant厂址：Crtra Antiga d Amer No 3,17007 G</p>
+						{{each infor[0].imgs.split(',') as item i}}
 						<div class="img_div">
-							<img src="../assets/i/cd-0.png" alt="" />
+							<img src="{{item}}" alt="" />
 						</div>
-						
+						{{/each}}-->
+						<iframe src="http://124.128.23.74:8010/hmapi_jintai/v100/html?type=1&id={{infor[0].id}}" id = "iframeId"> 
 					</div>
+					
 				</div>
+			</script>
 			
 		</div>
 		<div class="mask-box">
@@ -95,6 +102,45 @@
 	$('.mask_load').click(function(){
 		window.location.href = 'http://124.128.23.74:8010/hmapi_jintai/download/mobile/index.jsp'
 	})
+	var Id = GetQueryString('id');
+	var para = window.location.search;
+	
+	
+	//注意：下面的代码是放在和iframe同一个页面中调用
+    $("#iframeId").load(function () {
+        var mainheight = $(this).contents().find("body").height() + 30;
+        $(this).height(mainheight);
+        console.log(mainheight);
+    });
+    
+	$.ajax({
+		url: reqUrl('goods_detail'),
+		type: 'post',
+		dataType: 'json',
+		data: {
+			id: Id
+		},
+		xhrFields: {
+			withCredentials: true
+		},
+		success: function(data) {
+			var shop_datails_div = template('shop_datails_div', data);
+			$("#shop_datail_box").html(shop_datails_div);
+			
+			var swiper = new Swiper('.swiper-container', {
+				pagination: '.swiper-pagination',
+				slidesPerView: 1,
+				paginationClickable: true,
+				spaceBetween: 0,
+				loop: true,
+//				autoplay:3000
+			});
+
+		},
+		error: function(e, request, settings) {
+			alert(settings);
+		}
+	});
 	</script>
 
 </html>

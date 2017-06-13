@@ -208,14 +208,40 @@ $('.po-i-discount').click(function() {
 
 });
 
-//	提交订单
+//	选择送货时间
+var type = GetQueryString('type');
 var mode = '';
+var dea = '';
+var first = $('.mt').eq(0);
+if(type == 0){
+	if(first.attr('checked',true)){
+		mode = 1;
+		setInfo('dTime',mode);
+		dea = getInfo('dTime');
+		console.log(dea)
+	}
+}
+
 $('.mt').click(function() {
 	if($(this).attr("checked", true)) {
 		mode = $(this).val();
-
+		setInfo('dTime',mode);
+		dea = getInfo('dTime');
+		console.log(dea)
 	}
 });
+
+dea = getInfo('dTime');
+console.log(dea)
+if(dea == 1){
+	$('.mt').eq(0).attr("checked", true);
+}else if(dea == 2){
+	$('.mt').eq(1).attr("checked", true);
+}else if(dea == 3){
+	$('.mt').eq(2).attr("checked", true);
+}
+
+//提交订单
 $('#payment').on('click', function() {
 	var remark = $('textarea').val();
 	$.ajax({
@@ -227,7 +253,7 @@ $('#payment').on('click', function() {
 			coupon_id: couID,
 			remark: remark,
 			address_id: maddID,
-			recipient_time: mode,
+			recipient_time: dea,
 			buy_type: 1,
 			count: 0
 

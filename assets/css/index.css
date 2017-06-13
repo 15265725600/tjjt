@@ -1,4 +1,9 @@
-
+/*img{
+ max-height:720px; 
+ max-width:640px; 
+ width:expression(this.width > 640 && this.height < this.width ? 640: true); 
+ height:expression(this.height > 720 ? 720: true);
+ }*/
 /*头部*/
 .am-header-default{
 	background:#ff6801;
@@ -94,11 +99,13 @@
 .jt_advert{
 	width:100%;
 	height:80px;
+	overflow: hidden;
 	
 }
 .jt_advert img{
-	width:100%;
-	height:100%;
+	max-width:100%;
+	max-height:80px;
+	width:100%;width:expression(this.width > 100% ? 100% : this.width);
 }
 /*分类*/
 .jt-nav,.jt_nav_more{
@@ -155,9 +162,21 @@
 .am-gallery-item{
 	position:relative;
 }
+
+
+.item-img{
+	width:100%;
+	height:132px;
+	/*overflow: hidden;*/
+	text-align: center;
+	
+}
 .am-gallery-imgbordered .am-gallery-item img {
     width: 100%;
-    height:123px;
+    max-height: 100%;
+    vertical-align: middle;
+    /*height:expression(this.height > 123 ? 123: true);*/
+    /*height:123px;*/
    /* height: auto;*/
     border: none; 
     -webkit-box-shadow: none; 

@@ -138,6 +138,11 @@
 	<script src="../assets/js/common.js"></script>
 
 	<script>
+		var type = GetQueryString('type');
+		if(type == 1){
+			$('.tab-list li').eq(1).children('a').addClass('active').parent('li').siblings().children('a').removeClass('active');
+			$('.index-2').show().siblings().hide();
+		}
 		var list = $('.tab-list li');
 		list.each(function(i, ele) {
 			$(ele).click(function() {
@@ -147,6 +152,7 @@
 
 			})
 		});
+		
 		$('.m-c-list a').click(function() {
 			$('.classify-mask').show();
 		});

@@ -14,7 +14,11 @@
 		<link rel="stylesheet" href="../assets/css/dropload.css" />
 		<link rel="stylesheet" href="../assets/css/place-order.css" />
 	</head>
-
+	<style>
+		.dropload-down {
+		    height: auto;
+		}
+	</style>
 	<body>
 		<!--header部分-->
 		<header data-am-widget="header" class="am-header header-white border-b">
@@ -42,13 +46,8 @@
 			<div class="tab-content">
 				<ul class="c-box">
 					<script type='text/html' id="cou_list">
-						{{if listItems.length == 0}}
-						<div class="no-coupon">
-							<img src="../assets/i/coupon_03.png" alt="" />
-							<p class="sorry">很抱歉</p>
-							<p>您暂无可用的优惠券</p>
-						</div>
-						{{else}} {{each listItems as item index}}
+
+						{{each listItems as item index}}
 						<li class="c-item cou-item" data="{{item.id}}">
 							<a href="javascript:;">
 								<span class="c-item-price">￥<i>{{item.num}}</i></span>
@@ -61,7 +60,8 @@
 								</div>
 							</a>
 						</li>
-						{{/each}} {{/if}}
+						{{/each}} 
+
 					</script>
 				</ul>
 			</div>

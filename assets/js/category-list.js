@@ -332,7 +332,7 @@ $('#transform').click(function() {
 	}
 
 });
-var city_ = getInfo('city_name');
+var city = getInfo('city_name');
 
 function goodsList(sort, oneType, twoType, threeType, fourType) {
 	var page = 0;
@@ -349,7 +349,7 @@ function goodsList(sort, oneType, twoType, threeType, fourType) {
 				dataType: "json",
 				data: {
 					keyword: "",
-					city: city_,
+					city: city,
 					one_type: oneType,
 					two_type: twoType,
 					three_type: threeType,
@@ -404,3 +404,37 @@ function goodsList(sort, oneType, twoType, threeType, fourType) {
 		}
 	});
 };
+
+
+function addshopcart() {
+	$('.shopcart').click(function() {
+		var token = getCookie('token');
+		var data = $(this).attr('data');
+		console.log(data)
+		console.log(token)
+		$.ajax({
+			url: reqUrl('oper_shopping_cart'),
+			type: 'post',
+			dataType: 'json',
+			data: {
+				token: token,
+				goods_id: data,
+				type: 0,
+				count: 1
+			},
+			xhrFields: {
+				withCredentials: true
+			},
+			success: function(data) {
+				if(data.error_code == 200) {
+					window.location.href = preUrl('log/login.html?path=index/category-list.html');
+				} else if(data.success) {
+					mask('加入购物车成功')
+				}
+			},
+			error: function(e, request, settings) {
+				alert(settings);
+			}
+		});
+	});
+}

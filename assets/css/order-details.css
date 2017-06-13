@@ -47,6 +47,7 @@
 	color:#2f2f2f;
 	font-size:12px;
 	padding-top:5px;
+	position: relative;
 }
 .i-p-right p{
 	text-overflow: ellipsis;
@@ -109,6 +110,20 @@
 }
 .po-sales .color{
 	background: #FF6801;
+}
+.apply-eva{
+	display: block;
+	width:76px;
+	border-radius: 3px;
+	line-height: 30px;
+	font-size:14px;
+	text-align: center;
+	margin-left: 6px;
+	background: #FF6801;
+	color:#fff;
+	position: absolute;
+	bottom: 0;
+	right:0;
 }
 /*备注*/
 .po-remarks{

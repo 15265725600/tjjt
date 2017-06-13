@@ -48,10 +48,10 @@
 							<li class="jt-l-item clearfix search-li">
 								<a href="javascript:location.href = preUrl('index/shop-details.html?id={{item.id}}')">
 									<div class="item-left am-fl"><img src="{{item.goods_img}}" alt="" />{{if item.is_promotion == 1}}<span></span>{{/if}}</div>
-									<div class="item-right am-fl">
+									<div class="item-right">
 										<h4>{{item.goods_name}}</h4>
-										<div class="i-r-center clearfix">
-											<span class="am-fl">{{item.type_name}}</span>
+										<div class="i-r-center">
+											<span class="">{{item.type_name}}</span>
 											<a href="javascript:;" class="am-fr shopcart" data='{{item.id}}'></a>
 										</div>
 										<div class="i-r-bottom clearfix">
@@ -61,7 +61,7 @@
 									</div>
 								</a>
 							</li>
-							
+
 							{{/each}}
 
 						</script>
@@ -80,45 +80,60 @@
 	<script>
 		var Height = $(window).height() - $('.am-header').height();
 		$('.com-container').height(Height);
+		var para = window.location.search;
 		var city = getInfo('city_name');
-		
+		var token = getCookie('token');
 		var oneTypeId = GetQueryString('oneTypeId');
 		var twoTypeId = GetQueryString('twoTypeId');
 		var threeTypeId = GetQueryString('threeTypeId');
 		var fourTypeId = GetQueryString('fourTypeId');
 		var word = GetQueryString('word');
 		$('.am-header-title').text(word)
-		$('.sp-c-nav li').on('click',function(){
+		$('.sp-c-nav li').on('click', function() {
 			var data = $(this).attr('data');
 			$(this).addClass('color').siblings().removeClass('color');
-			if(data == 2){
-				$('.pull-down-p').css({'background': 'url(../assets/i/pull-down-c.png) no-repeat center'});
-				$('.up-down-p').css({'background': 'url(../assets/i/up-down.png) no-repeat center'});
-				$('.s-price').attr('data',3);
-				
-			}
-			else if(data == 3){
-				$('.s-price').attr('data',2)
-				$('.up-down-p').css({'background': 'url(../assets/i/up.png) no-repeat center'});
-				$('.pull-down-p').css({'background': 'url(../assets/i/pull-down.png) no-repeat center'});
-				
-			}else if(data == 1){
-				$('.up-down-p').css({'background': 'url(../assets/i/up-down.png) no-repeat center'});
-				$('.pull-down-p').css({'background': 'url(../assets/i/pull-down.png) no-repeat center'});
-				
-			}
-			else if(data == 4){
-				$('.up-down-p').css({'background': 'url(../assets/i/up-down.png) no-repeat center'});
-				$('.pull-down-p').css({'background': 'url(../assets/i/pull-down.png) no-repeat center'});
-				
+			if(data == 2) {
+				$('.pull-down-p').css({
+					'background': 'url(../assets/i/pull-down-c.png) no-repeat center'
+				});
+				$('.up-down-p').css({
+					'background': 'url(../assets/i/up-down.png) no-repeat center'
+				});
+				$('.s-price').attr('data', 3);
+
+			} else if(data == 3) {
+				$('.s-price').attr('data', 2)
+				$('.up-down-p').css({
+					'background': 'url(../assets/i/up.png) no-repeat center'
+				});
+				$('.pull-down-p').css({
+					'background': 'url(../assets/i/pull-down.png) no-repeat center'
+				});
+
+			} else if(data == 1) {
+				$('.up-down-p').css({
+					'background': 'url(../assets/i/up-down.png) no-repeat center'
+				});
+				$('.pull-down-p').css({
+					'background': 'url(../assets/i/pull-down.png) no-repeat center'
+				});
+
+			} else if(data == 4) {
+				$('.up-down-p').css({
+					'background': 'url(../assets/i/up-down.png) no-repeat center'
+				});
+				$('.pull-down-p').css({
+					'background': 'url(../assets/i/pull-down.png) no-repeat center'
+				});
+
 			}
 			$('.dropload-down').remove();
-			goodsList(data,twoTypeId);
-			
-			
+			goodsList(data, oneTypeId, twoTypeId, threeTypeId, fourTypeId);
+
 		});
-			goodsList(0,twoTypeId);	
-		function goodsList(sort,twoType) {
+		goodsList(0, oneTypeId, twoTypeId, threeTypeId, fourTypeId);
+
+		function goodsList(sort, oneType, twoType, threeType, fourType) {
 			var page = 0;
 			var $dropload = $('.jt-shop-list').dropload({
 				scrollArea: window,
@@ -134,10 +149,10 @@
 						data: {
 							keyword: '',
 							city: city,
-							one_type: "",
+							one_type: oneType,
 							two_type: twoType,
-							three_type: "",
-							four_type: "",
+							three_type: threeType,
+							four_type: fourType,
 							brand_id: "",
 							is_promotion: "",
 							groom_type: "",
@@ -167,11 +182,11 @@
 								if(page == 1) {
 									$('.jt-shop-list').html(html);
 									//加入购物车
-									addshopcart()
+									addshopcart();
 
 								} else {
 									$('.jt-shop-list').append(html);
-									addshopcart()
+									addshopcart();
 								}
 
 								me.resetload();
@@ -183,8 +198,38 @@
 				}
 			});
 		}
-		
-		
+
+		function addshopcart() {
+			$('.shopcart').click(function() {
+				var token = getCookie('token');
+				var data = $(this).attr('data');
+				console.log(token)
+				$.ajax({
+					url: reqUrl('oper_shopping_cart'),
+					type: 'post',
+					dataType: 'json',
+					data: {
+						token: token,
+						goods_id: data,
+						type: 0,
+						count: 1
+					},
+					xhrFields: {
+						withCredentials: true
+					},
+					success: function(data) {
+						if(data.error_code == 200) {
+							window.location.href = preUrl('log/login.html'+para+'&path=classify/classify-two.html');
+						} else if(data.success) {
+							mask('加入购物车成功')
+						}
+					},
+					error: function(e, request, settings) {
+						alert(settings);
+					}
+				});
+			});
+		}
 	</script>
 
 </html>

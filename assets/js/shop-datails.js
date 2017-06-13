@@ -2,6 +2,12 @@ $(function() {
 	//获取详情信息
 	var Id = GetQueryString('id');
 	var para = window.location.search;
+	//注意：下面的代码是放在和iframe同一个页面中调用
+	$("#iframeId").load(function() {
+		var mainheight = $(this).contents().find("body").height() + 30;
+		$(this).height(mainheight);
+		console.log(mainheight);
+	});
 
 	$.ajax({
 		url: reqUrl('goods_detail'),
@@ -26,6 +32,7 @@ $(function() {
 				paginationClickable: true,
 				spaceBetween: 0,
 				loop: true,
+				//				autoplay:3000
 			});
 			$('.am-gallery').pureview();
 
@@ -33,7 +40,7 @@ $(function() {
 			var isdiscount = data.infor[0].is_discount;
 
 			$('#buyNow').click(function() {
-				window.location.href = preUrl('index/place-order1.html?id=' + Id + '&count=' + num + '&isdiscount=' + isdiscount + '');
+				window.location.href = preUrl('index/place-order1.html?id=' + Id + '&count=' + num + '&isdiscount=' + isdiscount + '&type=0');
 			})
 			//加的效果
 			$(".add-num").click(function() {
@@ -85,7 +92,7 @@ $(function() {
 					},
 					success: function(data) {
 						if(data.error_code == 200) {
-							window.location.href = preUrl('log/login.html' + para + 'path=index/shop-details.html');
+							window.location.href = preUrl('log/login.html' + para + '&path=index/shop-details.html');
 						} else {
 							$('#num').show().html($('.t-num').val());
 						}
@@ -120,7 +127,7 @@ $(function() {
 				},
 				success: function(data) {
 					if(data.error_code == 200) {
-						window.location.href = preUrl('log/login.html' + para + 'path=index/shop-details.html');
+						window.location.href = preUrl('log/login.html' + para + '&path=index/shop-details.html');
 					}
 				},
 				error: function(e, request, settings) {
@@ -141,7 +148,7 @@ $(function() {
 				},
 				success: function(data) {
 					if(data.error_code == 200) {
-						window.location.href = preUrl('log/login.html' + para + 'path=index/shop-details.html');
+						window.location.href = preUrl('log/login.html' + para + '&path=index/shop-details.html');
 					}
 				},
 				error: function(e, request, settings) {
@@ -164,7 +171,7 @@ $(function() {
 		},
 		success: function(data) {
 			if(data.error_code == 200) {
-				window.location.href = preUrl('log/login.html' + para + 'path=index/shop-details.html');
+				window.location.href = preUrl('log/login.html' + para + '&path=index/shop-details.html');
 			} else if(data.success) {
 				var arrLen = data.infor.listItems;
 				for(var i = 0; i < arrLen.length; i++) {
@@ -178,6 +185,8 @@ $(function() {
 			alert(settings);
 		}
 	});
-	//评价列表
+	
+
+	
 
 });

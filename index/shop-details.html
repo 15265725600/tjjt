@@ -30,9 +30,9 @@
 				<a href="javascript:;" class="">
 					<i class="_collect" id="share"></i>
 				</a>
-				<a href="javascript:;" data-am-modal="{target: '#my-actions'}">
+				<!--<a href="javascript:;" data-am-modal="{target: '#my-actions'}">
 					<i class="_share"></i>
-				</a>
+				</a>-->
 			</div>
 		</header>
 		<div class="container" style="padding-bottom: 49px;margin:0">
@@ -118,17 +118,19 @@
 						<dis class="b-t-l am-fl"><img src="{{infor[0].brand_img}}" alt="" /></dis>
 						<div class="b-t-r">
 							<span>{{infor[0].brand_name}}</span>
-							<a href="javascript:location.href = preUrl('classify/classify.html?brand_id={{infor[0].brand_id}}')">浏览品牌＞</a>
+							<a href="javascript:location.href = preUrl('classify/classify.html?brand_id={{infor[0].brand_id}}&type=1')">浏览品牌＞</a>
 						</div>
 					</div>
 					<div class="sd-b-con">
-						<p class="b-c-title">厂名：Nestle Spain-Girona Plant厂址：Crtra Antiga d Amer No 3,17007 G</p>
+						<!--<p class="b-c-title">厂名：Nestle Spain-Girona Plant厂址：Crtra Antiga d Amer No 3,17007 G</p>
 						{{each infor[0].imgs.split(',') as item i}}
 						<div class="img_div">
 							<img src="{{item}}" alt="" />
 						</div>
-						{{/each}}
+						{{/each}}-->
+						<iframe src="http://124.128.23.74:8010/hmapi_jintai/v100/html?type=1&id={{infor[0].id}}" id = "iframeId"> 
 					</div>
+					
 				</div>
 			</script>
 		</div>
@@ -237,150 +239,14 @@
 	<script src="../assets/js/common.js"></script>
 	<script src="../assets/js/md5.js"></script>
 	<script src='../assets/js/shop-datails.js'></script>
-	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script>
-		var para = window.location.search;
-		$.ajax({
-			url: netUrl('getShareParam'),
-			type: "POST",
-			dataType: "json",
-			data: {
-				url: preUrl('index/shop-details.html')
-			},
-			xhrFields: {
-				withCredentials: true
-			},
-			success: function(data) {
-				var data = data.infor[0];
-				console.log(data)
-				wx.config({
-					debug: false,
-					appId: 'wx890e257b56af98d0',
-					timestamp: data.timestamp,
-					nonceStr: data.nonceStr,
-					signature: data.signature,
-					jsApiList: [
-						'checkJsApi',
-						'onMenuShareTimeline',
-						'hideOptionMenu',
-						'onMenuShareAppMessage'
-					]
-				});
-				wx.ready(function() {
-					// 1 判断当前版本是否支持指定 JS 接口，支持批量判断
-					document.querySelector('#checkJsApi').onclick = function() {
-						wx.checkJsApi({
-							jsApiList: [
-								'getNetworkType',
-								'previewImage'
-							],
-							success: function(res) {
-								alert(JSON.stringify(res));
-							}
-						});
-					};
-					// 2. 分享接口
-					// 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
-					document.querySelector('#onMenuShareAppMessage').onclick = function() {
-						console.log(0)
-						wx.onMenuShareAppMessage({
-							title: '互联网之子',
-							desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
-							link: 'http://movie.douban.com/subject/25785114/',
-							imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
-							trigger: function(res) {
-								alert('用户点击发送给朋友');
-							},
-							success: function(res) {
-								alert('已分享');
-							},
-							cancel: function(res) {
-								alert('已取消');
-							},
-							fail: function(res) {
-								alert(JSON.stringify(res));
-							}
-						});
-						alert('已注册获取“发送给朋友”状态事件');
-					};
-					// 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
-					document.querySelector('#onMenuShareTimeline').onclick = function() {
-						console.log(1)
-						wx.onMenuShareTimeline({
-							title: '互联网之子',
-							link: 'http://movie.douban.com/subject/25785114/',
-							imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
-							trigger: function(res) {
-								alert('用户点击分享到朋友圈');
-							},
-							success: function(res) {
-								alert('已分享');
-							},
-							cancel: function(res) {
-								alert('已取消');
-							},
-							fail: function(res) {
-								alert(JSON.stringify(res));
-							}
-						});
-						alert('已注册获取“分享到朋友圈”状态事件');
-					};
-					// 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
-					document.querySelector('#onMenuShareQQ').onclick = function() {
-						console.log(2)
-						wx.onMenuShareQQ({
-							title: '互联网之子',
-							desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
-							link: 'http://movie.douban.com/subject/25785114/',
-							imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
-							trigger: function(res) {
-								alert('用户点击分享到QQ');
-							},
-							complete: function(res) {
-								alert(JSON.stringify(res));
-							},
-							success: function(res) {
-								alert('已分享');
-							},
-							cancel: function(res) {
-								alert('已取消');
-							},
-							fail: function(res) {
-								alert(JSON.stringify(res));
-							}
-						});
-						alert('已注册获取“分享到 QQ”状态事件');
-					};
-
-					// 2.4 监听“分享到QQ空间”按钮点击、自定义分享内容及分享结果接口
-					document.querySelector('#onMenuShareQZone').onclick = function() {
-						console.log(3)
-						wx.onMenuShareWeibo({
-							title: '互联网之子',
-							desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
-							link: 'http://movie.douban.com/subject/25785114/',
-							imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
-							trigger: function(res) {
-								alert('用户点击分享到QQ空间');
-							},
-							complete: function(res) {
-								alert(JSON.stringify(res));
-							},
-							success: function(res) {
-								alert('已分享');
-							},
-							cancel: function(res) {
-								alert('已取消');
-							},
-							fail: function(res) {
-								alert(JSON.stringify(res));
-							}
-						});
-						alert('已注册获取“分享到QQ空间”状态事件');
-					}
-				})
-			}
-		});
+		var s_title = "普及送";
+		var s_desc = "方便，快捷";
+		var s_link = preUrl('index/share.html?id='+Id+'');
+		
 	</script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script src="../assets/js/share.js"></script>
+	
 
 </html>

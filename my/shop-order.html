@@ -79,8 +79,9 @@
 
 						<div class="item-center clearfix" data="{{item.id}}">
 							<div class="i-p-left am-fl p-o-mul">
-								{{each item.goods_imgs.split(',') as goosItem index}}
-								<img src="{{goosItem}}" alt="" /> {{/each}}
+								{{each item.goods_imgs.split(",") as goosItem index}}
+								<img src="{{goosItem}}" alt="" /> 
+								{{/each}}
 							</div>
 							<div class="p-o-num">
 								<a href="javascript:;" class="gray">共<span>{{item.total_count}}</span>件<i class="_right"></i></a>
@@ -91,7 +92,7 @@
 						<div class="item-bottom clearfix">
 							<span class="am-fl">合计：<i class = "orange">￥{{item.paid_price}}</i></span>
 							<div class="am-fr i-b-statu">
-								<a href="javascript:location.href=preUrl('index/pay.html?orderID={{item.id}}&price={{item.paid_price}}')" class="np-pay am-fr">去支付</a>
+								<a href="javascript:location.href=preUrl('my/shipment-details.html?orderID={{item.id}}')" class="np-pay am-fr">去支付</a>
 								<a href="javascript:;" class="np-del am-fr">取消订单</a>
 							</div>
 						</div>

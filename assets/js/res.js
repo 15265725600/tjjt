@@ -7,7 +7,7 @@ $(function() {
 	$('.get-code').on('click', function() {
 		var data = parseInt($(this).attr('data'))
 		var phone = $('#phone').val().replace(/\s+/g, '');
-		var numbers = /^[1][358][0-9]{9}$/;
+		var numbers = /^[1][34578][0-9]{9}$/;
 		var codephone = phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
 		$('.codephone').html(codephone);
 		console.log(codephone);
@@ -82,9 +82,10 @@ $(function() {
 	$('.sp-submit').on('click', function() {
 		var phone = $('#phone').val();
 		var code = $('#input_code').val();
+		console.log(code)
 		var pwd = hex_md5('95c67c9261c567b48c1ddf9e5fd6a1d7' + hex_md5($("#pwd").val()));
 		var repwd = hex_md5('95c67c9261c567b48c1ddf9e5fd6a1d7' + hex_md5($("#repwd").val()));
-		var numbers = /^[1][358][0-9]{9}$/;
+		var numbers = /^[1][34578][0-9]{9}$/;
 		if($('#phone').val() == "") {
 			$('#phone').focus();
 			mask('请输入手机号');
@@ -112,8 +113,8 @@ $(function() {
 			type: 'POST',
 			url: reqUrl("code_verify"),
 			data: {
-				"username": phone,
-				"code": '1234',
+				username: phone,
+				code: code
 
 			},
 			dataType: 'JSON',

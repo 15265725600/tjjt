@@ -16,10 +16,9 @@
 		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=8cf1a81ed325757401fa24e4822e2c25&plugin=AMap.CitySearch"></script>
 	</head>
 	<script>
-		
 	</script>
 	<style>
-		
+
 	</style>
 
 	<body>
@@ -51,7 +50,7 @@
 					<script type="text/html" id="carousel-box">
 						{{each listItems as item i}}
 						<div class="swiper-slide">
-							<a {{if item.key_type=="1"}} href="javascript:location.href = preUrl('index/shop-details.html?id={{item.id}}')" {{else if item.key_type=="2"}} href="javascript:location.href = preUrl('index/Commodity-details.html?id={{item.id}}')" {{/if}}>
+							<a {{if item.key_type=="1" }} href="javascript:location.href = preUrl('index/shop-details.html?id={{item.id}}')" {{else if item.key_type=="2" }} href="javascript:location.href = preUrl('index/Commodity-details.html?id={{item.id}}')" {{/if}}>
 								<img src={{item.img}} alt="" />
 							</a>
 						</div>
@@ -72,14 +71,14 @@
 							<a href="javascript:location.href = preUrl('index/category-list.html')">
 								<figure>
 									<div>
-										<img src="{{cItem.img}}" />
+										<img src="{{cItem.index_img}}" />
 									</div>
 									<figcaption>{{cItem.name}}</figcaption>
 								</figure>
 							</a>
 						</div>
 						{{/each}}
-						<div class="am-u-sm-3" style="float:left">
+						<!--<div class="am-u-sm-3" style="float:left">
 							<a href="javascript:location.href = preUrl('classify/classify.html')">
 								<figure>
 									<div>
@@ -88,7 +87,7 @@
 									<figcaption>全部分类</figcaption>
 								</figure>
 							</a>
-						</div>
+						</div>-->
 					</script>
 
 				</div>
@@ -112,11 +111,11 @@
 						<li class="re_item">
 							<a href="javascript:location.href = preUrl('index/shop-details.html?id={{item.id}}')">
 								<div class="am-gallery-item">
-									<img src="{{item.goods_img}}" alt='' /> {{if item.is_promotion == 1}}
-									<span class="promotion"></span> {{/if}}
+									<div class="item-img"><img src="{{item.goods_img}}" alt='' />{{if item.is_promotion == 1}}
+										<span class="promotion"></span> {{/if}}</div>
 									<h3 class="am-gallery-title re_item_title">{{item.goods_name}}</h3>
 									<div class="re_item_name">{{item.type_name}}</div>
-									<div class="re_item_bom"><span class="am_fl re_price orange">￥<i>{{item.price}}</i></span><span class="am-fr re_num gray">销量<i>123</i></span></div>
+									<div class="re_item_bom"><span class="am_fl re_price orange">￥<i>{{item.price}}</i></span><span class="am-fr re_num gray">销量<i>{{item.sales}}</i></span></div>
 								</div>
 							</a>
 						</li>
@@ -203,7 +202,7 @@
 
 					</ul>
 				</div>
-				
+
 				<div class="loc-wrap hot-wrap">
 					<div class="hot-city">热门城市</div>
 					<ul class='city-list' id="hot-list">

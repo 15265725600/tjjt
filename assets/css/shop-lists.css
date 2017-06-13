@@ -206,8 +206,9 @@ li.color a {
 }
 
 .jt-l-item .item-right {
-	width: 65%;
+	/*width: 65%;*/
 	padding: 15px 15px 0 10px;
+	padding-left:118px;
 }
 
 .item-right h4 {
@@ -226,7 +227,7 @@ li.color a {
 }
 
 .i-r-center span {
-	display: block;
+	display: inline-block;
 	padding: 0 3px;
 	line-height: 20px;
 	color: #8b8b8b;
@@ -245,7 +246,7 @@ li.color a {
 
 .i-r-bottom {
 	font-size: 14px;
-	margin-top: 3px;
+	margin-top: 10px;
 }
 
 .i-r-bottom .b-price {
@@ -294,8 +295,8 @@ li.color a {
 }
 
 .am-gallery-imgbordered .am-gallery-item img {
-	width: 113px;
-	height: 113px;
+	width: 100%;
+	height: 132px;
 	margin: auto;
 	-webkit-box-shadow: none;
 	box-shadow: none;
