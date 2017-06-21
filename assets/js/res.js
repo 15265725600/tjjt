@@ -96,7 +96,7 @@ $(function() {
 			mask('请输入正确的手机号');
 			return false
 		};
-		if(code = '') {
+		if(code == '') {
 			mask('请输入验证码');
 			return false
 		}

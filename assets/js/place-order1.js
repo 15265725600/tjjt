@@ -44,7 +44,7 @@ $.ajax({
 			actualPrice = Num * price * discount * 0.1 - Pricenum;
 			aPrice = total - Pricenum; //原价
 			$('.Oprice').text(aPrice);
-			$('.actual-price').text(actualPrice); //实付款
+			$('.actual-price').text(actualPrice.toFixed(2)); //实付款
 		} else {
 			aPrice = total - Pricenum; //原价
 			actualPrice = Num * price - Pricenum;

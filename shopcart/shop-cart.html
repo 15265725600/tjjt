@@ -148,7 +148,7 @@
 						});
 						var list = $('.s-l-item').length;
 						if(list == 0) {
-							var content = "<div style = 'text-align:center;padding-top:100px;color:#2f2f2f;font-size:26px;'>购物车是空的</div>"
+							var content = "<div style = 'text-align:center;padding-top:100px;color:#2f2f2f;font-size:22px;'>购物车是空的</div>"
 							$('.shop-list').html(content);
 							$('.po-foot').hide();
 						};
@@ -160,7 +160,12 @@
 								arr.push($(this).val());
 							});
 							idString = arr.join(',');
-							window.location.href = preUrl('index/place-order-more.html?idString=' + idString + '&type=0')
+							if(idString != ""){
+								window.location.href = preUrl('index/place-order-more.html?idString=' + idString + '&type=0')
+							}else{
+								mask('请选择商品');
+							}
+							
 						})
 
 						//						

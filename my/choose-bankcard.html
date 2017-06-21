@@ -87,6 +87,24 @@
 				</form>
 			</div>
 		</div>
+		<!--输入两个-->
+		<div class="am-modal am-modal-alert xp-modal" tabindex="-1" id="two-pay">
+			<div class="am-modal-dialog">
+				<form class="am-form" method="post" action="">
+					<div class="am-modal-hd posr" id="modal-pay">
+
+					</div>
+					<div class="am-modal-bd">
+						<div class="am-form-group">
+							<input type="password" id="ph-pwd" placeholder="请输入手机验证码" style="margin-bottom: 10px;" />
+							<input type="password" id="py-pwd" placeholder="请输入支付密码" />
+						</div>
+					</div>
+					<div class="am-modal-footer">
+						<span class="am-modal-btn" data-am-modal-confirm>确定</span>
+					</div>
+				</form>
+			</div>
 		</div>
 
 	</body>
@@ -97,9 +115,7 @@
 	<script src="../assets/js/template.js"></script>
 	<script src="../assets/js/common.js"></script>
 	<script src="../assets/js/md5.js"></script>
-	<script>
-		$("#content-source-container-type-selected span:eq(1)").addClass('getClass')
-	</script>
+
 	<script>
 		var Height = $(window).height() - $('.am-header').height();
 		$('.c-container').height(Height);
@@ -258,102 +274,109 @@
 										if(data.error_code == 200) {
 											window.location.href = preUrl('log/login.html' + para + '&path=my/choose-bankcard.html');
 										} else if(data.success) {
-											console.log(0)
+											//通联云账户确认支付接口
 											var bizOrderNo = data.infor[0].bizOrderNo;
-											console.log(data.infor)
 											var tradeNo = data.infor[0].tradeNo;
-											console.log(tradeNo)
-											$('#y-pay').modal({
-												onConfirm: function() {
-													var token = getCookie("token");
-													var psw = $("#pwd").val();
-													if(psw == "") {
-														mask('验证码不能为空');
-														return;
-													}
-
-													$.ajax({
-														type: 'POST',
-														url: netUrl('tonglian_pay'),
-														data: {
-															token: token,
-															bizOrderNo: bizOrderNo,
-															tradeNo: tradeNo,
-															verificationCode: psw,
-															consumerIp: netUrl('tonglian_pay')
-
-														},
-														xhrFields: {
-															withCredentials: true
-														},
-														dataType: 'JSON',
-														async: false,
-														success: function(data) {
-															if(data.error_code == 200) {
-																window.location.href = preUrl('log/login.html' + para + '&path=my/choose-bankcard.html');
-															} else if(data.success) {
-																mask('充值成功')
-
-															} else {
-																mask(data.msg);
-															}
-
-														},
-														error: function(e, request, settings) {
-															alert(settings)
+											var mobileFlag = data.infor[0].mobileFlag; //验证码
+											var isNeedPassword = data.infor[0].isNeedPassword; //支付密码
+											if(mobileFlag == "1" && isNeedPassword == "1") {
+												$('#two-pay').modal({
+													onConfirm: function() {
+														var token = getCookie("token");
+														var phPsw = $("#ph-pwd").val();
+														var pyPsw = $("#py-pwd").val();
+														if(phPsw == "") {
+															mask('验证码不能为空');
+															return;
 														}
-													});
+														if(pyPsw == "") {
+															mask('支付密码不能为空');
+															return;
+														}
 
-												}
-											});
+														$.ajax({
+															type: 'POST',
+															url: netUrl('tonglian_pay'),
+															data: {
+																token: token,
+																bizOrderNo: bizOrderNo,
+																tradeNo: tradeNo,
+																verificationCode: phPsw,
+																quickNewPwd: pyPsw,
+																consumerIp: netUrl('tonglian_pay')
 
-										} else {
-											mask(data.msg)
-										}
-									},
-									error: function(e, request, settings) {
-										alert(settings)
-									}
-								});
-							})
-						})
+															},
+															dataType: 'JSON',
+															async: false,
+															xhrFields: {
+																withCredentials: true
+															},
+															success: function(data) {
+																if(data.error_code == 200) {
+																	window.location.href = preUrl('log/login.html' + para + '&path=my/choose-bankcard.html');
+																} else if(data.success) {
 
-					}
-					//在线支付
-					else if(type == 2) {
-						//点击确定
-						$('.confirm').click(function() {
-							var checkItem = $('.mt:checked');
-							checkItem.each(function() {
-								var bankCardNo = $(this).attr('data');
-								var cardType = $(this).attr('sort');
-								//充值申请
-								$.ajax({
-									type: 'POST',
-									url: netUrl("tonglian_consumeApply"),
-									data: {
-										token: token,
-										keyid: orderID,
-										paytype: 2,
-										bankCardNo: bankCardNo,
-										keytype: 1,
-										combination: 0,
-										price: 0
-									},
-									xhrFields: {
-										withCredentials: true
-									},
-									dataType: 'JSON',
-									async: false,
-									success: function(data) {
-										if(data.error_code == 200) {
-											window.location.href = preUrl('log/login.html' + para + '&path=my/choose-bankcard.html');
-										} else if(data.success) {
-											var bizOrderNo = data.infor[0].bizOrderNo;
-											var tradeNo = data.infor[0].tradeNo;
-											var validateType = data.infor[0].validateType;
-											//支付密码
-											if(validateType == 0) {
+																	mask('充值成功')
+
+																} else {
+																	mask(data.msg);
+																}
+
+															},
+															error: function(e, request, settings) {
+																alert(settings)
+															}
+														});
+
+													}
+												});
+											} else if(mobileFlag == "1" && isNeedPassword == "0") { //需要验证码
+												$('#pay').modal({
+													onConfirm: function() {
+														var token = getCookie("token");
+														var psw = $("#pwd").val();
+														if(psw == "") {
+															mask('验证码不能为空');
+															return;
+														}
+
+														$.ajax({
+															type: 'POST',
+															url: netUrl('tonglian_pay'),
+															data: {
+																token: token,
+																bizOrderNo: bizOrderNo,
+																tradeNo: tradeNo,
+																verificationCode: psw,
+																quickNewPwd: '',
+																consumerIp: netUrl('tonglian_pay')
+
+															},
+															dataType: 'JSON',
+															async: false,
+															xhrFields: {
+																withCredentials: true
+															},
+															success: function(data) {
+																if(data.error_code == 200) {
+																	window.location.href = preUrl('log/login.html' + para + '&path=my/choose-bankcard.html');
+																} else if(data.success) {
+
+																	window.location.href = preUrl('index/pay-success.html?orderID=' + orderID + '');
+
+																} else {
+																	mask(data.msg);
+																}
+
+															},
+															error: function(e, request, settings) {
+																alert(settings)
+															}
+														});
+
+													}
+												});
+											} else if(mobileFlag == "0" && isNeedPassword == "1") { //需要支付密码
 												$('#m-pay').modal({
 													onConfirm: function() {
 														var token = getCookie("token");
@@ -399,8 +422,108 @@
 
 													}
 												});
-											} else if(validateType == 1) { //手机验证码
-												$('#y-pay').modal({
+											}
+
+										} else {
+											mask(data.msg)
+										}
+									},
+									error: function(e, request, settings) {
+										alert(settings)
+									}
+								});
+							})
+						})
+
+					}
+					//在线支付
+					else if(type == 2) {
+						//点击确定
+						$('.confirm').click(function() {
+							var checkItem = $('.mt:checked');
+							checkItem.each(function() {
+								var bankCardNo = $(this).attr('data');
+								var cardType = $(this).attr('sort');
+								//申请
+								$.ajax({
+									type: 'POST',
+									url: netUrl("tonglian_consumeApply"),
+									data: {
+										token: token,
+										keyid: orderID,
+										paytype: 2,
+										bankCardNo: bankCardNo,
+										keytype: 1,
+										combination: 0,
+										price: 0
+									},
+									xhrFields: {
+										withCredentials: true
+									},
+									dataType: 'JSON',
+									async: false,
+									success: function(data) {
+										if(data.error_code == 200) {
+											window.location.href = preUrl('log/login.html' + para + '&path=my/choose-bankcard.html');
+										} else if(data.success) {
+											//通联云账户确认支付接口
+											var bizOrderNo = data.infor[0].bizOrderNo;
+											var tradeNo = data.infor[0].tradeNo;
+											var mobileFlag = data.infor[0].mobileFlag; //验证码
+											var isNeedPassword = data.infor[0].isNeedPassword; //支付密码
+											if(mobileFlag == "1" && isNeedPassword == "1") {
+												$('#two-pay').modal({
+													onConfirm: function() {
+														var token = getCookie("token");
+														var phPsw = $("#ph-pwd").val();
+														var pyPsw = $("#py-pwd").val();
+														if(phPsw == "") {
+															mask('验证码不能为空');
+															return;
+														}
+														if(pyPsw == "") {
+															mask('支付密码不能为空');
+															return;
+														}
+
+														$.ajax({
+															type: 'POST',
+															url: netUrl('tonglian_pay'),
+															data: {
+																token: token,
+																bizOrderNo: bizOrderNo,
+																tradeNo: tradeNo,
+																verificationCode: phPsw,
+																quickNewPwd: pyPsw,
+																consumerIp: netUrl('tonglian_pay')
+
+															},
+															dataType: 'JSON',
+															async: false,
+															xhrFields: {
+																withCredentials: true
+															},
+															success: function(data) {
+																if(data.error_code == 200) {
+																	window.location.href = preUrl('log/login.html' + para + '&path=my/choose-bankcard.html');
+																} else if(data.success) {
+
+																	window.location.href = preUrl('index/pay-success.html?orderID=' + orderID + '');
+
+																} else {
+																	mask(data.msg);
+																}
+
+															},
+															error: function(e, request, settings) {
+																alert(settings)
+															}
+														});
+
+													}
+												});
+											} else if(mobileFlag == "1" && isNeedPassword == "0") { //需要验证码
+												$('#pay').modal({
 													onConfirm: function() {
 														var token = getCookie("token");
 														var psw = $("#pwd").val();
@@ -445,8 +568,54 @@
 
 													}
 												});
+											} else if(mobileFlag == "0" && isNeedPassword == "1") { //需要支付密码
+												$('#m-pay').modal({
+													onConfirm: function() {
+														var token = getCookie("token");
+														var psw = $("#psw").val();
+														if(psw == "") {
+															mask('支付密码不能为空');
+															return;
+														}
+
+														$.ajax({
+															type: 'POST',
+															url: netUrl('tonglian_pay'),
+															data: {
+																token: token,
+																bizOrderNo: bizOrderNo,
+																tradeNo: tradeNo,
+																verificationCode: '',
+																quickNewPwd: psw,
+																consumerIp: netUrl('tonglian_pay')
+
+															},
+															dataType: 'JSON',
+															async: false,
+															xhrFields: {
+																withCredentials: true
+															},
+															success: function(data) {
+																if(data.error_code == 200) {
+																	window.location.href = preUrl('log/login.html' + para + '&path=my/choose-bankcard.html');
+																} else if(data.success) {
+
+																	window.location.href = preUrl('index/pay-success.html?orderID=' + orderID + '');
+
+																} else {
+																	mask(data.msg);
+																}
+
+															},
+															error: function(e, request, settings) {
+																alert(settings)
+															}
+														});
+
+													}
+												});
 											}
-											
+
 										} else {
 											mask(data.msg)
 										}
@@ -488,11 +657,109 @@
 										if(data.error_code == 200) {
 											window.location.href = preUrl('log/login.html' + para + '&path=my/choose-bankcard.html');
 										} else if(data.success) {
+											//通联云账户确认支付接口
 											var bizOrderNo = data.infor[0].bizOrderNo;
 											var tradeNo = data.infor[0].tradeNo;
-											var validateType = data.infor[0].validateType;
-											//支付密码
-											if(validateType == 0) {
+											var mobileFlag = data.infor[0].mobileFlag; //验证码
+											var isNeedPassword = data.infor[0].isNeedPassword; //支付密码
+											if(mobileFlag == "1" && isNeedPassword == "1") {
+												$('#two-pay').modal({
+													onConfirm: function() {
+														var token = getCookie("token");
+														var phPsw = $("#ph-pwd").val();
+														var pyPsw = $("#py-pwd").val();
+														if(phPsw == "") {
+															mask('验证码不能为空');
+															return;
+														}
+														if(pyPsw == "") {
+															mask('支付密码不能为空');
+															return;
+														}
+
+														$.ajax({
+															type: 'POST',
+															url: netUrl('tonglian_pay'),
+															data: {
+																token: token,
+																bizOrderNo: bizOrderNo,
+																tradeNo: tradeNo,
+																verificationCode: phPsw,
+																quickNewPwd: pyPsw,
+																consumerIp: netUrl('tonglian_pay')
+
+															},
+															dataType: 'JSON',
+															async: false,
+															xhrFields: {
+																withCredentials: true
+															},
+															success: function(data) {
+																if(data.error_code == 200) {
+																	window.location.href = preUrl('log/login.html' + para + '&path=my/choose-bankcard.html');
+																} else if(data.success) {
+
+																	window.location.href = preUrl('index/pay-success.html?orderID=' + orderID + '');
+
+																} else {
+																	mask(data.msg);
+																}
+
+															},
+															error: function(e, request, settings) {
+																alert(settings)
+															}
+														});
+
+													}
+												});
+											} else if(mobileFlag == "1" && isNeedPassword == "0") { //需要验证码
+												$('#pay').modal({
+													onConfirm: function() {
+														var token = getCookie("token");
+														var psw = $("#pwd").val();
+														if(psw == "") {
+															mask('验证码不能为空');
+															return;
+														}
+
+														$.ajax({
+															type: 'POST',
+															url: netUrl('tonglian_pay'),
+															data: {
+																token: token,
+																bizOrderNo: bizOrderNo,
+																tradeNo: tradeNo,
+																verificationCode: psw,
+																quickNewPwd: '',
+																consumerIp: netUrl('tonglian_pay')
+
+															},
+															dataType: 'JSON',
+															async: false,
+															xhrFields: {
+																withCredentials: true
+															},
+															success: function(data) {
+																if(data.error_code == 200) {
+																	window.location.href = preUrl('log/login.html' + para + '&path=my/choose-bankcard.html');
+																} else if(data.success) {
+
+																	window.location.href = preUrl('index/pay-success.html?orderID=' + orderID + '');
+
+																} else {
+																	mask(data.msg);
+																}
+
+															},
+															error: function(e, request, settings) {
+																alert(settings)
+															}
+														});
+
+													}
+												});
+											} else if(mobileFlag == "0" && isNeedPassword == "1") { //需要支付密码
 												$('#m-pay').modal({
 													onConfirm: function() {
 														var token = getCookie("token");
@@ -538,54 +805,7 @@
 
 													}
 												});
-											} else if(validateType == 1) { //手机验证码
-												$('#y-pay').modal({
-													onConfirm: function() {
-														var token = getCookie("token");
-														var psw = $("#pwd").val();
-														if(psw == "") {
-															mask('验证码不能为空');
-															return;
-														}
-
-														$.ajax({
-															type: 'POST',
-															url: netUrl('tonglian_pay'),
-															data: {
-																token: token,
-																bizOrderNo: bizOrderNo,
-																tradeNo: tradeNo,
-																verificationCode: psw,
-																quickNewPwd: '',
-																consumerIp: netUrl('tonglian_pay')
-
-															},
-															dataType: 'JSON',
-															async: false,
-															xhrFields: {
-																withCredentials: true
-															},
-															success: function(data) {
-																if(data.error_code == 200) {
-																	window.location.href = preUrl('log/login.html' + para + '&path=my/choose-bankcard.html');
-																} else if(data.success) {
-
-																	window.location.href = preUrl('index/pay-success.html?orderID=' + orderID + '');
-
-																} else {
-																	mask(data.msg);
-																}
-
-															},
-															error: function(e, request, settings) {
-																alert(settings)
-															}
-														});
-
-													}
-												});
 											}
-											
 										} else {
 											mask(data.msg)
 										}
@@ -627,11 +847,109 @@
 										if(data.error_code == 200) {
 											window.location.href = preUrl('log/login.html' + para + '&path=my/choose-bankcard.html');
 										} else if(data.success) {
+											//通联云账户确认支付接口
 											var bizOrderNo = data.infor[0].bizOrderNo;
 											var tradeNo = data.infor[0].tradeNo;
-											var validateType = data.infor[0].validateType;
-											//支付密码
-											if(validateType == 0) {
+											var mobileFlag = data.infor[0].mobileFlag; //验证码
+											var isNeedPassword = data.infor[0].isNeedPassword; //支付密码
+											if(mobileFlag == "1" && isNeedPassword == "1") {
+												$('#two-pay').modal({
+													onConfirm: function() {
+														var token = getCookie("token");
+														var phPsw = $("#ph-pwd").val();
+														var pyPsw = $("#py-pwd").val();
+														if(phPsw == "") {
+															mask('验证码不能为空');
+															return;
+														}
+														if(pyPsw == "") {
+															mask('支付密码不能为空');
+															return;
+														}
+
+														$.ajax({
+															type: 'POST',
+															url: netUrl('tonglian_pay'),
+															data: {
+																token: token,
+																bizOrderNo: bizOrderNo,
+																tradeNo: tradeNo,
+																verificationCode: phPsw,
+																quickNewPwd: pyPsw,
+																consumerIp: netUrl('tonglian_pay')
+
+															},
+															dataType: 'JSON',
+															async: false,
+															xhrFields: {
+																withCredentials: true
+															},
+															success: function(data) {
+																if(data.error_code == 200) {
+																	window.location.href = preUrl('log/login.html' + para + '&path=my/choose-bankcard.html');
+																} else if(data.success) {
+
+																	window.location.href = preUrl('index/pay-success.html?orderID=' + orderID + '');
+
+																} else {
+																	mask(data.msg);
+																}
+
+															},
+															error: function(e, request, settings) {
+																alert(settings)
+															}
+														});
+
+													}
+												});
+											} else if(mobileFlag == "1" && isNeedPassword == "0") { //需要验证码
+												$('#pay').modal({
+													onConfirm: function() {
+														var token = getCookie("token");
+														var psw = $("#pwd").val();
+														if(psw == "") {
+															mask('验证码不能为空');
+															return;
+														}
+
+														$.ajax({
+															type: 'POST',
+															url: netUrl('tonglian_pay'),
+															data: {
+																token: token,
+																bizOrderNo: bizOrderNo,
+																tradeNo: tradeNo,
+																verificationCode: psw,
+																quickNewPwd: '',
+																consumerIp: netUrl('tonglian_pay')
+
+															},
+															dataType: 'JSON',
+															async: false,
+															xhrFields: {
+																withCredentials: true
+															},
+															success: function(data) {
+																if(data.error_code == 200) {
+																	window.location.href = preUrl('log/login.html' + para + '&path=my/choose-bankcard.html');
+																} else if(data.success) {
+
+																	window.location.href = preUrl('index/pay-success.html?orderID=' + orderID + '');
+
+																} else {
+																	mask(data.msg);
+																}
+
+															},
+															error: function(e, request, settings) {
+																alert(settings)
+															}
+														});
+
+													}
+												});
+											} else if(mobileFlag == "0" && isNeedPassword == "1") { //需要支付密码
 												$('#m-pay').modal({
 													onConfirm: function() {
 														var token = getCookie("token");
@@ -677,54 +995,7 @@
 
 													}
 												});
-											} else if(validateType == 1) { //手机验证码
-												$('#y-pay').modal({
-													onConfirm: function() {
-														var token = getCookie("token");
-														var psw = $("#pwd").val();
-														if(psw == "") {
-															mask('验证码不能为空');
-															return;
-														}
-
-														$.ajax({
-															type: 'POST',
-															url: netUrl('tonglian_pay'),
-															data: {
-																token: token,
-																bizOrderNo: bizOrderNo,
-																tradeNo: tradeNo,
-																verificationCode: psw,
-																quickNewPwd: '',
-																consumerIp: netUrl('tonglian_pay')
-
-															},
-															dataType: 'JSON',
-															async: false,
-															xhrFields: {
-																withCredentials: true
-															},
-															success: function(data) {
-																if(data.error_code == 200) {
-																	window.location.href = preUrl('log/login.html' + para + '&path=my/choose-bankcard.html');
-																} else if(data.success) {
-
-																	window.location.href = preUrl('index/pay-success.html?orderID=' + orderID + '');
-
-																} else {
-																	mask(data.msg);
-																}
-
-															},
-															error: function(e, request, settings) {
-																alert(settings)
-															}
-														});
-
-													}
-												});
 											}
-											
 
 										} else {
 											mask(data.msg)
