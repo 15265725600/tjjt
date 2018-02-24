@@ -275,7 +275,7 @@ $(function() {
 						xhrFields: {
 							withCredentials: true
 						},
-						//async: false,
+//						async: false,
 						success: function(data) {
 							//                              console.log(data.msg);
 							content = '<li>' +

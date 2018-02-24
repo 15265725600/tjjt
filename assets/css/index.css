@@ -176,7 +176,7 @@
     max-height: 100%;
     vertical-align: middle;
     /*height:expression(this.height > 123 ? 123: true);*/
-    /*height:123px;*/
+    height:123px;
    /* height: auto;*/
     border: none; 
     -webkit-box-shadow: none; 

@@ -49,7 +49,7 @@ $.ajax({
 			aPrice = total - Pricenum; //原价
 			actualPrice = Num * price - Pricenum;
 			$('.Oprice').text(aPrice);
-			$('.actual-price').text(actualPrice); //实付款
+			$('.actual-price').text(actualPrice.toFixed(2)); //实付款
 		};
 	},
 	error: function(e, request, settings) {
@@ -254,7 +254,7 @@ $('#payment').on('click', function() {
 			} else if(data.success) {
 				var orderID = data.infor[0].orderid;
 				console.log(orderID)
-				window.location.href = preUrl('index/pay.html?price=' + actualPrice + '&orderID=' + orderID + '')
+				window.location.href = preUrl('index/pay.html?price=' + actualPrice.toFixed(2) + '&orderID=' + orderID + '')
 			}
 
 		},

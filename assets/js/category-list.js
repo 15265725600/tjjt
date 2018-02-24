@@ -1,7 +1,7 @@
 $('.close').click(function() {
 	$('.one-classify').hide();
 })
-
+var pid = GetQueryString('pid');
 ////下拉内容滑动
 var myScroll = new IScroll('#wrapper1', {
 	click: true
@@ -13,7 +13,7 @@ var myScroll1 = new IScroll('#wrapper3', {
 	click: true
 });
 
-goodsList(0, "", "", "", "");
+goodsList(0, pid, "", "", "");
 
 $('.sp-c-nav li').click(function() {
 	$(this).addClass('am-active').siblings().removeClass('am-active');
@@ -40,7 +40,7 @@ $('.sp-c-nav li').click(function() {
 		});
 
 	}
-	goodsList(sort, "", "", "", "");
+	goodsList(sort, pid, "", "", "");
 
 });
 

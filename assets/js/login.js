@@ -48,6 +48,7 @@ $(function() {
 				if(data.success) {
 					setCookie('token', data.infor[0].token, 365);
 					setCookie('discount', data.infor[0].discount, 365);
+					setCookie('status',data.infor[0].status,365);
 					if(path) {
 						window.location.href = preUrl(path);
 					} else {

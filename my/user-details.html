@@ -38,9 +38,7 @@
 					<li>
 						<a href="javascript:;">姓名<span class="am-fr"><input type="text" placeholder="请输入" id  ="name" value = "{{infor[0].name}}"/></span></a>
 					</li>
-					<li>
-						<a href="javascript:;">身份证号<span class="am-fr"><input type="text" placeholder="请输入" id = "idcard" value = "{{infor[0].idcard}}"/></span></a>
-					</li>
+					
 					<li>
 						<a href="javascript:;">店铺名称<span class="am-fr"><input type="text" placeholder="请输入" id = "shopname" value = "{{infor[0].shopname}}"/></span></a>
 					</li>
@@ -53,18 +51,9 @@
 						<input id="deaddr" type="text" placeholder="请填写详细地址" value="{{infor[0].address}}" />
 
 					</li>
-					<li class="shop-photo">
-						<a href="javascript:;" class="clearfix">门店照片<i class="_right am-fr"></i></a>
-					</li>
+					
 				</ul>
-				<div class="upload-wrap" style="display: block;">
-					<ul class="upload am-cf">
-						<li class="upload-btn">
-							<img src="{{infor[0].imgs}}">
-							<input type="file" class="j-file-cert" name="temp_file" />
-						</li>
-					</ul>
-				</div>
+				
 			</script>
 
 		</div>
@@ -92,6 +81,13 @@
 	<script src='../assets/js/common.js'></script>
 	<script>
 		var token = getCookie('token');
+		var status = getCookie('status');
+		var province = '';
+		var city = "";
+		var country = "";
+		var Province = "";
+		var City = "";
+		var Country = "";
 		$.ajax({
 			type: 'POST',
 			url: reqUrl("client_get"),
@@ -110,7 +106,9 @@
 					var userDetail = template('user-details', data);
 					$('.c-container').html(userDetail);
 					var paycode = data.infor[0].has_pay_password;
-					console.log(paycode)
+					province = data.infor[0].province;
+					city = data.infor[0].city;
+					country = data.infor[0].county;
 					if(paycode == 0) {
 						mask('请设置支付密码')
 					}
@@ -124,7 +122,7 @@
 				alert(settings)
 			}
 		});
-
+		console.log(province)
 		//上传头像
 		$('.choose_photo').on('change', function(e) {
 			if(!window.FileReader) return;
@@ -353,71 +351,7 @@
 		nameEl.addEventListener('click', function() {
 			picker.show();
 		});
-		//  上传店铺照片
-		$('.shop-photo').click(function() {
-			$('.upload-wrap').show();
-		})
-		var count = 0;
-		$('.j-file-cert').on('change', function(e) {
-			count++;
-			if(count < 4) {
-				var that = $(this);
-				if(!window.FileReader) return;
-
-				e.stopPropagation();
-				e.preventDefault();
-
-				var file = e.target.files[0];
-				var content = '';
-
-				if(!file.type.match('image.*')) {
-					alert('文件' + f.name + '不是图片')
-					return;
-				}
-
-				var orientation;
-				//EXIF js 可以读取图片的元信息 https://github.com/exif-js/exif-js
-				EXIF.getData(file, function() {
-					orientation = EXIF.getTag(this, 'Orientation');
-				});
-
-				var reader = new FileReader();
-
-				reader.onload = function(e) {
-					getImgData(this.result, orientation, function(data) {
-						$.ajax({
-							type: 'POST',
-							url: reqUrl("webfile_upload"),
-							data: {
-								keytype: 2,
-								temp_file: data
-							},
-							xhrFields: {
-								withCredentials: true
-							},
-							dataType: 'JSON',
-							//async: false,
-							success: function(data) {
-								//                              console.log(data.msg);
-								content = '<li>' +
-									'<img class="j-image" src="' + data.infor[0].item1 + '">' +
-									'<i class="icon-close"></i>' +
-									'</li>'
-
-								that.parent().before(content);
-							}
-						});
-					});
-
-				}
-				reader.readAsDataURL(file);
-			} else {
-				mask('最多传3张证件图片');
-				count = 3;
-				return false;
-			}
-
-		});
+		
 		//删除上传图片
 		$('.upload').on('click', '.icon-close', function() {
 			$(this).parent().remove();
@@ -426,9 +360,9 @@
 			}
 			//      console.log(count);
 		});
+		
 		//资料完善
 		$('#save').on('click', function(e) {
-			console.log(0)
 			e.stopPropagation();
 			e.preventDefault();
 			var token = getCookie('token');
@@ -440,21 +374,22 @@
 			var shopcla = $('#picker1').html();
 			var shopaddr = $('#chose').html();
 			var deaddr = $('#deaddr').val();
-			var imgArr = [];
-			$('.j-image').each(function() {
-				var that = $(this);
-				imgArr.push(that.attr('src'));
-			});
-			var imgSrc = imgArr.join(',');
-			if(!regIdCard.test(idcard)) {
-				mask('身份证号码不正确')
+			if(cityId.length == 0){
+				Province = province;
+				City = city;
+				Country = country;
+			}else{
+				Province = cityId[0];
+				City = cityId[1];
+				Country = cityId[2];
 			}
+			
 			//修改成功，调用保存接口
 			$.ajax({
 				type: 'POST',
 				url: reqUrl("client_save"),
 				dataType: 'JSON',
-				//					async: false,
+				async: false,
 				data: {
 					token: token,
 					name: name,
@@ -464,9 +399,9 @@
 					big_img: img,
 					district_name: shopaddr,
 					address: deaddr,
-					province: cityId[0],
-					city: cityId[1],
-					county: cityId[2],
+					province: Province,
+					city: City,
+					county: Country,
 
 				},
 				xhrFields: {
@@ -476,7 +411,8 @@
 					if(data.error_code == 200) {
 						window.location.href = preUrl('log/login.html?path=my/user-details.html')
 					} else if(data.success) {
-						mask('保存成功')
+						mask('保存成功');
+						window.location.href=document.referrer;
 					} else {
 						mask(data.msg)
 					}

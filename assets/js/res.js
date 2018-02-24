@@ -36,7 +36,7 @@ $(function() {
 							type: 'POST',
 							url: reqUrl("code_get"),
 							data: {
-								"username": $("#phone").val(),
+								username: $("#phone").val(),
 							},
 							async: false,
 							dataType: 'JSON',

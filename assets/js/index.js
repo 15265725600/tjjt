@@ -275,16 +275,33 @@ $.ajax({
 });
 //首页分类
 $.ajax({
-	url: reqUrl('goods_type_all'),
+	url: reqUrl('goods_type'),
 	type: 'post',
 	dataType: 'json',
+	data:{pid:0,level:1},
 	xhrFields: {
 		withCredentials: true
 	},
 	success: function(data) {
-
-		var category_list_div = template('category_list_div', data.infor);
-		$("#category_list_box").html(category_list_div);
+		var html = "";
+		var listItem = [];
+		var arr = data.infor.listItems;
+		for(var i = 0;i<arr.length;i++){
+			if(i < 7){
+				listItem.push(arr[i]);
+			}
+		}
+		for(var i = 0;i<listItem.length;i++){
+			html+="<div class=\"am-u-sm-3\">"
+				+"<a href=\"javascript:location.href = preUrl('index/category-list.html?pid="+listItem[i].id+"')\">"
+				+'<figure><div><img src=\"'+listItem[i].index_img+'\" /></div><figcaption>'+listItem[i].name+"</figcaption></figure>"
+				+"</a>"
+			    +"</div>"
+		}
+		$('#category_list_box').prepend(html);
+		
+//		var category_list_div = template('category_list_div', listItem);
+//		$("#category_list_box").html(category_list_div);
 
 	},
 	error: function(e, request, settings) {

@@ -268,7 +268,7 @@ $('#payment').on('click', function() {
 				window.location.href = preUrl('log/login.html' + para + '&place-order-more.html');
 			} else if(data.success) {
 				var orderID = data.infor[0].orderid;
-				window.location.href = preUrl('index/pay.html?orderID=' + orderID + '&price=' + actualPrice + '')
+				window.location.href = preUrl('index/pay.html?orderID=' + orderID + '&price=' + actualPrice.toFixed(2) + '')
 			}
 
 		},
